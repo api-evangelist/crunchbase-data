@@ -1,0 +1,34 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/crunchbase-data-openapi.yml
+summary:
+  types:
+  - apiKey
+schemes:
+- name: userKeyQuery
+  type: apiKey
+  in: query
+  parameter: user_key
+  description: >-
+    API key passed as the user_key query parameter, e.g.
+    ?user_key=YOUR_API_KEY. Issued with a Crunchbase Enterprise, Applications,
+    or Basic license.
+  sources:
+  - openapi/crunchbase-data-openapi.yml
+  - https://data.crunchbase.com/docs/using-the-api
+- name: userKeyHeader
+  type: apiKey
+  in: header
+  parameter: X-cb-user-key
+  description: >-
+    API key passed as the X-cb-user-key request header. Preferred over the
+    query parameter to avoid leaking the key in logs and URLs.
+  sources:
+  - openapi/crunchbase-data-openapi.yml
+  - https://data.crunchbase.com/docs/using-the-api
+notes: >-
+  All requests must use HTTPS; non-HTTPS calls return HTTP 426. API keys are
+  license-gated - full API access requires a Crunchbase Enterprise or
+  Applications license, with a reduced Basic API for Crunchbase Basic plan
+  holders. There is no OAuth or user-delegated flow; access is a single
+  account-level API key.

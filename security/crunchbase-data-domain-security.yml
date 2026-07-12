@@ -1,0 +1,19 @@
+generated: '2026-07-11'
+method: modeled
+source: apis.yml + OpenAPI hosts (not live-probed in this run)
+hosts:
+- host: api.crunchbase.com
+  https: true
+  note: HTTPS required for all API calls; non-HTTPS requests are rejected with HTTP 426.
+- host: data.crunchbase.com
+  https: true
+  note: Developer documentation host.
+- host: www.crunchbase.com
+  https: true
+  note: Primary product and marketing website.
+domains:
+- domain: crunchbase.com
+  note: >-
+    TLS/DNS posture (TLS version, HSTS, DNSSEC, CAA, SPF, DMARC) was not live
+    probed in this run; values should be confirmed with a live probe during
+    reconciliation. The API strictly requires HTTPS.

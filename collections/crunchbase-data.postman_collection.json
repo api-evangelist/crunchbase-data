@@ -1,0 +1,146 @@
+{
+  "info": {
+    "name": "Crunchbase Data API v4",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Crunchbase Data API v4 - company, funding, and investor data. Read-only REST over HTTPS. Auth via API key (user_key query param or X-cb-user-key header). 200 calls/minute. Access requires a Crunchbase Enterprise, Applications, or Basic license."
+  },
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      { "key": "key", "value": "X-cb-user-key" },
+      { "key": "value", "value": "{{userKey}}" },
+      { "key": "in", "value": "header" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.crunchbase.com/v4/data" },
+    { "key": "userKey", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Entity Lookup",
+      "item": [
+        {
+          "name": "Look up an entity",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/entities/organizations/tesla-motors?field_ids=identifier,short_description,funding_total",
+              "host": ["{{baseUrl}}"],
+              "path": ["entities", "organizations", "tesla-motors"],
+              "query": [
+                { "key": "field_ids", "value": "identifier,short_description,funding_total" }
+              ]
+            },
+            "description": "Retrieve a single entity from a collection (organizations, people, funding_rounds, acquisitions) by UUID or permalink. Use field_ids to select fields and card_ids to include related cards."
+          }
+        },
+        {
+          "name": "Page an entity card",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/entities/organizations/tesla-motors/cards/raised_funding_rounds?limit=50",
+              "host": ["{{baseUrl}}"],
+              "path": ["entities", "organizations", "tesla-motors", "cards", "raised_funding_rounds"],
+              "query": [
+                { "key": "limit", "value": "50" }
+              ]
+            },
+            "description": "Page a related card for an entity beyond the 100-item inline card limit."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "item": [
+        {
+          "name": "Search a collection",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"field_ids\": [\"identifier\", \"short_description\", \"location_identifiers\"],\n  \"query\": [\n    {\n      \"type\": \"predicate\",\n      \"field_id\": \"categories\",\n      \"operator_id\": \"includes\",\n      \"values\": [\"artificial-intelligence\"]\n    }\n  ],\n  \"limit\": 50\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/searches/organizations",
+              "host": ["{{baseUrl}}"],
+              "path": ["searches", "organizations"]
+            },
+            "description": "Search a collection with field_ids and AND-combined query predicates. 50 items default, 1000 max, keyset pagination via after_id / before_id."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Autocomplete",
+      "item": [
+        {
+          "name": "Autocomplete entities",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/autocompletes?query=airbnb&collection_ids=organization.companies&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["autocompletes"],
+              "query": [
+                { "key": "query", "value": "airbnb" },
+                { "key": "collection_ids", "value": "organization.companies" },
+                { "key": "limit", "value": "10" }
+              ]
+            },
+            "description": "Resolve a query string to matching entity identifiers, optionally scoped to collections. limit max 25."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Deleted Entities",
+      "item": [
+        {
+          "name": "List deleted entities",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/deleted_entities?collection_ids=organizations&deleted_at_order=desc&limit=100",
+              "host": ["{{baseUrl}}"],
+              "path": ["deleted_entities"],
+              "query": [
+                { "key": "collection_ids", "value": "organizations" },
+                { "key": "deleted_at_order", "value": "desc" },
+                { "key": "limit", "value": "100" }
+              ]
+            },
+            "description": "Detect entities removed from the Crunchbase Graph so you can reconcile your own database (the delta surface)."
+          }
+        },
+        {
+          "name": "List deleted entities for a collection",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/deleted_entities/organizations?deleted_at_order=desc&limit=100",
+              "host": ["{{baseUrl}}"],
+              "path": ["deleted_entities", "organizations"],
+              "query": [
+                { "key": "deleted_at_order", "value": "desc" },
+                { "key": "limit", "value": "100" }
+              ]
+            },
+            "description": "Deleted entities scoped to a single collection."
+          }
+        }
+      ]
+    }
+  ]
+}

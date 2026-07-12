@@ -1,0 +1,91 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Crunchbase
+providerId: crunchbase-data
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Company Data
+- Funding Data
+- Web Intelligence
+- B2B Data
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Crunchbase Data API spend. Crunchbase data is licensed, not
+  metered on a public per-call rate: cost is driven by the license tier
+  (Enterprise, Applications, or Basic) negotiated by contract, with enterprise
+  agreements quoted on user count, API call volume, data-export frequency, and
+  term. The dominant cost lever is the license itself rather than incremental
+  API usage, though call volume and export frequency influence the negotiated
+  price. There is no free full-API tier.
+notes: >-
+  Per-license fees are not published and are set by contract; enterprise
+  data-licensing has historically started in the tens of thousands of dollars
+  per year. Reconcile actual contract terms, included call volume, and any
+  overage or export charges with Crunchbase.
+sources:
+- https://about.crunchbase.com/products/crunchbase-api/
+- https://about.crunchbase.com/products/data-licensing/
+- https://data.crunchbase.com/docs/using-the-api
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Crunchbase
+serviceCategory: Data and Analytics
+billingModel:
+  pricingCategory: Subscription
+  billingFrequency: Annual
+  billingCurrency: USD
+  chargeCategories:
+  - Purchase
+  - Usage
+focusColumns:
+  ServiceName: Crunchbase Data API
+  ServiceCategory: Data and Analytics
+  ProviderName: Crunchbase
+  PublisherName: Crunchbase
+  InvoiceIssuerName: Crunchbase
+  BillingCurrency: USD
+  ChargeCategory: Purchase
+  PricingCategory: Subscription
+meters:
+- name: license_tier
+  description: The contracted license (Enterprise, Applications, or Basic) that gates API scope and included volume.
+  unit: contract
+  aggregation: max
+  dimensions:
+  - account
+- name: api_calls
+  description: API calls made against the Data API, bounded by 200 calls/minute and the license's contracted allowance.
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - account
+  - endpoint
+- name: data_export
+  description: Volume / frequency of data exported under the license; a factor in enterprise pricing.
+  unit: records
+  aggregation: sum
+  dimensions:
+  - account
+  - collection
+principles:
+- name: Visibility
+  description: Track API call volume against the 200/minute cap and the contracted allowance; monitor which collections and endpoints drive usage.
+- name: Allocation
+  description: Attribute the license fee and call volume to the teams and products consuming Crunchbase data (sales, research, enrichment).
+- name: Optimization
+  description: Use Autocomplete to resolve identifiers before expensive Search calls, select only needed field_ids, and poll Deleted Entities incrementally instead of re-fetching the whole graph.
+- name: Accountability
+  description: Assign a license owner, review call volume against contract terms before renewal, and right-size the license tier to actual usage.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

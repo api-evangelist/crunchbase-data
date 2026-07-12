@@ -1,0 +1,106 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Crunchbase
+providerId: crunchbase-data
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Company Data
+- Funding Data
+- Web Intelligence
+- B2B Data
+- Plans
+description: >-
+  Crunchbase Data API access is subscription-gated and priced by license, not
+  by a public self-serve tier. Full API access - Entity Lookup, Search,
+  Autocomplete, and Deleted Entities across the complete graph - requires a
+  Crunchbase Enterprise or Applications license, which is custom / contact-sales
+  priced based on user count, API call volume, data-export frequency, and
+  contract term. A reduced Basic API is available to holders of the paid
+  Crunchbase Basic plan. Standard Crunchbase subscription tiers (Starter /
+  Pro / Business) surface the web product but do not include full API access.
+  All API tiers share a 200 calls-per-minute rate limit.
+notes: >-
+  Exact license fees are not published; enterprise data-licensing contracts are
+  quoted by Crunchbase and have historically started in the tens of thousands of
+  dollars per year. The free full-API tier that existed years ago has been
+  retired. Verify current tiers, the Basic API scope, and pricing with
+  Crunchbase sales during reconciliation.
+sources:
+- https://about.crunchbase.com/products/crunchbase-api/
+- https://about.crunchbase.com/products/data-licensing/
+- https://data.crunchbase.com/docs/using-the-api
+- https://data.crunchbase.com/docs/crunchbase-basic-using-api
+plans:
+- id: crunchbase-basic-api
+  name: Basic API
+  type: subscription
+  description: >-
+    Reduced API surface available to holders of the paid Crunchbase Basic plan.
+    Narrower field and endpoint coverage than the full Data API, intended for
+    lighter enrichment and lookup use cases.
+  entries:
+  - label: Basic API Access
+    name: basic_api
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included with a paid Crunchbase Basic subscription
+    userMultiplied: false
+  elements:
+  - name: Reduced Entity / Field Coverage
+  - name: API Key Authentication
+  - name: 200 Calls Per Minute
+- id: crunchbase-applications-license
+  name: Applications License
+  type: enterprise
+  description: >-
+    License for embedding Crunchbase data in a product or application, with
+    broader API access than Basic. Custom / contact-sales pricing.
+  entries:
+  - label: Applications License Agreement
+    name: applications_license
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Full Entity Lookup and Search
+  - name: Autocomplete and Deleted Entities
+  - name: Application Embedding Rights
+- id: crunchbase-enterprise-license
+  name: Enterprise License
+  type: enterprise
+  description: >-
+    Full Data API access with the complete graph, bulk data, dedicated account
+    management, and negotiated terms. Custom pricing based on users, call
+    volume, export frequency, and contract term.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales (custom, historically $50k+/year)
+    userMultiplied: false
+  elements:
+  - name: Full Data API Access
+  - name: Complete Graph and Cards
+  - name: Deltas / Deleted Entities Sync
+  - name: Dedicated Account Management
+  - name: SLAs and Support
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

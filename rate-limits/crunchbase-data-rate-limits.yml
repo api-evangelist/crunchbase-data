@@ -1,0 +1,69 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Crunchbase
+providerId: crunchbase-data
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Company Data
+- Funding Data
+- Web Intelligence
+- Rate Limiting
+- Quotas
+description: >-
+  Crunchbase documents a single API-wide rate limit of 200 calls per minute
+  across the Data API endpoints, applied to protect platform reliability and
+  performance. Beyond the per-minute request cap, usage is governed by the
+  terms of the account's license (Enterprise, Applications, or Basic) rather
+  than by published per-endpoint quotas. Search responses are additionally
+  bounded to 50 items by default and 1000 items maximum per request, with
+  keyset pagination (after_id / before_id) used to traverse larger result sets.
+notes: >-
+  All requests must be HTTPS; non-HTTPS calls return HTTP 426. Total monthly
+  call allowances and any per-license quotas are set by contract and are not
+  published; confirm with Crunchbase during reconciliation.
+sources:
+- https://data.crunchbase.com/docs/using-the-api
+- https://data.crunchbase.com/docs/using-search-apis
+- https://about.crunchbase.com/products/crunchbase-api/
+responseCodes:
+  throttled: 429
+  httpsRequired: 426
+limits:
+- name: API Calls
+  scope: account
+  metric: requests
+  limit: 200 per minute
+  notes: Documented API-wide rate limit across all Data API endpoints.
+- name: Search Result Size
+  scope: request
+  metric: items
+  limit: 50 default / 1000 max
+  notes: Per-request result cap on POST /searches/{collection}; page with after_id / before_id.
+- name: Autocomplete Result Size
+  scope: request
+  metric: items
+  limit: 25 max
+  notes: The limit query parameter on GET /autocompletes maxes at 25.
+- name: Entity Card Inline Items
+  scope: request
+  metric: items
+  limit: 100 per card
+  notes: Cards included via card_ids return at most 100 items; use the card endpoint for more.
+- name: License Call Allowance
+  scope: account
+  metric: requests
+  limit: per contract
+  notes: Total call volume is governed by the Enterprise / Applications / Basic license terms; not publicly published.
+policies:
+- name: HTTPS Required
+  description: All API requests must use HTTPS; non-HTTPS requests are rejected with HTTP 426.
+- name: Keyset Pagination
+  description: Search and list endpoints use keyset cursors (after_id / before_id) so results stay stable as the dataset changes.
+- name: Backoff Strategy
+  description: Clients should stay under 200 calls/minute and implement exponential backoff with jitter, honoring Retry-After on 429 responses.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
