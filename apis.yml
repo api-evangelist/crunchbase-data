@@ -133,6 +133,8 @@ apis:
     GET /deleted_entities/{collection_id} with collection_ids filtering,
     deleted_at_order sorting, and after_id / before_id keyset pagination.
 common:
+- type: AgenticAccess
+  url: agentic-access/crunchbase-data-agentic-access.yml
 - type: Authentication
   url: authentication/crunchbase-data-authentication.yml
 - type: DomainSecurity
