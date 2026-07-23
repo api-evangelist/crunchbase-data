@@ -1,0 +1,170 @@
+openapi: 3.0.3
+info:
+  title: Crunchbase Data API v4 Autocomplete Deleted Entities API
+  description: 'The Crunchbase Data API (REST v4) provides programmatic access to Crunchbase''s graph of company, funding, investor, and people data - organizations, people, funding rounds, acquisitions, investments, events, and more. It is a read-only RESTful service with four logical surfaces: Entity Lookup (retrieve a single entity and its related "cards"), Search (query a collection with field filters and keyset pagination), Autocomplete (resolve a query string to entity identifiers), and Deleted Entities / Deltas (detect entities removed from the Crunchbase Graph so downstream databases can be reconciled). Access is subscription-gated: the full API requires a Crunchbase Enterprise or Applications license, while a reduced Basic API is available to Crunchbase Basic plan holders. All requests must be made over HTTPS (non-HTTPS calls return 426) and are authenticated with an API key passed either as the `user_key` query parameter or the `X-cb-user-key` header.
+
+    Endpoint paths, HTTP methods, authentication, and rate limits below are grounded in the public Crunchbase developer documentation (data.crunchbase.com/docs). Because live responses are license-gated, request and response object schemas are honestly modeled from the documentation rather than captured from live calls; see x-endpoints-modeled.'
+  version: '4.0'
+  contact:
+    name: Crunchbase
+    url: https://about.crunchbase.com/products/crunchbase-api/
+  x-endpoints-modeled: Endpoint paths, methods, auth, and rate limits are confirmed from public docs. Detailed field-level request/response schemas are modeled from the documentation because live API responses require a paid Enterprise or Applications license.
+servers:
+- url: https://api.crunchbase.com/v4/data
+  description: Crunchbase Data API v4 (production)
+security:
+- userKeyQuery: []
+- userKeyHeader: []
+tags:
+- name: Deleted Entities
+  description: Detect entities removed from the Crunchbase Graph (deltas).
+paths:
+  /deleted_entities:
+    get:
+      operationId: listDeletedEntities
+      tags:
+      - Deleted Entities
+      summary: List deleted entities
+      description: Returns entities removed from the Crunchbase Graph (for example due to compliance, data-quality cleanup, or inappropriate content) so that consumers can detect deletions and reconcile their own databases. Scope to specific collections with collection_ids, sort with deleted_at_order, and page with after_id or before_id.
+      parameters:
+      - name: collection_ids
+        in: query
+        required: false
+        description: Comma-separated list of collection ids to filter by (e.g. organizations, people, funding_rounds, events).
+        schema:
+          type: string
+      - name: deleted_at_order
+        in: query
+        required: false
+        description: Sort order for the deleted_at timestamp.
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/AfterId'
+      - $ref: '#/components/parameters/BeforeId'
+      responses:
+        '200':
+          description: A page of deleted entity records.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedEntitiesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /deleted_entities/{collection_id}:
+    parameters:
+    - name: collection_id
+      in: path
+      required: true
+      description: The collection id to scope deleted entities to (e.g. organizations, people, funding_rounds, events).
+      schema:
+        type: string
+    get:
+      operationId: listDeletedEntitiesForCollection
+      tags:
+      - Deleted Entities
+      summary: List deleted entities for a collection
+      description: Returns entities removed from a single collection in the Crunchbase Graph, with the same ordering and keyset pagination as the general deleted-entities endpoint.
+      parameters:
+      - name: deleted_at_order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/AfterId'
+      - $ref: '#/components/parameters/BeforeId'
+      responses:
+        '200':
+          description: A page of deleted entity records for the collection.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedEntitiesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: Number of items to return per page.
+      schema:
+        type: integer
+    AfterId:
+      name: after_id
+      in: query
+      required: false
+      description: Keyset cursor - return items after this entity id.
+      schema:
+        type: string
+    BeforeId:
+      name: before_id
+      in: query
+      required: false
+      description: Keyset cursor - return items before this entity id.
+      schema:
+        type: string
+  responses:
+    TooManyRequests:
+      description: Rate limit exceeded (200 calls per minute).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing, invalid, or unlicensed API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    DeletedEntitiesResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+        entities:
+          type: array
+          items:
+            type: object
+            properties:
+              uuid:
+                type: string
+                format: uuid
+              deleted_at:
+                type: string
+                format: date-time
+              entity_def_id:
+                type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        code:
+          type: integer
+        message:
+          type: string
+  securitySchemes:
+    userKeyQuery:
+      type: apiKey
+      in: query
+      name: user_key
+      description: API key passed as the user_key query parameter.
+    userKeyHeader:
+      type: apiKey
+      in: header
+      name: X-cb-user-key
+      description: API key passed as the X-cb-user-key request header.
