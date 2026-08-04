@@ -1,0 +1,20 @@
+{
+  "provider": "crunchbase-data",
+  "sources": [
+    "crunchbase-data-autocomplete-api-openapi.yml",
+    "crunchbase-data-deleted-entities-api-openapi.yml",
+    "crunchbase-data-entity-lookup-api-openapi.yml",
+    "crunchbase-data-search-api-openapi.yml"
+  ],
+  "outputs": [
+    "crunchbase-data-autocomplete-api-openapi.yml",
+    "crunchbase-data-deleted-entities-api-openapi.yml",
+    "crunchbase-data-entity-lookup-api-openapi.yml",
+    "crunchbase-data-search-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
