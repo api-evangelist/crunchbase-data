@@ -4,30 +4,37 @@ name: Crunchbase
 kind: company
 description: >-
   Crunchbase is a leading source of private and public company, funding, and
-  investor data - firmographics, funding rounds, acquisitions, investors,
-  people, and events across the global startup and business landscape. The
-  Crunchbase Data API (REST v4, base https://api.crunchbase.com/v4/data)
-  exposes this graph programmatically through four surfaces - Entity Lookup,
-  Search, Autocomplete, and Deleted Entities (deltas) - for web intelligence,
-  reference data, market research, sales and investment prospecting, and
-  enrichment use cases. It is a read-only RESTful service authenticated with an
-  API key (user_key query parameter or X-cb-user-key header). Access is
-  subscription-gated: the full API requires a Crunchbase Enterprise or
-  Applications license, with a reduced Basic API available to Crunchbase Basic
-  plan holders.
+  investor data - firmographics, funding rounds, acquisitions, investors, people,
+  events, and AI-generated predictions and insights across the global startup and
+  business landscape. The Crunchbase Data API (REST v4, base
+  https://api.crunchbase.com/v4/data) exposes this graph programmatically through
+  Entity Lookup, Search, Autocomplete, and Deleted Entities across 43 entity
+  collections, and is published as six package-scoped OpenAPI 3.0.1 documents -
+  Firmographic, Core Financials, Advanced Financials, Insights, Predictions, and
+  Predictions & Insights - discoverable through an RFC 9727 api-catalog at
+  data.crunchbase.com. Crunchbase also ships a first-party remote MCP server at
+  mcp.crunchbase.com over Streamable HTTP with fourteen documented tools,
+  authenticated with OAuth 2.1 + PKCE and sold as per-user MCP seats. The REST API
+  is read-only and authenticated with a single account-level API key (user_key
+  query parameter or X-cb-user-key header); which of the six packages that key is
+  provisioned against determines which operations it can call. Access is
+  subscription-gated with no published pricing - the full API requires a
+  Crunchbase Enterprise or Applications licence, with a reduced Basic API for
+  Crunchbase Basic plan holders.
 accessModel:
   pricing: paid
-  onboarding: self-serve
+  onboarding: sales-gated
   trial: false
   try_now: false
   public: false
-  label: Paid · Self-serve signup
+  label: Paid · Contact sales
   confidence: high
   source:
   - plans
   - authentication
-  generated: '2026-07-22'
-  method: derived
+  - https://data.crunchbase.com/docs/using-the-api
+  generated: '2026-08-14'
+  method: searched
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/crunchbase-data.png
 tags:
 - Company Data
@@ -37,146 +44,267 @@ tags:
 - B2B Data
 - Investor Data
 - Reference Data
+- Private Markets
+- Predictions
+- Market Insights
+- MCP
 - Fortune 1000
 created: '2026-07-11'
-modified: '2026-07-11'
+modified: '2026-08-14'
 specificationVersion: '0.19'
 apis:
-- aid: crunchbase-data:crunchbase-data-autocomplete-api
-  name: Crunchbase Autocomplete API
-  description: Resolve a query string to matching entity identifiers.
-  humanURL: https://data.crunchbase.com/docs/using-entity-lookup-apis
+- aid: crunchbase-data:crunchbase-data-firmographic
+  name: Crunchbase Fundamentals - Firmographic Package
+  description: >-
+    Core and advanced firmographics for private and public companies - name, type,
+    legal status, employee count, key leadership, ownership structure, accelerators,
+    diversity, education and public activity. 43 operations across Entity Lookup,
+    Search, Autocomplete and Deleted Entities.
+  humanURL: https://data.crunchbase.com/docs/fundamentals
   baseURL: https://api.crunchbase.com/v4/data
   tags:
-  - Autocomplete
+  - Firmographics
+  - Company Data
+  - Reference Data
   properties:
   - type: OpenAPI
-    url: openapi/crunchbase-data-autocomplete-api-openapi.yml
+    url: openapi/crunchbase-data-firmographic-openapi.yml
+  - type: Overlay
+    url: overlays/crunchbase-data-firmographic-overlay.yaml
   - type: Documentation
-    url: https://data.crunchbase.com/docs/using-entity-lookup-apis
+    url: https://data.crunchbase.com/docs/fundamentals
   - type: APIReference
-    url: https://data.crunchbase.com/docs/using-the-api
-  - type: PostmanCollection
-    url: collections/crunchbase-data.postman_collection.json
-  - type: OpenCollection
-    url: collections/crunchbase-data.opencollection.json
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/using-search-apis
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/examples-search-api
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/using-autocomplete-api
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/examples-autocomplete-api
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/using-deleted-entities-api
-- aid: crunchbase-data:crunchbase-data-deleted-entities-api
-  name: Crunchbase Deleted Entities API
-  description: Detect entities removed from the Crunchbase Graph (deltas).
-  humanURL: https://data.crunchbase.com/docs/using-entity-lookup-apis
+    url: https://data.crunchbase.com/reference
+- aid: crunchbase-data:crunchbase-data-core-financials
+  name: Crunchbase Fundamentals - Core Financials Package
+  description: >-
+    Funding stages, round history, valuations and investor details layered on the
+    firmographic core. 46 operations.
+  humanURL: https://data.crunchbase.com/docs/fundamentals
   baseURL: https://api.crunchbase.com/v4/data
   tags:
-  - Deleted Entities
+  - Funding Data
+  - Investor Data
+  - Company Data
   properties:
   - type: OpenAPI
-    url: openapi/crunchbase-data-deleted-entities-api-openapi.yml
+    url: openapi/crunchbase-data-core-financials-openapi.yml
+  - type: Overlay
+    url: overlays/crunchbase-data-core-financials-overlay.yaml
   - type: Documentation
-    url: https://data.crunchbase.com/docs/using-entity-lookup-apis
+    url: https://data.crunchbase.com/docs/fundamentals
   - type: APIReference
-    url: https://data.crunchbase.com/docs/using-the-api
-  - type: PostmanCollection
-    url: collections/crunchbase-data.postman_collection.json
-  - type: OpenCollection
-    url: collections/crunchbase-data.opencollection.json
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/using-search-apis
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/examples-search-api
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/using-autocomplete-api
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/examples-autocomplete-api
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/using-deleted-entities-api
-- aid: crunchbase-data:crunchbase-data-entity-lookup-api
-  name: Crunchbase Entity Lookup API
-  description: Retrieve a single entity (and its related cards) by UUID or permalink.
-  humanURL: https://data.crunchbase.com/docs/using-entity-lookup-apis
+    url: https://data.crunchbase.com/reference
+- aid: crunchbase-data:crunchbase-data-advanced-financials
+  name: Crunchbase Fundamentals - Advanced Financials Package
+  description: >-
+    Deeper financial history, valuation estimates and ownership detail across the
+    private company lifecycle. 57 operations.
+  humanURL: https://data.crunchbase.com/docs/fundamentals
   baseURL: https://api.crunchbase.com/v4/data
   tags:
-  - Entity Lookup
+  - Funding Data
+  - Private Markets
+  - Company Data
   properties:
   - type: OpenAPI
-    url: openapi/crunchbase-data-entity-lookup-api-openapi.yml
+    url: openapi/crunchbase-data-advanced-financials-openapi.yml
+  - type: Overlay
+    url: overlays/crunchbase-data-advanced-financials-overlay.yaml
   - type: Documentation
-    url: https://data.crunchbase.com/docs/using-entity-lookup-apis
+    url: https://data.crunchbase.com/docs/fundamentals
   - type: APIReference
-    url: https://data.crunchbase.com/docs/using-the-api
-  - type: PostmanCollection
-    url: collections/crunchbase-data.postman_collection.json
-  - type: OpenCollection
-    url: collections/crunchbase-data.opencollection.json
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/using-search-apis
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/examples-search-api
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/using-autocomplete-api
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/examples-autocomplete-api
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/using-deleted-entities-api
-- aid: crunchbase-data:crunchbase-data-search-api
-  name: Crunchbase Search API
-  description: Query a collection with field filters and keyset pagination.
-  humanURL: https://data.crunchbase.com/docs/using-entity-lookup-apis
+    url: https://data.crunchbase.com/reference
+- aid: crunchbase-data:crunchbase-data-insights
+  name: Crunchbase Insights Package
+  description: >-
+    AI-powered analyses of past and present private market activity - growth
+    insights, investor insights, research insights, market insights and
+    micro-industries, combining proprietary historical data with aggregated usage
+    signals. 95 operations.
+  humanURL: https://data.crunchbase.com/docs/insights
   baseURL: https://api.crunchbase.com/v4/data
   tags:
-  - Search
+  - Market Insights
+  - Private Markets
+  - Web Intelligence
   properties:
   - type: OpenAPI
-    url: openapi/crunchbase-data-search-api-openapi.yml
+    url: openapi/crunchbase-data-insights-openapi.yml
+  - type: Overlay
+    url: overlays/crunchbase-data-insights-overlay.yaml
   - type: Documentation
-    url: https://data.crunchbase.com/docs/using-entity-lookup-apis
+    url: https://data.crunchbase.com/docs/insights
   - type: APIReference
-    url: https://data.crunchbase.com/docs/using-the-api
-  - type: PostmanCollection
-    url: collections/crunchbase-data.postman_collection.json
-  - type: OpenCollection
-    url: collections/crunchbase-data.opencollection.json
+    url: https://data.crunchbase.com/reference
+- aid: crunchbase-data:crunchbase-data-predictions
+  name: Crunchbase Predictions Package
+  description: >-
+    AI-powered forecasts on funding, growth, acquisitions, IPOs, layoffs and
+    closures, with time horizons on the exit predictions. 71 operations.
+  humanURL: https://data.crunchbase.com/docs/predictions
+  baseURL: https://api.crunchbase.com/v4/data
+  tags:
+  - Predictions
+  - Private Markets
+  - Investor Data
+  properties:
+  - type: OpenAPI
+    url: openapi/crunchbase-data-predictions-openapi.yml
+  - type: Overlay
+    url: overlays/crunchbase-data-predictions-overlay.yaml
   - type: Documentation
-    url: https://data.crunchbase.com/docs/using-search-apis
+    url: https://data.crunchbase.com/docs/predictions
+  - type: APIReference
+    url: https://data.crunchbase.com/reference
+- aid: crunchbase-data:crunchbase-data-predictions-insights
+  name: Crunchbase Predictions & Insights Package
+  description: >-
+    The widest published Crunchbase surface - both AI packages together, 109
+    operations across 43 entity collections, including market insight signals and
+    investor matches.
+  humanURL: https://data.crunchbase.com/docs/api-packages-overview
+  baseURL: https://api.crunchbase.com/v4/data
+  tags:
+  - Predictions
+  - Market Insights
+  - Private Markets
+  properties:
+  - type: OpenAPI
+    url: openapi/crunchbase-data-predictions-insights-openapi.yml
+  - type: Overlay
+    url: overlays/crunchbase-data-predictions-insights-overlay.yaml
+  - type: DataModel
+    url: data-model/crunchbase-data-data-model.yml
   - type: Documentation
-    url: https://data.crunchbase.com/docs/examples-search-api
+    url: https://data.crunchbase.com/docs/api-packages-overview
+  - type: APIReference
+    url: https://data.crunchbase.com/reference
+- aid: crunchbase-data:crunchbase-data-mcp
+  name: Crunchbase MCP Server
+  description: >-
+    First-party remote Model Context Protocol server over Streamable HTTP, exposing
+    fourteen tools - five natural-language expert tools, four structured
+    schema/lookup/search tools, four Crunchbase list tools and a metering utility.
+    Authenticated with OAuth 2.1 + PKCE against the signed-in Crunchbase account and
+    gated by a per-user MCP seat. Its surface is a superset of the REST API: ten of
+    the fourteen tools have no public REST equivalent.
+  humanURL: https://data.crunchbase.com/docs/mcp-overview
+  baseURL: https://mcp.crunchbase.com
+  tags:
+  - MCP
+  - Company Data
+  - Private Markets
+  properties:
+  - type: MCPServer
+    url: mcp/crunchbase-data-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/crunchbase-data-tool-crosswalk.yml
   - type: Documentation
-    url: https://data.crunchbase.com/docs/using-autocomplete-api
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/examples-autocomplete-api
-  - type: Documentation
-    url: https://data.crunchbase.com/docs/using-deleted-entities-api
+    url: https://data.crunchbase.com/docs/mcp-overview
+  - type: APIReference
+    url: https://data.crunchbase.com/docs/tool-reference
+  - type: GettingStarted
+    url: https://data.crunchbase.com/docs/getting-started-with-mcp
+  - type: OAuthScopes
+    url: scopes/crunchbase-data-scopes.yml
 common:
-- type: AgenticAccess
-  url: agentic-access/crunchbase-data-agentic-access.yml
-- type: Authentication
-  url: authentication/crunchbase-data-authentication.yml
-- type: DomainSecurity
-  url: security/crunchbase-data-domain-security.yml
-- type: LinkedIn
-  url: https://www.linkedin.com/company/crunchbase
 - type: Website
   url: https://www.crunchbase.com
+- type: DeveloperPortal
+  url: https://data.crunchbase.com/
 - type: Documentation
   url: https://data.crunchbase.com/docs
+- type: APIReference
+  url: https://data.crunchbase.com/reference
+- type: GettingStarted
+  url: https://data.crunchbase.com/docs/welcome-to-crunchbase-data
+- type: HelpCenter
+  url: https://support.crunchbase.com/hc/en-us
+- type: Blog
+  url: https://about.crunchbase.com/blog/
+- type: GitHubOrganization
+  url: https://github.com/crunchbase
+- type: LinkedIn
+  url: https://www.linkedin.com/company/crunchbase
+- type: Pricing
+  url: https://about.crunchbase.com/pricing/
 - type: SignUp
-  url: https://about.crunchbase.com/crunchbase-api-application-form/
+  url: https://about.crunchbase.com/products/crunchbase-api/
+- type: TermsOfService
+  url: https://about.crunchbase.com/terms-of-service/
+- type: PrivacyPolicy
+  url: https://about.crunchbase.com/privacy-policy/
+- type: ChangeLog
+  url: https://about.crunchbase.com/product-updates/
+- type: ChangeLog
+  url: changelog/crunchbase-data-changelog.yml
+- type: Authentication
+  url: authentication/crunchbase-data-authentication.yml
+- type: OAuthScopes
+  url: scopes/crunchbase-data-scopes.yml
+- type: Conventions
+  url: conventions/crunchbase-data-conventions.yml
+- type: ErrorCatalog
+  url: errors/crunchbase-data-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/crunchbase-data-lifecycle.yml
+- type: Conformance
+  url: conformance/crunchbase-data-conformance.yml
+- type: DataModel
+  url: data-model/crunchbase-data-data-model.yml
+- type: Packages
+  url: packages/crunchbase-data-packages.yml
+- type: WellKnown
+  url: well-known/crunchbase-data-well-known.yml
+- type: APICatalog
+  url: well-known/crunchbase-data-api-catalog.json
+- type: SecurityTxt
+  url: well-known/crunchbase-data-security.txt
+- type: Security
+  url: https://www.crunchbase.com/.well-known/security-policy.html
+- type: VulnerabilityDisclosure
+  url: security/crunchbase-data-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/crunchbase-data-domain-security.yml
+- type: LLMsTxt
+  url: llms/crunchbase-data-llms.txt
+- type: MCPServer
+  url: mcp/crunchbase-data-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/crunchbase-data-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: AgenticAccess
+  url: agentic-access/crunchbase-data-agentic-access.yml
 - type: Plans
   url: plans/crunchbase-data-plans-pricing.yml
 - type: RateLimits
   url: rate-limits/crunchbase-data-rate-limits.yml
 - type: FinOps
   url: finops/crunchbase-data-finops.yml
-- url: https://about.crunchbase.com/blog/
-  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-14'
+  status: enriched
+  artifacts_added: 34
+  pass: local-v1
+  notes: >-
+    Contract discovery win. The RFC 9727 api-catalog at
+    https://data.crunchbase.com/.well-known/api-catalog indexes six first-party
+    OpenAPI 3.0.1 documents (109 unique operations, every one with an operationId,
+    summary, tags and 200/400/404/500 responses); all six were fetched 200 and saved
+    verbatim to openapi/. They replace the four hand-modelled 6-operation specs from
+    the first round, which are archived under openapi/_superseded-modeled/. Also
+    found: a first-party remote MCP server at https://mcp.crunchbase.com with 14
+    documented tools, a real llms.txt, an RFC 9116 security.txt with a Vulnerability
+    Disclosure Program, and RFC 8414 + RFC 9728 OAuth metadata. Honest zeros
+    recorded: no official SDK in any registry (all 17 github.com/crunchbase repos are
+    forks), no A2A agent card, no AsyncAPI or webhook surface, no status page, no
+    trust center or named certifications, no sandbox, no CLI, no idempotency
+    contract, and no published price for API or MCP access. The PostmanCollection and
+    OpenCollection pointers from the previous round were dropped: those files were
+    generated from the now-superseded modelled specs, and Crunchbase publishes no
+    public Postman workspace.
