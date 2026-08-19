@@ -1,0 +1,69 @@
+generated: '2026-08-14'
+method: probed
+source: https://www.crunchbase.com/.well-known/oauth-authorization-server
+sources:
+- https://www.crunchbase.com/.well-known/oauth-authorization-server
+- https://mcp.crunchbase.com/.well-known/oauth-protected-resource
+- https://data.crunchbase.com/docs/connecting-ai-tools
+docs: https://data.crunchbase.com/docs/connecting-ai-tools
+description: >-
+  The REST Data API has no OAuth surface at all - it is a single account-level API
+  key (X-cb-user-key) with no scopes, so the six published OpenAPI documents declare
+  no oauth2 security scheme and derive-oauth-scopes.py correctly finds nothing. The
+  OAuth surface belongs entirely to the MCP server: mcp.crunchbase.com is an RFC
+  9728 protected resource whose authorization server is www.crunchbase.com, and both
+  metadata documents are anonymously readable. The scopes below are read verbatim
+  from those two live documents, not from the specs.
+applies_to: MCP server (https://mcp.crunchbase.com) - NOT the REST Data API
+schemes:
+- name: OAuth 2.1
+  source: https://www.crunchbase.com/.well-known/oauth-authorization-server
+  issuer: https://www.crunchbase.com
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.crunchbase.com/oauth/authorize
+    tokenUrl: https://oauth.crunchbase.com/token
+    revocationUrl: https://oauth.crunchbase.com/revoke
+  grant_types:
+  - authorization_code
+  - refresh_token
+  response_types:
+  - code
+  pkce_methods:
+  - plain
+  - S256
+  token_endpoint_auth_methods:
+  - client_secret_post
+  - none
+scopes:
+- scope: offline_access
+  description: >-
+    Issues a refresh token so the client can keep calling the MCP server after the
+    access token expires without re-prompting the user.
+  advertised_by:
+  - https://www.crunchbase.com/.well-known/oauth-authorization-server
+  - https://mcp.crunchbase.com/.well-known/oauth-protected-resource
+  flows:
+  - authorizationCode
+- scope: lists.read
+  description: >-
+    Read access to the signed-in user's Crunchbase saved lists. Backs the
+    cb_list_query and cb_list_get MCP tools.
+  advertised_by:
+  - https://www.crunchbase.com/.well-known/oauth-authorization-server
+  flows:
+  - authorizationCode
+notes: >-
+  Two scopes only, and the pair is narrower than the tool surface it fronts: the MCP
+  Tool Reference documents cb_list_create and cb_list_add_entities as write
+  operations against Crunchbase lists, but no lists.write scope is advertised in
+  either metadata document, and the protected-resource document at
+  mcp.crunchbase.com advertises offline_access alone. Data access itself is not
+  scoped - it is governed by the MCP seat assigned to the user's account, which
+  Crunchbase documents as carrying its highest level of data access including
+  predictions and insights. Dynamic Client Registration is explicitly not supported;
+  clients either present a Client ID Metadata Document or use a client_id/secret
+  pre-registered by a Crunchbase CSM.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

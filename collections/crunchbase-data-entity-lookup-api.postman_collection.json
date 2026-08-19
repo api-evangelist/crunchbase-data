@@ -1,0 +1,831 @@
+{
+  "item": [
+    {
+      "id": "18997c72-9097-45aa-81d2-fab98e6f4bd3",
+      "name": "Entity Lookup",
+      "description": {
+        "content": "Retrieve a single entity (and its related cards) by UUID or permalink.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fa714a8d-fafe-4971-8fd0-14fbd8b39292",
+          "name": "Look up an entity",
+          "request": {
+            "name": "Look up an entity",
+            "description": {
+              "content": "Retrieves a single entity from a core collection (organizations, people, funding_rounds, acquisitions, and others) by its UUID or permalink. Use field_ids to select fields and card_ids to include related cards (each card returns at most 100 items).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "entities",
+                ":collection",
+                ":entity_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "field_ids",
+                  "value": "<string>",
+                  "description": "Comma-separated list of field ids to return for the entity."
+                },
+                {
+                  "disabled": false,
+                  "key": "card_ids",
+                  "value": "<string>",
+                  "description": "Comma-separated list of related card ids to include. Each card returns a maximum of 100 items; use the card endpoint for more."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "collection",
+                  "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "entity_id",
+                  "description": "(Required) The entity UUID or permalink (e.g. tesla-motors)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0d83d453-60ec-45ae-8d7f-0fcd8c365b5d",
+              "name": "The requested entity with the selected fields and cards.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":collection",
+                    ":entity_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "field_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "card_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection",
+                      "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity_id",
+                      "description": "(Required) The entity UUID or permalink (e.g. tesla-motors)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"properties\": {\n    \"key_0\": \"string\"\n  },\n  \"cards\": {\n    \"key_0\": 2394\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48646f8f-b998-4dd1-9266-bca9fd5f5af6",
+              "name": "Missing, invalid, or unlicensed API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":collection",
+                    ":entity_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "field_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "card_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection",
+                      "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity_id",
+                      "description": "(Required) The entity UUID or permalink (e.g. tesla-motors)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 7296,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f1d3c23f-e73b-493f-8ba7-5060ffd494a3",
+              "name": "The requested entity was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":collection",
+                    ":entity_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "field_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "card_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection",
+                      "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity_id",
+                      "description": "(Required) The entity UUID or permalink (e.g. tesla-motors)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 7296,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "856823c7-7f9d-4d27-9012-dfebb19fbbcf",
+              "name": "HTTPS is required, or the endpoint requires a higher license tier.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":collection",
+                    ":entity_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "field_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "card_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection",
+                      "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity_id",
+                      "description": "(Required) The entity UUID or permalink (e.g. tesla-motors)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Upgrade Required (RFC 2817)",
+              "code": 426,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 7296,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "22976334-641f-45ef-ae2e-c3f132fe24e5",
+              "name": "Rate limit exceeded (200 calls per minute).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":collection",
+                    ":entity_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "field_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "card_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection",
+                      "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity_id",
+                      "description": "(Required) The entity UUID or permalink (e.g. tesla-motors)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 7296,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4e8a3737-bccc-4b34-af15-805a33a6461e",
+          "name": "Page an entity card",
+          "request": {
+            "name": "Page an entity card",
+            "description": {
+              "content": "Retrieves a single related card for an entity with full pagination, used when a card holds more than the 100 items returned inline by the entity lookup endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "entities",
+                ":collection",
+                ":entity_id",
+                "cards",
+                ":card_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Number of items to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "after_id",
+                  "value": "<string>",
+                  "description": "Keyset cursor - return items after this entity id."
+                },
+                {
+                  "disabled": false,
+                  "key": "before_id",
+                  "value": "<string>",
+                  "description": "Keyset cursor - return items before this entity id."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "collection",
+                  "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "entity_id",
+                  "description": "(Required) The entity UUID or permalink (e.g. tesla-motors)."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "card_id",
+                  "description": "(Required) The id of the related card to page through (e.g. raised_funding_rounds, investors)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d1f58188-f03c-4bec-8276-7b90be987ab3",
+              "name": "A page of card items for the entity.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":collection",
+                    ":entity_id",
+                    "cards",
+                    ":card_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "after_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "before_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection",
+                      "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity_id",
+                      "description": "(Required) The entity UUID or permalink (e.g. tesla-motors)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "card_id",
+                      "description": "(Required) The id of the related card to page through (e.g. raised_funding_rounds, investors)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entities\": [\n    {\n      \"key_0\": \"string\"\n    },\n    {\n      \"key_0\": \"string\"\n    }\n  ],\n  \"count\": 253\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2adaef69-2d3b-4a89-a232-66d11a849ce3",
+              "name": "Missing, invalid, or unlicensed API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":collection",
+                    ":entity_id",
+                    "cards",
+                    ":card_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "after_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "before_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection",
+                      "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity_id",
+                      "description": "(Required) The entity UUID or permalink (e.g. tesla-motors)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "card_id",
+                      "description": "(Required) The id of the related card to page through (e.g. raised_funding_rounds, investors)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 7296,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cdd0a0f6-8408-4732-9cb2-846fbe75f300",
+              "name": "The requested entity was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":collection",
+                    ":entity_id",
+                    "cards",
+                    ":card_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "after_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "before_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection",
+                      "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity_id",
+                      "description": "(Required) The entity UUID or permalink (e.g. tesla-motors)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "card_id",
+                      "description": "(Required) The id of the related card to page through (e.g. raised_funding_rounds, investors)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 7296,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ff96d587-69ff-402a-bd79-9471e931b9cd",
+              "name": "Rate limit exceeded (200 calls per minute).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":collection",
+                    ":entity_id",
+                    "cards",
+                    ":card_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "after_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "before_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection",
+                      "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity_id",
+                      "description": "(Required) The entity UUID or permalink (e.g. tesla-motors)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "card_id",
+                      "description": "(Required) The id of the related card to page through (e.g. raised_funding_rounds, investors)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 7296,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.crunchbase.com/v4/data",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "user_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "aa94b9b4-a520-40c1-bb43-149b7b57bbf7",
+    "name": "Crunchbase Data API v4 Autocomplete Entity Lookup API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Crunchbase Data API (REST v4) provides programmatic access to Crunchbase's graph of company, funding, investor, and people data - organizations, people, funding rounds, acquisitions, investments, events, and more. It is a read-only RESTful service with four logical surfaces: Entity Lookup (retrieve a single entity and its related \"cards\"), Search (query a collection with field filters and keyset pagination), Autocomplete (resolve a query string to entity identifiers), and Deleted Entities / Deltas (detect entities removed from the Crunchbase Graph so downstream databases can be reconciled). Access is subscription-gated: the full API requires a Crunchbase Enterprise or Applications license, while a reduced Basic API is available to Crunchbase Basic plan holders. All requests must be made over HTTPS (non-HTTPS calls return 426) and are authenticated with an API key passed either as the `user_key` query parameter or the `X-cb-user-key` header.\nEndpoint paths, HTTP methods, authentication, and rate limits below are grounded in the public Crunchbase developer documentation (data.crunchbase.com/docs). Because live responses are license-gated, request and response object schemas are honestly modeled from the documentation rather than captured from live calls; see x-endpoints-modeled.\n\nContact Support:\n Name: Crunchbase",
+      "type": "text/plain"
+    }
+  }
+}

@@ -4,7 +4,10 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Crunchbase
 providerId: crunchbase-data
 created: '2026-07-11'
-modified: '2026-07-11'
+modified: '2026-08-14'
+generated: '2026-08-14'
+method: searched
+source: https://data.crunchbase.com/docs/api-packages-overview
 reconciled: false
 tags:
 - Company Data
@@ -13,33 +16,46 @@ tags:
 - B2B Data
 - Plans
 description: >-
-  Crunchbase Data API access is subscription-gated and priced by license, not
-  by a public self-serve tier. Full API access - Entity Lookup, Search,
-  Autocomplete, and Deleted Entities across the complete graph - requires a
-  Crunchbase Enterprise or Applications license, which is custom / contact-sales
-  priced based on user count, API call volume, data-export frequency, and
-  contract term. A reduced Basic API is available to holders of the paid
-  Crunchbase Basic plan. Standard Crunchbase subscription tiers (Starter /
-  Pro / Business) surface the web product but do not include full API access.
-  All API tiers share a 200 calls-per-minute rate limit.
+  Crunchbase publishes NO price for API access. Not a number, not a starting-from, not
+  a per-call rate - the pricing page (about.crunchbase.com/pricing) covers the web
+  product only and its API and MCP entries route to "Talk to Sales". What Crunchbase
+  DOES publish, and publishes precisely, is the SHAPE of what you are buying: three
+  data packages (Fundamentals, Insights, Predictions) plus MCP seats, and each package
+  is backed by its own machine-readable OpenAPI document, so the exact operation count
+  a tier unlocks is verifiable even though its cost is not. That is a genuinely useful
+  half-transparency and it is recorded here as such: plan structure known, plan pricing
+  withheld.
 notes: >-
-  Exact license fees are not published; enterprise data-licensing contracts are
-  quoted by Crunchbase and have historically started in the tens of thousands of
-  dollars per year. The free full-API tier that existed years ago has been
-  retired. Verify current tiers, the Basic API scope, and pricing with
-  Crunchbase sales during reconciliation.
+  Every price below is "contact sales" because that is what Crunchbase publishes. No
+  dollar figure appears on any public Crunchbase page for API or MCP access, and none
+  is asserted here. The operation counts are read from the six OpenAPI documents
+  indexed at https://data.crunchbase.com/.well-known/api-catalog and are exact. A
+  reduced Basic API is available to holders of the paid Crunchbase Basic plan. Standard
+  Crunchbase subscription tiers (Pro, Business) surface the web product and do not
+  include full API access. All API tiers share the 200 calls-per-minute rate limit.
+  Legacy API keys are being migrated onto these packages - each legacy key was mapped
+  to the package mirroring its previous plan.
 sources:
-- https://about.crunchbase.com/products/crunchbase-api/
-- https://about.crunchbase.com/products/data-licensing/
+- https://data.crunchbase.com/docs/api-packages-overview
+- https://data.crunchbase.com/docs/fundamentals
+- https://data.crunchbase.com/docs/insights
+- https://data.crunchbase.com/docs/predictions
+- https://data.crunchbase.com/docs/mcp-overview
+- https://data.crunchbase.com/docs/managing-mcp-access
 - https://data.crunchbase.com/docs/using-the-api
 - https://data.crunchbase.com/docs/crunchbase-basic-using-api
+- https://data.crunchbase.com/.well-known/api-catalog
+- https://about.crunchbase.com/pricing/
+- https://about.crunchbase.com/products/data-licensing/
+pricing_published: false
+plan_count: 8
 plans:
 - id: crunchbase-basic-api
   name: Basic API
   type: subscription
   description: >-
     Reduced API surface available to holders of the paid Crunchbase Basic plan.
-    Narrower field and endpoint coverage than the full Data API, intended for
+    Narrower field and endpoint coverage than the packaged Data API, intended for
     lighter enrichment and lookup use cases.
   entries:
   - label: Basic API Access
@@ -56,15 +72,18 @@ plans:
   - name: Reduced Entity / Field Coverage
   - name: API Key Authentication
   - name: 200 Calls Per Minute
-- id: crunchbase-applications-license
-  name: Applications License
-  type: enterprise
+- id: crunchbase-firmographic
+  name: Fundamentals - Firmographic
+  type: package
   description: >-
-    License for embedding Crunchbase data in a product or application, with
-    broader API access than Basic. Custom / contact-sales pricing.
+    Core and advanced firmographics - name, type, legal status, employee count, key
+    leadership, ownership structure, accelerators, diversity, education and public
+    activity.
+  openapi: openapi/crunchbase-data-firmographic-openapi.yml
+  operations: 43
   entries:
-  - label: Applications License Agreement
-    name: applications_license
+  - label: Firmographic Package
+    name: firmographic
     type: flat
     metric: contract
     limit: -1
@@ -74,33 +93,128 @@ plans:
     price: contact sales
     userMultiplied: false
   elements:
-  - name: Full Entity Lookup and Search
-  - name: Autocomplete and Deleted Entities
-  - name: Application Embedding Rights
-- id: crunchbase-enterprise-license
-  name: Enterprise License
-  type: enterprise
+  - name: Entity Lookup and Cards
+  - name: Structured Search
+  - name: Autocomplete
+  - name: Deleted Entities / Deltas
+- id: crunchbase-core-financials
+  name: Fundamentals - Core Financials
+  type: package
   description: >-
-    Full Data API access with the complete graph, bulk data, dedicated account
-    management, and negotiated terms. Custom pricing based on users, call
-    volume, export frequency, and contract term.
+    Funding stages, round history, valuations and investor details on top of the
+    firmographic core.
+  openapi: openapi/crunchbase-data-core-financials-openapi.yml
+  operations: 46
   entries:
-  - label: Enterprise Agreement
-    name: enterprise
+  - label: Core Financials Package
+    name: core_financials
     type: flat
     metric: contract
     limit: -1
     timeFrame: year
     geo: global
     unit: 1
-    price: contact sales (custom, historically $50k+/year)
+    price: contact sales
     userMultiplied: false
+- id: crunchbase-advanced-financials
+  name: Fundamentals - Advanced Financials
+  type: package
+  description: Deeper financial history and valuation detail across the private company lifecycle.
+  openapi: openapi/crunchbase-data-advanced-financials-openapi.yml
+  operations: 57
+  entries:
+  - label: Advanced Financials Package
+    name: advanced_financials
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+- id: crunchbase-insights
+  name: Insights
+  type: package
+  description: >-
+    AI-powered analyses of past and present private market activity - growth insights,
+    investor insights, research insights, market insights and micro-industries,
+    combining proprietary historical data with aggregated usage signals.
+  openapi: openapi/crunchbase-data-insights-openapi.yml
+  operations: 95
+  entries:
+  - label: Insights Package
+    name: insights
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+- id: crunchbase-predictions
+  name: Predictions
+  type: package
+  description: >-
+    AI-powered forecasts on funding, growth, acquisitions, IPOs, layoffs and closures,
+    with time horizons (0-6, 6-12, 12-24 and 24+ months) on the exit predictions.
+  openapi: openapi/crunchbase-data-predictions-openapi.yml
+  operations: 71
+  entries:
+  - label: Predictions Package
+    name: predictions
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+- id: crunchbase-predictions-insights
+  name: Predictions & Insights
+  type: package
+  description: >-
+    The widest published surface - both AI packages together, 109 operations across 43
+    entity collections. This is the document that carries market insight signals and
+    investor matches.
+  openapi: openapi/crunchbase-data-predictions-insights-openapi.yml
+  operations: 109
+  entries:
+  - label: Predictions & Insights Package
+    name: predictions_insights
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+- id: crunchbase-mcp-seat
+  name: MCP Seat
+  type: seat
+  description: >-
+    Access to the remote MCP server at https://mcp.crunchbase.com. Purchased per
+    workspace and assigned per user by a workspace admin. Crunchbase states an MCP seat
+    includes its highest level of data access, including predictions and insights.
+    Programmatic / headless MCP access is arranged separately through a CSM.
+  entries:
+  - label: MCP Seat
+    name: mcp_seat
+    type: flat
+    metric: seat
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: true
   elements:
-  - name: Full Data API Access
-  - name: Complete Graph and Cards
-  - name: Deltas / Deleted Entities Sync
-  - name: Dedicated Account Management
-  - name: SLAs and Support
+  - name: 14 MCP Tools (expert, structured, lists, metering)
+  - name: OAuth 2.1 + PKCE Sign-in
+  - name: Highest Level of Data Access
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

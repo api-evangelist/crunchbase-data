@@ -1,0 +1,558 @@
+{
+  "item": [
+    {
+      "id": "dbddd29c-9a8d-4ba5-ae03-1282ee2213dc",
+      "name": "Deleted Entities",
+      "description": {
+        "content": "Detect entities removed from the Crunchbase Graph (deltas).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "85129f8b-8873-4393-9bac-76ff1fc1e7f0",
+          "name": "List deleted entities",
+          "request": {
+            "name": "List deleted entities",
+            "description": {
+              "content": "Returns entities removed from the Crunchbase Graph (for example due to compliance, data-quality cleanup, or inappropriate content) so that consumers can detect deletions and reconcile their own databases. Scope to specific collections with collection_ids, sort with deleted_at_order, and page with after_id or before_id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "deleted_entities"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "collection_ids",
+                  "value": "<string>",
+                  "description": "Comma-separated list of collection ids to filter by (e.g. organizations, people, funding_rounds, events)."
+                },
+                {
+                  "disabled": false,
+                  "key": "deleted_at_order",
+                  "value": "<string>",
+                  "description": "Sort order for the deleted_at timestamp."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Number of items to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "after_id",
+                  "value": "<string>",
+                  "description": "Keyset cursor - return items after this entity id."
+                },
+                {
+                  "disabled": false,
+                  "key": "before_id",
+                  "value": "<string>",
+                  "description": "Keyset cursor - return items before this entity id."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "21fa31a6-c211-43a2-ab9e-e9581cc32d75",
+              "name": "A page of deleted entity records.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deleted_entities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "collection_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "deleted_at_order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "after_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "before_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 5555,\n  \"entities\": [\n    {\n      \"uuid\": \"303d950a-c699-c762-c760-7341989ab3dd\",\n      \"deleted_at\": \"1947-11-28T05:53:43.055Z\",\n      \"entity_def_id\": \"string\"\n    },\n    {\n      \"uuid\": \"068e0be5-69bc-049a-0125-72e79ff9d0a2\",\n      \"deleted_at\": \"1966-03-23T15:59:36.735Z\",\n      \"entity_def_id\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "80e920fc-c2bd-41ee-94f5-6e54c0039feb",
+              "name": "Missing, invalid, or unlicensed API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deleted_entities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "collection_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "deleted_at_order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "after_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "before_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 3886,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf0d0036-24b2-48dc-bbbf-d7254ad0a34c",
+              "name": "Rate limit exceeded (200 calls per minute).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deleted_entities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "collection_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "deleted_at_order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "after_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "before_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 3886,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "caa72294-f706-4daf-9bdb-9af43faf3159",
+          "name": "List deleted entities for a collection",
+          "request": {
+            "name": "List deleted entities for a collection",
+            "description": {
+              "content": "Returns entities removed from a single collection in the Crunchbase Graph, with the same ordering and keyset pagination as the general deleted-entities endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "deleted_entities",
+                ":collection_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "deleted_at_order",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Number of items to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "after_id",
+                  "value": "<string>",
+                  "description": "Keyset cursor - return items after this entity id."
+                },
+                {
+                  "disabled": false,
+                  "key": "before_id",
+                  "value": "<string>",
+                  "description": "Keyset cursor - return items before this entity id."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "collection_id",
+                  "description": "(Required) The collection id to scope deleted entities to (e.g. organizations, people, funding_rounds, events)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d23c781d-2e46-4387-958d-ef56767d67e8",
+              "name": "A page of deleted entity records for the collection.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deleted_entities",
+                    ":collection_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "deleted_at_order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "after_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "before_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_id",
+                      "description": "(Required) The collection id to scope deleted entities to (e.g. organizations, people, funding_rounds, events)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 6969,\n  \"entities\": [\n    {\n      \"uuid\": \"0a96c3c4-04ba-0667-ddf1-bc9da9bd4521\",\n      \"deleted_at\": \"1987-04-09T19:38:49.807Z\",\n      \"entity_def_id\": \"string\"\n    },\n    {\n      \"uuid\": \"8f9580fb-8784-f299-f0a6-24b110906913\",\n      \"deleted_at\": \"1970-08-16T11:16:09.307Z\",\n      \"entity_def_id\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0191e949-6f85-45de-a2b2-8e45996463a6",
+              "name": "Missing, invalid, or unlicensed API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deleted_entities",
+                    ":collection_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "deleted_at_order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "after_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "before_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_id",
+                      "description": "(Required) The collection id to scope deleted entities to (e.g. organizations, people, funding_rounds, events)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 3886,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "554b2daa-ce1c-4522-bd5b-1f56577c6af5",
+              "name": "Rate limit exceeded (200 calls per minute).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deleted_entities",
+                    ":collection_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "deleted_at_order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "after_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "before_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_id",
+                      "description": "(Required) The collection id to scope deleted entities to (e.g. organizations, people, funding_rounds, events)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 3886,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.crunchbase.com/v4/data",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "user_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "137b4321-a943-4092-8cda-57736a0fef56",
+    "name": "Crunchbase Data API v4 Autocomplete Deleted Entities API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Crunchbase Data API (REST v4) provides programmatic access to Crunchbase's graph of company, funding, investor, and people data - organizations, people, funding rounds, acquisitions, investments, events, and more. It is a read-only RESTful service with four logical surfaces: Entity Lookup (retrieve a single entity and its related \"cards\"), Search (query a collection with field filters and keyset pagination), Autocomplete (resolve a query string to entity identifiers), and Deleted Entities / Deltas (detect entities removed from the Crunchbase Graph so downstream databases can be reconciled). Access is subscription-gated: the full API requires a Crunchbase Enterprise or Applications license, while a reduced Basic API is available to Crunchbase Basic plan holders. All requests must be made over HTTPS (non-HTTPS calls return 426) and are authenticated with an API key passed either as the `user_key` query parameter or the `X-cb-user-key` header.\nEndpoint paths, HTTP methods, authentication, and rate limits below are grounded in the public Crunchbase developer documentation (data.crunchbase.com/docs). Because live responses are license-gated, request and response object schemas are honestly modeled from the documentation rather than captured from live calls; see x-endpoints-modeled.\n\nContact Support:\n Name: Crunchbase",
+      "type": "text/plain"
+    }
+  }
+}

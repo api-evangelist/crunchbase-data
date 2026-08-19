@@ -1,0 +1,111 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Crunchbase Data API v4 Autocomplete Deleted Entities API",
+    "version": "4.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "user_key",
+      "value": "{{user_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Deleted Entities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List deleted entities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.crunchbase.com/v4/data/deleted_entities",
+            "params": [
+              {
+                "name": "collection_ids",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of collection ids to filter by (e.g. organizations, people, funding_rounds, events)."
+              },
+              {
+                "name": "deleted_at_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order for the deleted_at timestamp."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return per page."
+              },
+              {
+                "name": "after_id",
+                "value": "",
+                "type": "query",
+                "description": "Keyset cursor - return items after this entity id."
+              },
+              {
+                "name": "before_id",
+                "value": "",
+                "type": "query",
+                "description": "Keyset cursor - return items before this entity id."
+              }
+            ]
+          },
+          "docs": "Returns entities removed from the Crunchbase Graph (for example due to compliance, data-quality cleanup, or inappropriate content) so that consumers can detect deletions and reconcile their own databases. Scope to specific collections with collection_ids, sort with deleted_at_order, and page with after_id or before_id."
+        },
+        {
+          "info": {
+            "name": "List deleted entities for a collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.crunchbase.com/v4/data/deleted_entities/:collection_id",
+            "params": [
+              {
+                "name": "collection_id",
+                "value": "",
+                "type": "path",
+                "description": "The collection id to scope deleted entities to (e.g. organizations, people, funding_rounds, events)."
+              },
+              {
+                "name": "deleted_at_order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return per page."
+              },
+              {
+                "name": "after_id",
+                "value": "",
+                "type": "query",
+                "description": "Keyset cursor - return items after this entity id."
+              },
+              {
+                "name": "before_id",
+                "value": "",
+                "type": "query",
+                "description": "Keyset cursor - return items before this entity id."
+              }
+            ]
+          },
+          "docs": "Returns entities removed from a single collection in the Crunchbase Graph, with the same ordering and keyset pagination as the general deleted-entities endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

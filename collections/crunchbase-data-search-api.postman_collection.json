@@ -1,0 +1,391 @@
+{
+  "item": [
+    {
+      "id": "c0ddbb2e-db50-4d4d-934a-20c16e25a708",
+      "name": "Search",
+      "description": {
+        "content": "Query a collection with field filters and keyset pagination.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a0867785-d9aa-40f1-a390-98ad2e7b7f16",
+          "name": "Search a collection",
+          "request": {
+            "name": "Search a collection",
+            "description": {
+              "content": "Searches a collection (organizations, people, funding_rounds, acquisitions, and others) using a JSON body of field_ids to return and an array of query filters combined with AND logic. Returns 50 items by default and up to 1000 per request, with keyset pagination via after_id or before_id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "searches",
+                ":collection"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "collection",
+                  "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"field_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"query\": [\n    {\n      \"type\": \"<string>\",\n      \"field_id\": \"<string>\",\n      \"operator_id\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"field_id\": \"<string>\",\n      \"operator_id\": \"<string>\"\n    }\n  ],\n  \"order\": [\n    {\n      \"field_id\": \"<string>\",\n      \"sort\": \"<string>\"\n    },\n    {\n      \"field_id\": \"<string>\",\n      \"sort\": \"<string>\"\n    }\n  ],\n  \"limit\": 50,\n  \"after_id\": \"<string>\",\n  \"before_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "db8bc5f9-9571-4307-9198-0a3f6b909212",
+              "name": "The matching entities for the search query.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "searches",
+                    ":collection"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection",
+                      "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"field_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"query\": [\n    {\n      \"type\": \"predicate\",\n      \"field_id\": \"categories\",\n      \"operator_id\": \"includes\"\n    },\n    {\n      \"type\": \"predicate\",\n      \"field_id\": \"categories\",\n      \"operator_id\": \"includes\"\n    }\n  ],\n  \"order\": [\n    {\n      \"field_id\": \"<string>\",\n      \"sort\": \"<string>\"\n    },\n    {\n      \"field_id\": \"<string>\",\n      \"sort\": \"<string>\"\n    }\n  ],\n  \"limit\": 50,\n  \"after_id\": \"<string>\",\n  \"before_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 3523,\n  \"entities\": [\n    {\n      \"uuid\": \"string\",\n      \"properties\": {\n        \"key_0\": 4227.045451725296,\n        \"key_1\": 398.60678927469917,\n        \"key_2\": true,\n        \"key_3\": true,\n        \"key_4\": 6906\n      }\n    },\n    {\n      \"uuid\": \"string\",\n      \"properties\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "113b13d7-8cb4-43e1-90b2-e26577a2509f",
+              "name": "The request body or query was invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "searches",
+                    ":collection"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection",
+                      "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"field_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"query\": [\n    {\n      \"type\": \"predicate\",\n      \"field_id\": \"categories\",\n      \"operator_id\": \"includes\"\n    },\n    {\n      \"type\": \"predicate\",\n      \"field_id\": \"categories\",\n      \"operator_id\": \"includes\"\n    }\n  ],\n  \"order\": [\n    {\n      \"field_id\": \"<string>\",\n      \"sort\": \"<string>\"\n    },\n    {\n      \"field_id\": \"<string>\",\n      \"sort\": \"<string>\"\n    }\n  ],\n  \"limit\": 50,\n  \"after_id\": \"<string>\",\n  \"before_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 7748,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d97bfd4-744a-48ff-bea8-f0e5e5f35559",
+              "name": "Missing, invalid, or unlicensed API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "searches",
+                    ":collection"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection",
+                      "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"field_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"query\": [\n    {\n      \"type\": \"predicate\",\n      \"field_id\": \"categories\",\n      \"operator_id\": \"includes\"\n    },\n    {\n      \"type\": \"predicate\",\n      \"field_id\": \"categories\",\n      \"operator_id\": \"includes\"\n    }\n  ],\n  \"order\": [\n    {\n      \"field_id\": \"<string>\",\n      \"sort\": \"<string>\"\n    },\n    {\n      \"field_id\": \"<string>\",\n      \"sort\": \"<string>\"\n    }\n  ],\n  \"limit\": 50,\n  \"after_id\": \"<string>\",\n  \"before_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 7748,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f7eecf6c-a70d-4de4-9c22-c7221244c7ec",
+              "name": "HTTPS is required, or the endpoint requires a higher license tier.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "searches",
+                    ":collection"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection",
+                      "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"field_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"query\": [\n    {\n      \"type\": \"predicate\",\n      \"field_id\": \"categories\",\n      \"operator_id\": \"includes\"\n    },\n    {\n      \"type\": \"predicate\",\n      \"field_id\": \"categories\",\n      \"operator_id\": \"includes\"\n    }\n  ],\n  \"order\": [\n    {\n      \"field_id\": \"<string>\",\n      \"sort\": \"<string>\"\n    },\n    {\n      \"field_id\": \"<string>\",\n      \"sort\": \"<string>\"\n    }\n  ],\n  \"limit\": 50,\n  \"after_id\": \"<string>\",\n  \"before_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Upgrade Required (RFC 2817)",
+              "code": 426,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 7748,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "40bcbfda-a0f1-4778-a92e-a9234ccc84e5",
+              "name": "Rate limit exceeded (200 calls per minute).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "searches",
+                    ":collection"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection",
+                      "description": "(Required) The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"field_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"query\": [\n    {\n      \"type\": \"predicate\",\n      \"field_id\": \"categories\",\n      \"operator_id\": \"includes\"\n    },\n    {\n      \"type\": \"predicate\",\n      \"field_id\": \"categories\",\n      \"operator_id\": \"includes\"\n    }\n  ],\n  \"order\": [\n    {\n      \"field_id\": \"<string>\",\n      \"sort\": \"<string>\"\n    },\n    {\n      \"field_id\": \"<string>\",\n      \"sort\": \"<string>\"\n    }\n  ],\n  \"limit\": 50,\n  \"after_id\": \"<string>\",\n  \"before_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 7748,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.crunchbase.com/v4/data",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "user_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e6072455-b72d-4cc0-a600-0e0d58fe1bc4",
+    "name": "Crunchbase Data API v4 Autocomplete Search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Crunchbase Data API (REST v4) provides programmatic access to Crunchbase's graph of company, funding, investor, and people data - organizations, people, funding rounds, acquisitions, investments, events, and more. It is a read-only RESTful service with four logical surfaces: Entity Lookup (retrieve a single entity and its related \"cards\"), Search (query a collection with field filters and keyset pagination), Autocomplete (resolve a query string to entity identifiers), and Deleted Entities / Deltas (detect entities removed from the Crunchbase Graph so downstream databases can be reconciled). Access is subscription-gated: the full API requires a Crunchbase Enterprise or Applications license, while a reduced Basic API is available to Crunchbase Basic plan holders. All requests must be made over HTTPS (non-HTTPS calls return 426) and are authenticated with an API key passed either as the `user_key` query parameter or the `X-cb-user-key` header.\nEndpoint paths, HTTP methods, authentication, and rate limits below are grounded in the public Crunchbase developer documentation (data.crunchbase.com/docs). Because live responses are license-gated, request and response object schemas are honestly modeled from the documentation rather than captured from live calls; see x-endpoints-modeled.\n\nContact Support:\n Name: Crunchbase",
+      "type": "text/plain"
+    }
+  }
+}

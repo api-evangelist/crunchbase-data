@@ -1,0 +1,269 @@
+generated: '2026-08-14'
+method: derived
+source: >-
+  mcp/crunchbase-data-mcp.yml (tools transcribed from
+  https://data.crunchbase.com/docs/tool-reference) bound against the six OpenAPI
+  documents in openapi/, harvested from
+  https://data.crunchbase.com/.well-known/api-catalog
+description: >-
+  Binds each published Crunchbase MCP tool to the REST operation(s) that back it.
+  The two surfaces are NOT the same size in either direction. Fourteen MCP tools
+  collapse 109 REST operations - one cb_entity_get parameterised by entity_def_id
+  stands in for 43 per-collection lookups plus 17 card endpoints, and one
+  cb_search_query stands in for 43 per-collection search endpoints - while nine of
+  the fourteen tools (the five expert tools, cb_reference, and the four list tools)
+  have no public REST equivalent at all. Confidence is capped at medium for every
+  row because the live MCP schemas are OAuth-gated (tools/list returned HTTP 401 on
+  2026-08-14), so the binding is by documented semantics and parameter names, not by
+  a fetched inputSchema.
+surfaces:
+  openapi:
+    files:
+    - openapi/crunchbase-data-firmographic-openapi.yml
+    - openapi/crunchbase-data-core-financials-openapi.yml
+    - openapi/crunchbase-data-advanced-financials-openapi.yml
+    - openapi/crunchbase-data-insights-openapi.yml
+    - openapi/crunchbase-data-predictions-openapi.yml
+    - openapi/crunchbase-data-predictions-insights-openapi.yml
+    discovery: https://data.crunchbase.com/.well-known/api-catalog
+    base_url: https://api.crunchbase.com/v4
+    gated: false
+    note: >-
+      The documents are anonymously fetchable; calling the API is not - every
+      api.crunchbase.com request needs X-cb-user-key and a licensed package.
+  graphql:
+    present: false
+    note: Crunchbase publishes no GraphQL surface for the Data API.
+  mcp:
+    url: https://mcp.crunchbase.com
+    transport: Streamable HTTP
+    gated: true
+    note: >-
+      POST tools/list returned HTTP 401 (OAuth 2.1 required). Tool names,
+      descriptions and parameters below come from the provider's published Tool
+      Reference page, not from an authenticated introspection.
+crosswalk:
+- tool: cb_entity_autocomplete
+  category: structured
+  rest:
+  - autocompletes
+  binding: rest
+  confidence: high
+  note: >-
+    Direct 1:1. GET /data/autocompletes with query, collection_ids and limit
+    (default 10, max 25) - the tool documents exactly those three parameters and the
+    same limit ceiling.
+- tool: cb_entity_get
+  category: structured
+  rest:
+  - getOrganization
+  - getPerson
+  - getFundingRound
+  - getAcquisition
+  - getInvestment
+  - getEvent
+  - getFund
+  - getIpo
+  - getJob
+  - getPrincipal
+  - getProduct
+  - getLocation
+  - getCategory
+  - getCategoryGroup
+  - getMicroCategory
+  - getAddress
+  - getAward
+  - getDegree
+  - getDiversitySpotlight
+  - getEventAppearance
+  - getKeyEmployeeChange
+  - getLayoff
+  - getLegalProceeding
+  - getOwnership
+  - getPartnershipAnnouncement
+  - getPressReference
+  - getProductLaunch
+  - getAcquisitionPrediction
+  - getClosurePrediction
+  - getCurrentValuationEstimate
+  - getFundingPrediction
+  - getGrowthPrediction
+  - getIpoPrediction
+  - getLayoffPrediction
+  - getRemainPrivatePrediction
+  - getGrowthInsight
+  - getInvestorInsight
+  - getInvestorMatch
+  - getMarketInsight
+  - getMarketInsightReason
+  - getOrgSimilarity
+  - getProductSimilarity
+  - getResearchInsight
+  binding: rest
+  confidence: medium
+  note: >-
+    Fans out. The tool's entity_def_id parameter selects which of the 43
+    GET /data/entities/{collection}/{entity_id} operations executes; field_ids and
+    card_ids map to the identically named query parameters on each.
+- tool: cb_entity_get
+  category: structured
+  variant: card pagination
+  rest:
+  - getOrganizationCard
+  - getPersonCard
+  - getFundingRoundCard
+  - getAcquisitionCard
+  - getInvestmentCard
+  - getEventCard
+  - getEventAppearanceCard
+  - getFundCard
+  - getIpoCard
+  - getJobCard
+  - getOwnershipCard
+  - getCategoryCard
+  - getCategoryGroupCard
+  - getMicroCategoryCard
+  - getMarketInsightCard
+  - getAddressCard
+  - getDegreeCard
+  binding: rest
+  confidence: medium
+  note: >-
+    The documented card-pagination mode (card_ids set to a single card, after_id set
+    to the last identifier.uuid, field_ids=[]) is the tool-side spelling of the 17
+    GET /data/entities/{collection}/{entity_id}/cards/{card_id} operations.
+- tool: cb_search_query
+  category: structured
+  rest:
+  - searchOrganizations
+  - searchPeople
+  - searchFundingRounds
+  - searchAcquisitions
+  - searchInvestments
+  - searchEvents
+  - searchEventAppearances
+  - searchFunds
+  - searchIpos
+  - searchJobs
+  - searchPrincipals
+  - searchProducts
+  - searchLocations
+  - searchCategories
+  - searchCategoryGroups
+  - searchMicroCategories
+  - searchAddresses
+  - searchAwards
+  - searchDegrees
+  - searchDiversitySpotlights
+  - searchKeyEmployeeChanges
+  - searchLayoffs
+  - searchLegalProceedings
+  - searchOwnerships
+  - searchPartnershipAnnouncements
+  - searchPressReferences
+  - searchProductLaunches
+  - searchAcquisitionPredictions
+  - searchClosurePredictions
+  - searchCurrentValuationEstimates
+  - searchFundingPredictions
+  - searchGrowthPredictions
+  - searchIpoPredictions
+  - searchLayoffPredictions
+  - searchRemainPrivatePredictions
+  - searchGrowthInsights
+  - searchInvestorInsights
+  - searchInvestorMatches
+  - searchMarketInsights
+  - searchMarketInsightReasons
+  - searchOrgSimilarities
+  - searchProductSimilarities
+  - searchResearchInsights
+  binding: rest
+  confidence: medium
+  note: >-
+    Fans out. collection_id selects which of the 43
+    POST /data/searches/{collection} operations executes; predicates / query,
+    field_ids, order, limit and after_id are the same request-body members the specs
+    declare.
+- tool: cb_expert_build_search
+  category: expert
+  rest:
+  - searchOrganizations
+  - searchFundingRounds
+  - searchPeople
+  binding: composite
+  confidence: low
+  note: >-
+    Compiles natural language into a structured Crunchbase search. Crunchbase
+    documents the productive pattern as running the compiled predicates through
+    cb_search_query afterwards, so the output binds to the same search operations -
+    but the compilation step itself is server-side and has no REST equivalent.
+mcp_only:
+- tool: cb_expert_query_answer
+  reason: >-
+    Natural-language question answering over live Crunchbase data. Server-side
+    composite - interprets, plans and executes multiple queries and returns a
+    synthesised answer with a request_id. No public REST operation.
+- tool: cb_expert_query_domain
+  reason: >-
+    Meta-questions about the data domain (what entities/fields/relationships exist,
+    whether a question is answerable). The closest REST analogue is the
+    auth-gated getFieldsMetadata, but it returns a field catalogue, not
+    answerability diagnostics or suggested analytical paths.
+- tool: cb_expert_resolve_entity
+  reason: >-
+    Entity disambiguation with domain-priority matching, free-text context and an
+    auto-fetched profile. autocompletes does name matching only; the ranking,
+    context handling and domain precedence are server-side and MCP-only.
+- tool: cb_expert_submit_feedback
+  reason: >-
+    Writes feedback against a prior expert request_id and can trigger a query
+    rewrite. No REST endpoint exists for expert-service feedback.
+- tool: cb_reference
+  reason: >-
+    Returns Markdown schema documentation, valid operators, example predicates, enum
+    values and live sample data per field. Partially overlaps the auth-gated
+    getFieldsMetadata but is a documentation service, not a data endpoint.
+- tool: cb_list_query
+  reason: Crunchbase saved lists are a platform (www.crunchbase.com) feature; the Data API exposes no list collection.
+- tool: cb_list_create
+  reason: Write operation against Crunchbase lists. The Data API is read-only - it declares no POST outside /data/searches/.
+- tool: cb_list_add_entities
+  reason: Write operation against Crunchbase lists. No REST equivalent.
+- tool: cb_list_get
+  reason: Reads list membership. No REST equivalent.
+- tool: cb_metering_get_state
+  reason: >-
+    Returns caller-visible meter/quota state. The API Dashboard (announced June 2026)
+    is a UI surface for Enterprise users; no REST metering endpoint is published.
+rest_only:
+- capability: Deleted entities / deltas
+  operations:
+  - getDeletedEntities
+  - getDeletedEntitiesForCollection
+  note: >-
+    Reconciliation feed for downstream databases. No MCP tool exposes deletions, so
+    an agent cannot detect that an entity has left the graph.
+- capability: Self-describing metadata
+  operations:
+  - getFieldsMetadata
+  - getOpenApiSpecJson
+  - getOpenApiSpecYaml
+  note: >-
+    GET /md/applications/crunchbase/{fields,openapi.json,openapi.yaml}. The API can
+    serve its own OpenAPI to a licensed key; cb_reference is the MCP-side answer to
+    the same need but returns Markdown, not a spec.
+coverage:
+  mcp_tools_named: 14
+  mcp_tools_bound_to_rest: 5
+  mcp_only: 10
+  rest_operations_total: 109
+  rest_operations_with_a_tool: 104
+  rest_operations_without_a_tool: 5
+  note: >-
+    cb_entity_get appears twice (entity + card variants), so the bound-tool count of
+    5 covers 4 distinct tools; cb_expert_build_search is counted as bound because its
+    compiled output executes against the search operations.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

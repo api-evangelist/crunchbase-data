@@ -1,0 +1,138 @@
+generated: '2026-08-14'
+method: searched
+source: https://data.crunchbase.com/docs/using-the-api
+sources:
+- https://data.crunchbase.com/docs/using-the-api
+- https://data.crunchbase.com/docs/using-search-apis
+- https://data.crunchbase.com/docs/using-entity-lookup-apis
+- https://data.crunchbase.com/docs/using-autocomplete-api
+- https://data.crunchbase.com/docs/getting-more-results-from-card_id
+- openapi/crunchbase-data-predictions-insights-openapi.yml
+description: >-
+  Cross-cutting request/response semantics for the Crunchbase Data API v4, read from
+  the developer documentation and confirmed against the six published OpenAPI
+  documents.
+authentication:
+  style: api-key
+  header: X-cb-user-key
+  query_parameter: user_key
+  preferred: header
+  note: >-
+    The specs declare only the header scheme (ApiKeyAuthHeader). The docs document
+    both, and show the query-parameter form first. Prefer the header - the query form
+    puts a long-lived credential in URLs, proxy logs and referrers.
+  see: authentication/crunchbase-data-authentication.yml
+transport:
+  https_required: true
+  http_response: 426
+  note: Non-HTTPS requests are rejected with HTTP 426, not redirected.
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    No idempotency contract, and none is needed on the REST surface: the Data API is
+    read-only. Its only POST is /data/searches/{collection}, which is a query
+    expressed as a request body and creates nothing. The MCP server does carry two
+    write tools (cb_list_create, cb_list_add_entities) but Crunchbase publishes no
+    idempotency key for them either, so an interrupted agent retry can append the
+    same entities to a list twice.
+pagination:
+  style: keyset
+  applies_to:
+  - POST /data/searches/{collection}
+  - GET /data/entities/{collection}/{entity_id}/cards/{card_id}
+  - GET /data/deleted_entities
+  - GET /data/deleted_entities/{collection_id}
+  request_params:
+  - name: after_id
+    description: Return items after this entity UUID.
+  - name: before_id
+    description: Return items before this entity UUID.
+  - name: limit
+    description: 'Search: default 50, maximum 1000. Autocomplete: default 10, maximum 25.'
+  response_fields:
+  - name: count
+    description: Total number of matching entities.
+  - name: entities
+    description: The page of results.
+  cursor_source: >-
+    The cursor is the identifier.uuid of the last entity in the previous page - there
+    is no opaque next_page token and no next-link header.
+  note: >-
+    Keyset rather than offset, so results stay stable while the graph changes.
+    Autocomplete does not paginate: it caps at 25 and has no cursor.
+field_selection:
+  supported: true
+  params:
+  - name: field_ids
+    scope: entity lookup + search
+    description: Comma-separated (query) or array (search body) list of fields to return. Defaults to the entity's default display columns.
+  - name: card_ids
+    scope: entity lookup
+    description: Related cards to include inline. Each inline card returns at most 100 items.
+  note: >-
+    Sparse fieldsets are the primary cost lever. Cards included inline are capped at
+    100 items; beyond that you must call the single-card endpoint with its own
+    keyset cursor.
+query_language:
+  location: request body of POST /data/searches/{collection}
+  shape: 'array of {type, field_id, operator_id, values} predicates combined with AND'
+  subqueries: true
+  subquery_note: Query items carry a type of "predicate" or "sub_query"; sub_query enables nesting beyond flat AND.
+  ordering: 'array of {field_id, sort: asc|desc}; the field must be sortable per its metadata'
+  identifier_rule: >-
+    Identifier-valued filter fields take permalinks, not display names. "united-states"
+    matches; "United States" is not an error - it silently matches nothing. Resolve
+    locations and categories through GET /data/autocompletes first. Money fields take
+    plain integer USD; dates are ISO 8601.
+versioning:
+  scheme: uri-path
+  current: v4
+  base_url: https://api.crunchbase.com/v4
+  spec_version: 1.1.0
+  note: >-
+    Version lives in the path. There is no version header, no date-pinning and no
+    published policy for how or when v4 changes - see
+    lifecycle/crunchbase-data-lifecycle.yml.
+error_envelope:
+  declared: '{ "value": "<message>" }'
+  observed: '[ { "status": <int>, "code": "<string>", "message": "<string>" } ]'
+  media_type: application/json
+  rfc9457: false
+  see: errors/crunchbase-data-problem-types.yml
+rate_limit_signaling:
+  limit: 200 requests per minute
+  scope: account (API key)
+  status_on_exhaustion: 429
+  response_headers: []
+  headers_note: >-
+    Crunchbase publishes NO rate-limit response headers - no X-RateLimit-*, no
+    RateLimit-*, no Retry-After. The documented remedy is "reach out to your CSM". An
+    agent therefore has no runtime signal for remaining quota and must budget
+    client-side.
+  see: rate-limits/crunchbase-data-rate-limits.yml
+request_tracing:
+  request_id_header: null
+  note: >-
+    No request-id or correlation header is documented on the REST API. The MCP expert
+    tools do return a request_id in the response body, but it is a feedback handle for
+    cb_expert_submit_feedback, not a transport-level trace id.
+metadata:
+  self_description:
+    endpoints:
+    - GET /md/applications/crunchbase/openapi.json
+    - GET /md/applications/crunchbase/openapi.yaml
+    - GET /md/applications/crunchbase/fields
+    note: >-
+      The API can serve its own OpenAPI and field catalogue, but those endpoints are
+      key-gated like everything else on api.crunchbase.com. The anonymously readable
+      copies live at data.crunchbase.com/openapi/*.yaml, indexed by the RFC 9727
+      api-catalog - see well-known/crunchbase-data-well-known.yml.
+  attribution_required: true
+  attribution_note: >-
+    A licence condition, not a technical one: any surfaced Crunchbase data must carry a
+    visible, crawlable, non-nofollow hyperlink to the relevant Crunchbase entity page.
+    Source https://data.crunchbase.com/docs/using-the-api.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

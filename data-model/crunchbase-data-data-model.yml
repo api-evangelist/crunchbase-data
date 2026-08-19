@@ -1,0 +1,289 @@
+generated: '2026-08-14'
+method: derived
+source: >-
+  openapi/crunchbase-data-predictions-insights-openapi.yml - derived from the
+  card_ids enums on each GET /data/entities/{collection}/{entity_id} operation and
+  the *_identifier / *_identifiers members of each entity's FieldId enum
+description: >-
+  The Crunchbase Graph as the published contract actually describes it. The
+  predictions-insights package is the widest of the six and is used as the source
+  because it is a superset of the other five. Every relationship below is read
+  mechanically from the spec - a "card" on an entity is a named relationship the API
+  will materialise, and an "*_identifier(s)" field is a foreign key an agent can
+  follow. Nothing here is inferred from prose.
+entity_count: 43
+relationship_cards: 132
+identifier_type: 'Identifier object { uuid, value, permalink, entity_def_id, image_id }'
+identifier_note: >-
+  Every reference in the graph is an Identifier object, not a bare id. Entities are
+  addressable by either UUID or permalink; permalinks are what filter values on
+  identifier-typed search fields expect ("united-states", not "United States").
+hubs:
+- entity: organizations
+  fields: 103
+  cards: 41
+  note: >-
+    The centre of the graph. 41 relationship cards and 103 fields, spanning funding,
+    ownership, people, events, products, press, and every predictions/insights entity.
+- entity: principals
+  fields: 88
+  cards: 0
+  note: >-
+    A wide flattened investor projection - 88 fields, zero cards. Investor rollups are
+    delivered as fields rather than as traversable relationships.
+- entity: people
+  fields: 52
+  cards: 13
+- entity: funding_rounds
+  fields: 34
+  cards: 7
+entities:
+- name: organizations
+  operation: getOrganization
+  card_operation: getOrganizationCard
+  search: searchOrganizations
+  belongs_to:
+  - {entity: organizations, via: acquirer_identifier}
+  - {entity: organizations, via: owner_identifier}
+  - {entity: locations, via: location_identifiers}
+  has_many:
+  - {entity: people, via: founders}
+  - {entity: principals, via: investors}
+  - {entity: funding_rounds, via: raised_funding_rounds}
+  - {entity: funding_rounds, via: participated_funding_rounds}
+  - {entity: investments, via: raised_investments}
+  - {entity: investments, via: participated_investments}
+  - {entity: funds, via: raised_funds}
+  - {entity: funds, via: participated_funds}
+  - {entity: acquisitions, via: acquiree_acquisitions}
+  - {entity: acquisitions, via: acquirer_acquisitions}
+  - {entity: ipos, via: ipos}
+  - {entity: jobs, via: jobs}
+  - {entity: addresses, via: addresses}
+  - {entity: awards, via: awards}
+  - {entity: events, via: event_appearances}
+  - {entity: press_references, via: press_references}
+  - {entity: products, via: products}
+  - {entity: product_launches, via: product_launches}
+  - {entity: partnership_announcements, via: partnership_announcements}
+  - {entity: key_employee_changes, via: key_employee_changes}
+  - {entity: layoffs, via: layoffs}
+  - {entity: legal_proceedings, via: legal_proceedings}
+  - {entity: organizations, via: child_organizations}
+  - {entity: organizations, via: similar_organizations}
+  - {entity: ownerships, via: child_ownerships}
+  has_one:
+  - {entity: organizations, via: parent_organization}
+  - {entity: ownerships, via: parent_ownership}
+  - {entity: addresses, via: headquarters_address}
+  - {entity: remain_private_predictions, via: remain_private_prediction}
+  predictions_and_insights:
+  - {entity: acquisition_predictions, via: acquisition_predictions}
+  - {entity: closure_predictions, via: closure_predictions}
+  - {entity: funding_predictions, via: funding_predictions}
+  - {entity: growth_predictions, via: growth_predictions}
+  - {entity: ipo_predictions, via: ipo_predictions}
+  - {entity: layoff_predictions, via: layoff_predictions}
+  - {entity: growth_insights, via: growth_insights}
+  - {entity: investor_insights, via: investor_insights}
+  - {entity: investor_matches, via: investor_matches}
+  - {entity: research_insights, via: research_insights}
+  - {entity: current_valuation_estimates, via: current_valuation_estimates}
+- name: people
+  operation: getPerson
+  card_operation: getPersonCard
+  search: searchPeople
+  belongs_to:
+  - {entity: locations, via: location_identifiers}
+  has_one:
+  - {entity: jobs, via: primary_job}
+  - {entity: organizations, via: primary_organization}
+  has_many:
+  - {entity: degrees, via: degrees}
+  - {entity: jobs, via: jobs}
+  - {entity: organizations, via: founded_organizations}
+  - {entity: funding_rounds, via: participated_funding_rounds}
+  - {entity: funding_rounds, via: partner_funding_rounds}
+  - {entity: investments, via: participated_investments}
+  - {entity: investments, via: partner_investments}
+  - {entity: funds, via: participated_funds}
+  - {entity: events, via: event_appearances}
+  - {entity: press_references, via: press_references}
+- name: funding_rounds
+  operation: getFundingRound
+  card_operation: getFundingRoundCard
+  search: searchFundingRounds
+  belongs_to:
+  - {entity: organizations, via: funded_organization_identifier}
+  has_many:
+  - {entity: principals, via: investors}
+  - {entity: principals, via: lead_investors}
+  - {entity: investments, via: investments}
+  - {entity: people, via: partners}
+  - {entity: press_references, via: press_references}
+  has_one:
+  - {entity: organizations, via: organization}
+- name: investments
+  operation: getInvestment
+  card_operation: getInvestmentCard
+  search: searchInvestments
+  belongs_to:
+  - {entity: funding_rounds, via: funding_round_identifier}
+  - {entity: principals, via: investor_identifier}
+  - {entity: organizations, via: organization_identifier}
+  - {entity: people, via: partner_identifiers}
+- name: acquisitions
+  operation: getAcquisition
+  card_operation: getAcquisitionCard
+  search: searchAcquisitions
+  belongs_to:
+  - {entity: organizations, via: acquiree_identifier}
+  - {entity: organizations, via: acquirer_identifier}
+  has_many:
+  - {entity: press_references, via: press_references}
+- name: funds
+  operation: getFund
+  card_operation: getFundCard
+  search: searchFunds
+  belongs_to:
+  - {entity: organizations, via: owner_identifier}
+  has_many:
+  - {entity: principals, via: investors}
+  - {entity: press_references, via: press_references}
+- name: ipos
+  operation: getIpo
+  card_operation: getIpoCard
+  search: searchIpos
+  belongs_to:
+  - {entity: organizations, via: organization_identifier}
+- name: ownerships
+  operation: getOwnership
+  card_operation: getOwnershipCard
+  search: searchOwnerships
+  belongs_to:
+  - {entity: organizations, via: owner_identifier}
+  - {entity: organizations, via: ownee_identifier}
+- name: jobs
+  operation: getJob
+  card_operation: getJobCard
+  search: searchJobs
+  belongs_to:
+  - {entity: organizations, via: organization_identifier}
+  - {entity: people, via: person_identifier}
+- name: degrees
+  operation: getDegree
+  card_operation: getDegreeCard
+  search: searchDegrees
+  belongs_to:
+  - {entity: people, via: person_identifier}
+  - {entity: organizations, via: school_identifier}
+- name: events
+  operation: getEvent
+  card_operation: getEventCard
+  search: searchEvents
+  belongs_to:
+  - {entity: locations, via: location_identifiers}
+  - {entity: organizations, via: organizer_identifiers}
+  has_many:
+  - {entity: event_appearances, via: appearances}
+  - {entity: organizations, via: contestants}
+  - {entity: organizations, via: exhibitors}
+  - {entity: organizations, via: sponsors}
+  - {entity: people, via: speakers}
+  - {entity: press_references, via: press_references}
+  has_one:
+  - {entity: addresses, via: address}
+- name: event_appearances
+  operation: getEventAppearance
+  card_operation: getEventAppearanceCard
+  search: searchEventAppearances
+  belongs_to:
+  - {entity: events, via: event_identifier}
+  - {entity: organizations, via: participant_identifier}
+- name: addresses
+  operation: getAddress
+  card_operation: getAddressCard
+  search: searchAddresses
+  belongs_to:
+  - {entity: organizations, via: headquartered_organization_identifier}
+  - {entity: locations, via: location_identifiers}
+- name: key_employee_changes
+  operation: getKeyEmployeeChange
+  search: searchKeyEmployeeChanges
+  belongs_to:
+  - {entity: organizations, via: organization_identifier}
+- name: layoffs
+  operation: getLayoff
+  search: searchLayoffs
+  belongs_to:
+  - {entity: organizations, via: organization_identifier}
+- name: market_insights
+  operation: getMarketInsight
+  card_operation: getMarketInsightCard
+  search: searchMarketInsights
+  has_many:
+  - {entity: market_insight_reasons, via: market_insight_reasons}
+- name: categories
+  operation: getCategory
+  card_operation: getCategoryCard
+  search: searchCategories
+  has_many:
+  - {entity: market_insights, via: market_insights}
+- name: category_groups
+  operation: getCategoryGroup
+  card_operation: getCategoryGroupCard
+  search: searchCategoryGroups
+  has_many:
+  - {entity: market_insights, via: market_insights}
+- name: micro_categories
+  operation: getMicroCategory
+  card_operation: getMicroCategoryCard
+  search: searchMicroCategories
+  has_many:
+  - {entity: market_insights, via: market_insights}
+leaf_entities:
+  note: >-
+    These carry only the universal `fields` card - they are terminal attribute records
+    attached to an organization rather than traversable nodes. All are addressable by
+    lookup and by search.
+  entities:
+  - acquisition_predictions
+  - closure_predictions
+  - funding_predictions
+  - growth_predictions
+  - ipo_predictions
+  - layoff_predictions
+  - remain_private_predictions
+  - growth_insights
+  - investor_insights
+  - investor_matches
+  - research_insights
+  - current_valuation_estimates
+  - org_similarities
+  - product_similarities
+  - products
+  - product_launches
+  - partnership_announcements
+  - legal_proceedings
+  - press_references
+  - awards
+  - diversity_spotlights
+  - locations
+  - market_insight_reasons
+package_availability:
+  note: >-
+    Not every entity is in every package. The six published documents differ by which
+    collections they expose - firmographic 43 operations, core-financials 46,
+    advanced-financials 57, predictions 71, insights 95, predictions-insights 109 -
+    so an entity present in this model may 401 for a key licensed to a narrower
+    package.
+  operations_by_package:
+    firmographic: 43
+    core-financials: 46
+    advanced-financials: 57
+    predictions: 71
+    insights: 95
+    predictions-insights: 109
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

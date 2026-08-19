@@ -1,0 +1,112 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Crunchbase Data API v4 Autocomplete Entity Lookup API",
+    "version": "4.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "user_key",
+      "value": "{{user_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Entity Lookup",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Look up an entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.crunchbase.com/v4/data/entities/:collection/:entity_id",
+            "params": [
+              {
+                "name": "collection",
+                "value": "",
+                "type": "path",
+                "description": "The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+              },
+              {
+                "name": "entity_id",
+                "value": "",
+                "type": "path",
+                "description": "The entity UUID or permalink (e.g. tesla-motors)."
+              },
+              {
+                "name": "field_ids",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of field ids to return for the entity."
+              },
+              {
+                "name": "card_ids",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of related card ids to include. Each card returns a maximum of 100 items; use the card endpoint for more."
+              }
+            ]
+          },
+          "docs": "Retrieves a single entity from a core collection (organizations, people, funding_rounds, acquisitions, and others) by its UUID or permalink. Use field_ids to select fields and card_ids to include related cards (each card returns at most 100 items)."
+        },
+        {
+          "info": {
+            "name": "Page an entity card",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.crunchbase.com/v4/data/entities/:collection/:entity_id/cards/:card_id",
+            "params": [
+              {
+                "name": "collection",
+                "value": "",
+                "type": "path",
+                "description": "The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+              },
+              {
+                "name": "entity_id",
+                "value": "",
+                "type": "path",
+                "description": "The entity UUID or permalink (e.g. tesla-motors)."
+              },
+              {
+                "name": "card_id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the related card to page through (e.g. raised_funding_rounds, investors)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return per page."
+              },
+              {
+                "name": "after_id",
+                "value": "",
+                "type": "query",
+                "description": "Keyset cursor - return items after this entity id."
+              },
+              {
+                "name": "before_id",
+                "value": "",
+                "type": "query",
+                "description": "Keyset cursor - return items before this entity id."
+              }
+            ]
+          },
+          "docs": "Retrieves a single related card for an entity with full pagination, used when a card holds more than the 100 items returned inline by the entity lookup endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

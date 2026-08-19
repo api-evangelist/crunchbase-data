@@ -1,0 +1,97 @@
+generated: '2026-08-14'
+method: searched
+source: >-
+  registry.npmjs.org, pypi.org, rubygems.org, crates.io, api.nuget.org,
+  proxy.golang.org, api.github.com/orgs/crunchbase, and
+  https://data.crunchbase.com/llms.txt
+description: >-
+  Crunchbase publishes NO first-party client library in any language. The GitHub
+  organization github.com/crunchbase exists and is public, but all 17 of its
+  repositories are forks of third-party projects (swagger-codegen,
+  openapi-generator, Kafka connectors, Airflow, poetry) - none is a Crunchbase SDK.
+  The developer documentation index (llms.txt, 473 lines) contains no SDK or client
+  library page. Every package below is a community wrapper, and every one of them
+  is abandoned: the newest release in the set is from December 2020, and three of
+  the five predate the v4 Data API entirely, so they target the retired v2/v3 REST
+  surface and cannot call the current API. This is recorded as an honest zero for
+  official SDK coverage, not as a gap in the search.
+official_sdk_count: 0
+package_count: 5
+packages:
+- language: python
+  registry: pypi
+  name: pycrunchbase
+  url: https://pypi.org/project/pycrunchbase/
+  install: pip install pycrunchbase
+  version: 0.3.9
+  published: '2020-12-02'
+  official: false
+  author: Ng Zhi An
+  source: https://github.com/ngzhian/pycrunchbase
+  note: >-
+    Most recently maintained community wrapper in the set, and still five and a half
+    years stale as of this pass. Targets the Crunchbase v3 API.
+- language: javascript
+  registry: npm
+  name: crunchbase-api
+  url: https://www.npmjs.com/package/crunchbase-api
+  install: npm install crunchbase-api
+  version: 0.2.1
+  published: '2016-09-13'
+  official: false
+  author: Robbie Trencheny
+  source: https://github.com/robbiet480/node-crunchbase-api
+  note: Predates the v4 Data API; wraps the retired v2/v3 REST surface.
+- language: ruby
+  registry: rubygems
+  name: crunchbase
+  url: https://rubygems.org/gems/crunchbase
+  install: gem install crunchbase
+  version: 0.5.0
+  published: '2015-01-20'
+  official: false
+  author: Tyler Cunnion
+  source: http://github.com/tylercunnion/crunchbase
+  note: Predates the v4 Data API.
+- language: javascript
+  registry: npm
+  name: node-crunchbase
+  url: https://www.npmjs.com/package/node-crunchbase
+  install: npm install node-crunchbase
+  version: 1.0.0
+  published: '2013-12-19'
+  official: false
+  author: Hamza Waqas
+  source: https://github.com/ArkeologeN/crunchbase-node
+  note: Predates the v4 Data API.
+- language: javascript
+  registry: npm
+  name: crunchbase
+  url: https://www.npmjs.com/package/crunchbase
+  install: npm install crunchbase
+  version: 0.1.2
+  published: '2012-12-05'
+  official: false
+  author: Ryan Gerard
+  source: https://github.com/rgerard/node-crunchbase
+  note: Oldest package in the set; predates the v4 Data API by six years.
+registries_checked:
+- registry: npm
+  result: 3 community packages, 0 official
+- registry: pypi
+  result: 1 community package (pycrunchbase), 0 official; crunchbase, crunchbase-api and crunchbase-python all 404
+- registry: rubygems
+  result: 1 community package, 0 official
+- registry: crates.io
+  result: 404 - no crate named crunchbase
+- registry: nuget
+  result: 404 - no package named crunchbase
+- registry: pkg.go.dev / proxy.golang.org
+  result: 404 - no module github.com/crunchbase/crunchbase-go
+- registry: github
+  result: >-
+    github.com/crunchbase has 17 public repositories, all forks of third-party
+    projects; no first-party client library or MCP package.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

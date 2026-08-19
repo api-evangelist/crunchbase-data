@@ -1,0 +1,58 @@
+generated: '2026-08-14'
+method: generated
+source: >-
+  Authored against openapi/crunchbase-data-*-openapi.yml (109 verified operationIds),
+  conventions/crunchbase-data-conventions.yml,
+  errors/crunchbase-data-problem-types.yml and
+  rate-limits/crunchbase-data-rate-limits.yml. Crunchbase publishes no AGENTS.md or
+  skill files of its own; these are API Evangelist packaged skills, not vendor
+  content. Every operationId referenced was grepped out of the specs.
+description: >-
+  Four packaged Agent Skills covering the marquee flows of the Crunchbase Data API.
+  Each one is written against the failure modes that actually bite an agent on this
+  API: identifiers that must be resolved before they are filtered on, cards that cap
+  at 100 items, a 200-per-minute budget with no rate-limit headers, a 401 that is
+  really a licence-package failure, and model output that must not be restated as fact.
+skills:
+- file: crunchbase-data-resolve-and-enrich-a-company.md
+  name: Resolve and enrich a company with Crunchbase
+  api: openapi/crunchbase-data-firmographic-openapi.yml
+  operations:
+  - autocompletes
+  - getOrganization
+  - getOrganizationCard
+- file: crunchbase-data-screen-funding-rounds.md
+  name: Screen recent funding rounds with Crunchbase Search
+  api: openapi/crunchbase-data-core-financials-openapi.yml
+  operations:
+  - autocompletes
+  - searchFundingRounds
+  - getFundingRound
+  - getOrganization
+- file: crunchbase-data-sync-and-reconcile-deletions.md
+  name: Keep a local Crunchbase mirror reconciled
+  api: openapi/crunchbase-data-firmographic-openapi.yml
+  operations:
+  - getDeletedEntities
+  - getDeletedEntitiesForCollection
+  - getOrganization
+- file: crunchbase-data-read-predictions-and-insights.md
+  name: Read Crunchbase predictions and insights safely
+  api: openapi/crunchbase-data-predictions-insights-openapi.yml
+  operations:
+  - searchFundingPredictions
+  - getFundingPrediction
+  - searchGrowthPredictions
+  - getGrowthPrediction
+  - searchAcquisitionPredictions
+  - searchIpoPredictions
+  - searchLayoffPredictions
+  - searchClosurePredictions
+  - searchInvestorMatches
+  - searchMarketInsights
+  - getMarketInsight
+  - getMarketInsightCard
+  - getOrganization
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,97 @@
+generated: '2026-08-14'
+method: searched
+source: https://about.crunchbase.com/product-updates/
+description: >-
+  Crunchbase publishes a dated monthly "Product Updates and Release Notes" page on its
+  marketing site. It is the only public dated record of what changed in the API. Each
+  item is tagged with where it lands - "Available in: API", "API and UI", or a named
+  package such as "API (Predictions & Insights)" - which makes it usable as an API
+  changelog even though it is not hosted on the developer docs host, carries no
+  version numbers, and offers no RSS/Atom feed or per-entry permalinks.
+scheme: dated-monthly
+current_version: v4 (spec info.version 1.1.0)
+url: https://about.crunchbase.com/product-updates/
+feed: null
+breaking_changes_flagged: false
+breaking_note: >-
+  No entry in the window below is labelled breaking, and the page has no
+  breaking/additive convention. The one genuinely breaking change of the period - the
+  /data/ path segment and the legacy key retirement - is documented in the migration
+  guides, not here.
+window: 2026-01 through 2026-07
+entries:
+- date: '2026-07'
+  surface: API and UI
+  breaking: false
+  highlights:
+  - >-
+    Crunchbase MCP released to general availability - live private market intelligence
+    in MCP-compatible AI tools including ChatGPT, Claude and Perplexity.
+  - >-
+    New Market Insights classify industries and micro-industries as growing or
+    declining, with signals across funding, exits, company activity, product growth and
+    market trends; refreshed weekly. Available in API (Predictions & Insights).
+  - >-
+    More than 460K companies added in July 2026 (147K North America, 127K Europe, 21K
+    Asia); coverage grown to 343K investors and 812K+ funds.
+- date: '2026-06'
+  surface: API and UI
+  breaking: false
+  highlights:
+  - >-
+    New suite of market insights - micro-industries data, enhanced competitor
+    intelligence, and a Market Insights signal. Available in API and UI (Crunchbase
+    Business).
+  - Company coverage surpassed 5 million as of June 2026.
+  - >-
+    Post-money valuation now distinguishes confirmed values from Crunchbase estimates.
+    Available in API via Funding Round entity field post_money_valuation_source.
+  - >-
+    New API Dashboard for Enterprise API users - usage trends, endpoint-level
+    visibility and consumption insights.
+  - Crunchbase MCP Server for Finance entered early access ahead of July general availability.
+  - CompanyIQ founder experience entered early access.
+- date: '2026-05'
+  surface: API and UI
+  breaking: false
+  highlights:
+  - >-
+    Micro-industries - more than 5,100 available as of May 2026. Available in API via
+    the micro_categories endpoint and in UI (Crunchbase Business).
+  - Crunchbase MCP Server for Finance in beta with early adopters.
+  - More than 350,000 companies added in May 2026 across Europe, North America and Asia.
+  - >-
+    Expanded competitor reasons and more precise competitor pairings, 90% precision
+    across each company's top three competitors. Available in API via the
+    org_similarities endpoint.
+- date: '2026-04'
+  surface: API and UI
+  breaking: false
+  highlights:
+  - Competitor results more precisely ranked, with shared industries, products and markets as context (UI).
+  - Expanded company coverage in Canada.
+  - Crunchbase MCP Server for Finance beta continuing.
+- date: '2026-03'
+  surface: API and UI
+  breaking: false
+  highlights:
+  - Coverage expanded past 4.3M organizations as of March 2026.
+  - >-
+    Acquisition, IPO and Closure Predictions gained time horizons (0-6, 6-12, 12-24 and
+    24+ months). Available in API.
+  - >-
+    Post-money valuation now includes both reported and estimated values, raising
+    coverage to roughly 400K funding rounds.
+  - More than 455 million predictions generated as of March 2026.
+- date: '2026-02'
+  surface: API and UI
+  breaking: false
+  highlights:
+  - >-
+    Funding Predictions now identify likely investors for companies with positive
+    predictions. Available in API via the investor_matches endpoint.
+  - Competitor Reasons expose shared locations and industries; competitor suggestions in Search (UI).
+  - Market Maps shown only where a company belongs to a relevant map (UI).
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Crunchbase Data API v4 Autocomplete Search API",
+    "version": "4.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "user_key",
+      "value": "{{user_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search a collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.crunchbase.com/v4/data/searches/:collection",
+            "params": [
+              {
+                "name": "collection",
+                "value": "",
+                "type": "path",
+                "description": "The core entity collection (e.g. organizations, people, funding_rounds, acquisitions)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Searches a collection (organizations, people, funding_rounds, acquisitions, and others) using a JSON body of field_ids to return and an array of query filters combined with AND logic. Returns 50 items by default and up to 1000 per request, with keyset pagination via after_id or before_id."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,98 @@
+generated: '2026-08-14'
+method: searched
+source: https://data.crunchbase.com/docs/legacy-migration-overview
+sources:
+- https://data.crunchbase.com/docs/legacy-migration-overview
+- https://data.crunchbase.com/docs/calling-api-endpoints
+- https://data.crunchbase.com/docs/legacy-export
+- https://data.crunchbase.com/docs/updating-legacy-csv-workflows
+- https://data.crunchbase.com/docs/crm-enrichment
+- https://about.crunchbase.com/product-updates/
+- openapi/crunchbase-data-predictions-insights-openapi.yml
+description: >-
+  Crunchbase runs a real, currently-active API migration - legacy keys and legacy
+  endpoint URLs are being retired in favour of package-scoped keys and a /data/ path
+  segment - but it publishes no versioning policy, no deprecation policy, no Sunset or
+  Deprecation header support, no SLA and no status page. The migration is communicated
+  per-customer through a CSM and a Knowledge Center article rather than as a dated
+  policy an integrator can plan against.
+versioning:
+  scheme: uri-path
+  current: v4
+  base_url: https://api.crunchbase.com/v4
+  spec_version: 1.1.0
+  policy_url: null
+  policy_published: false
+  note: >-
+    All six published OpenAPI documents carry info.version 1.1.0 with no changelog
+    inside the spec. Nothing states how a breaking change to v4 would be announced or
+    how long a v3 would be supported.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  deprecated_operations: []
+  note: >-
+    Zero operations across all 109 in the six specs carry `deprecated: true`. There
+    is no RFC 8594 Sunset or Deprecation header contract. Retirement is handled by
+    conversation: the migration guide instructs the customer to "let our team know and
+    we'll deprecate your legacy API key", so the sunset date for any given integration
+    is negotiated, not published.
+migration:
+  active: true
+  name: Legacy API key and endpoint migration
+  docs: https://data.crunchbase.com/docs/legacy-migration-overview
+  what_changed:
+  - >-
+    Legacy API keys replaced by package-scoped keys (Fundamentals / Insights /
+    Predictions), retrieved from Account Settings > Integrations > Crunchbase API.
+  - >-
+    Endpoint paths gain a /data/ segment after the version - .../v4/entities/... became
+    .../v4/data/entities/.... Crunchbase states this is the ONLY structural URL change.
+  - Legacy CSV export workflows must be repointed to the new key.
+  - CRM enrichment integrations (Salesforce, Monday.com) must be repointed to the new key.
+  sunset_date: null
+  sunset_note: No public cutover date. Legacy keys are deprecated per-customer on request after the customer validates the new key.
+  legacy_url_mapping: >-
+    Published as a Google Sheet linked from
+    https://data.crunchbase.com/docs/calling-api-endpoints - a spreadsheet, not a
+    machine-readable mapping.
+sla:
+  url: null
+  published: false
+  uptime_target: null
+  note: No public SLA. Enterprise terms are contractual and not published.
+status_page:
+  url: null
+  published: false
+  probed:
+  - url: https://status.crunchbase.com/
+    status: 0
+    note: DNS does not resolve.
+  - url: https://crunchbase.statuspage.io
+    status: 200
+    note: >-
+      Returns the marketing site HTML shell, not an Atlassian Statuspage. No
+      /api/v2/summary.json component data is served. Treated as a miss - Crunchbase
+      publishes no operational status page.
+release_communication:
+  changelog: https://about.crunchbase.com/product-updates/
+  cadence: monthly
+  note: >-
+    Dated monthly "Product Updates and Release Notes" on the marketing site, tagging
+    each item with where it lands (API, UI, or a named package). It is the only dated
+    public record of API change - see changelog/crunchbase-data-changelog.yml. It is
+    not on the developer docs host and has no feed.
+observability:
+  api_dashboard:
+    available: true
+    audience: Enterprise API customers
+    announced: '2026-06'
+    note: >-
+      Usage trends, endpoint-level visibility and consumption insights, in the
+      Crunchbase UI. Announced in the June 2026 product updates. There is no metering
+      REST endpoint; the MCP server exposes cb_metering_get_state for the same need.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

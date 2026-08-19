@@ -4,7 +4,10 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Crunchbase
 providerId: crunchbase-data
 created: '2026-07-11'
-modified: '2026-07-11'
+modified: '2026-08-14'
+generated: '2026-08-14'
+method: searched
+source: https://data.crunchbase.com/docs/using-the-api
 reconciled: false
 tags:
 - Company Data
@@ -13,57 +16,90 @@ tags:
 - Rate Limiting
 - Quotas
 description: >-
-  Crunchbase documents a single API-wide rate limit of 200 calls per minute
-  across the Data API endpoints, applied to protect platform reliability and
-  performance. Beyond the per-minute request cap, usage is governed by the
-  terms of the account's license (Enterprise, Applications, or Basic) rather
-  than by published per-endpoint quotas. Search responses are additionally
-  bounded to 50 items by default and 1000 items maximum per request, with
-  keyset pagination (after_id / before_id) used to traverse larger result sets.
+  Crunchbase documents a single API-wide rate limit of 200 calls per minute across the
+  Data API endpoints, applied to protect platform reliability and performance. Beyond
+  that per-minute cap, usage is governed by the terms of the account's licence
+  (Enterprise, Applications, or Basic) rather than by published per-endpoint quotas.
+  Response sizes are separately bounded: search returns 50 items by default and 1000
+  maximum, autocomplete caps at 25, and a card included inline on an entity lookup
+  returns at most 100 items. Keyset cursors (after_id / before_id) traverse anything
+  larger.
 notes: >-
-  All requests must be HTTPS; non-HTTPS calls return HTTP 426. Total monthly
-  call allowances and any per-license quotas are set by contract and are not
-  published; confirm with Crunchbase during reconciliation.
+  The material gap is on the response side, not the request side. Crunchbase publishes
+  NO rate-limit response headers - no RateLimit-Limit / RateLimit-Remaining /
+  RateLimit-Reset, no X-RateLimit-*, and no Retry-After on 429. The documented remedy
+  for repeatedly hitting the limit is "reach out to your CSM". An agent therefore has
+  no runtime signal for remaining quota and must budget entirely client-side. Total
+  monthly call allowances and any per-licence quotas are contractual and unpublished.
+  An API Dashboard with usage trends and endpoint-level visibility was announced for
+  Enterprise customers in June 2026, but it is a UI surface - there is no metering REST
+  endpoint. The MCP server exposes cb_metering_get_state for the same need.
 sources:
 - https://data.crunchbase.com/docs/using-the-api
 - https://data.crunchbase.com/docs/using-search-apis
-- https://about.crunchbase.com/products/crunchbase-api/
+- https://data.crunchbase.com/docs/using-autocomplete-api
+- https://data.crunchbase.com/docs/getting-more-results-from-card_id
+- https://about.crunchbase.com/product-updates/
 responseCodes:
   throttled: 429
   httpsRequired: 426
+  unauthorized: 401
+responseHeaders: []
+responseHeadersNote: >-
+  Verified absent from the documentation and from all six published OpenAPI documents -
+  no operation declares a rate-limit response header, and 429 is not declared as a
+  response at all. Recorded as an honest zero.
+limit_count: 5
 limits:
 - name: API Calls
   scope: account
   metric: requests
   limit: 200 per minute
-  notes: Documented API-wide rate limit across all Data API endpoints.
+  window: 60s
+  notes: Documented API-wide rate limit across all Data API endpoints, per API key.
+  source: https://data.crunchbase.com/docs/using-the-api
 - name: Search Result Size
   scope: request
   metric: items
   limit: 50 default / 1000 max
-  notes: Per-request result cap on POST /searches/{collection}; page with after_id / before_id.
+  notes: >-
+    Per-request result cap on POST /data/searches/{collection}; page with after_id /
+    before_id. The real ceiling within 1000 depends on the licence.
+  source: https://data.crunchbase.com/docs/using-search-apis
 - name: Autocomplete Result Size
   scope: request
   metric: items
-  limit: 25 max
-  notes: The limit query parameter on GET /autocompletes maxes at 25.
+  limit: 10 default / 25 max
+  notes: The limit query parameter on GET /data/autocompletes maxes at 25. No pagination.
+  source: https://data.crunchbase.com/docs/using-autocomplete-api
 - name: Entity Card Inline Items
   scope: request
   metric: items
   limit: 100 per card
-  notes: Cards included via card_ids return at most 100 items; use the card endpoint for more.
-- name: License Call Allowance
+  notes: >-
+    Cards included via card_ids on an entity lookup return at most 100 items; use
+    GET /data/entities/{collection}/{entity_id}/cards/{card_id} with a keyset cursor
+    for more.
+  source: https://data.crunchbase.com/docs/getting-more-results-from-card_id
+- name: Licence Call Allowance
   scope: account
   metric: requests
   limit: per contract
-  notes: Total call volume is governed by the Enterprise / Applications / Basic license terms; not publicly published.
+  notes: >-
+    Total call volume is governed by the Enterprise / Applications / Basic licence
+    terms; not publicly published.
 policies:
 - name: HTTPS Required
   description: All API requests must use HTTPS; non-HTTPS requests are rejected with HTTP 426.
 - name: Keyset Pagination
-  description: Search and list endpoints use keyset cursors (after_id / before_id) so results stay stable as the dataset changes.
+  description: >-
+    Search, card and deleted-entity endpoints use keyset cursors (after_id / before_id
+    over entity UUIDs) so results stay stable as the graph changes.
 - name: Backoff Strategy
-  description: Clients should stay under 200 calls/minute and implement exponential backoff with jitter, honoring Retry-After on 429 responses.
+  description: >-
+    Clients should stay under 200 calls/minute and implement exponential backoff with
+    jitter on 429. Because no Retry-After is returned, the backoff schedule has to be
+    chosen by the client rather than honoured from the response.
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

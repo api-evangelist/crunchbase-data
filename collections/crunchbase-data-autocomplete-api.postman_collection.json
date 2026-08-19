@@ -1,0 +1,259 @@
+{
+  "item": [
+    {
+      "id": "19109414-ec79-4388-93eb-afb2c842e4d1",
+      "name": "Autocomplete",
+      "description": {
+        "content": "Resolve a query string to matching entity identifiers.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ca27c1f8-c5a3-44f8-a0a1-67e03b5f09f6",
+          "name": "Autocomplete entities",
+          "request": {
+            "name": "Autocomplete entities",
+            "description": {
+              "content": "Suggests matching entities for a query string, optionally scoped to one or more collections (e.g. organization.companies, principal.investors, categories). Commonly used to resolve UUIDs or permalinks for downstream Search or Entity Lookup calls.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "autocompletes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "(Required) The search string to autocomplete."
+                },
+                {
+                  "disabled": false,
+                  "key": "collection_ids",
+                  "value": "<string>",
+                  "description": "Comma-separated list of collection ids to scope suggestions to (e.g. organization.companies, principal.investors, categories)."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Number of results to return (maximum 25)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "967cdf5a-09db-4d1b-9446-3ad5fad90ac2",
+              "name": "A list of suggested entity identifiers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "autocompletes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "collection_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 5897,\n  \"entities\": [\n    {\n      \"identifier\": {\n        \"uuid\": \"bb008d05-73d2-9001-3f5a-e07c2f0dc498\",\n        \"value\": \"string\",\n        \"permalink\": \"string\",\n        \"entity_def_id\": \"string\",\n        \"image_id\": \"string\"\n      },\n      \"short_description\": \"string\"\n    },\n    {\n      \"identifier\": {\n        \"uuid\": \"a7f5ac8f-0f59-3e3d-f5b4-2953e572ee37\",\n        \"value\": \"string\",\n        \"permalink\": \"string\",\n        \"entity_def_id\": \"string\",\n        \"image_id\": \"string\"\n      },\n      \"short_description\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ff04fa76-de5f-405b-8bc0-8af08c4ab00f",
+              "name": "Missing, invalid, or unlicensed API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "autocompletes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "collection_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 3510,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0f7b8ac4-1fc0-4f9c-941a-4f2776ae0727",
+              "name": "Rate limit exceeded (200 calls per minute).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "autocompletes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "collection_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "user_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": 3510,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.crunchbase.com/v4/data",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "user_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "81020fd2-b3ed-4273-b614-da2776590240",
+    "name": "Crunchbase Data API v4 Autocomplete API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Crunchbase Data API (REST v4) provides programmatic access to Crunchbase's graph of company, funding, investor, and people data - organizations, people, funding rounds, acquisitions, investments, events, and more. It is a read-only RESTful service with four logical surfaces: Entity Lookup (retrieve a single entity and its related \"cards\"), Search (query a collection with field filters and keyset pagination), Autocomplete (resolve a query string to entity identifiers), and Deleted Entities / Deltas (detect entities removed from the Crunchbase Graph so downstream databases can be reconciled). Access is subscription-gated: the full API requires a Crunchbase Enterprise or Applications license, while a reduced Basic API is available to Crunchbase Basic plan holders. All requests must be made over HTTPS (non-HTTPS calls return 426) and are authenticated with an API key passed either as the `user_key` query parameter or the `X-cb-user-key` header.\nEndpoint paths, HTTP methods, authentication, and rate limits below are grounded in the public Crunchbase developer documentation (data.crunchbase.com/docs). Because live responses are license-gated, request and response object schemas are honestly modeled from the documentation rather than captured from live calls; see x-endpoints-modeled.\n\nContact Support:\n Name: Crunchbase",
+      "type": "text/plain"
+    }
+  }
+}

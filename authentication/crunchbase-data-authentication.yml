@@ -1,34 +1,120 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/crunchbase-data-openapi.yml
+generated: '2026-08-14'
+method: searched
+source: https://data.crunchbase.com/docs/using-the-api
+docs: https://data.crunchbase.com/docs/using-the-api
+sources:
+- https://data.crunchbase.com/docs/using-the-api
+- https://data.crunchbase.com/docs/calling-api-endpoints
+- https://data.crunchbase.com/docs/connecting-ai-tools
+- https://www.crunchbase.com/.well-known/oauth-authorization-server
+- https://mcp.crunchbase.com/.well-known/oauth-protected-resource
+- openapi/crunchbase-data-predictions-insights-openapi.yml
+description: >-
+  Crunchbase runs two independent authentication models. The REST Data API is a single
+  account-level API key with no scopes and no user identity - the key IS the licence,
+  and which of the six packages it is provisioned against determines which of the 109
+  operations it can call. The MCP server is separate: OAuth 2.1 with PKCE against
+  www.crunchbase.com, executing as the signed-in Crunchbase user, gated by an MCP seat.
+  A key does not work on MCP and an OAuth token does not work on the REST API.
 summary:
   types:
   - apiKey
+  - oauth2
+  api_key_in:
+  - header
+  - query
+  oauth2_flows:
+  - authorizationCode
 schemes:
-- name: userKeyQuery
-  type: apiKey
-  in: query
-  parameter: user_key
-  description: >-
-    API key passed as the user_key query parameter, e.g.
-    ?user_key=YOUR_API_KEY. Issued with a Crunchbase Enterprise, Applications,
-    or Basic license.
-  sources:
-  - openapi/crunchbase-data-openapi.yml
-  - https://data.crunchbase.com/docs/using-the-api
-- name: userKeyHeader
+- name: ApiKeyAuthHeader
+  surface: REST Data API
   type: apiKey
   in: header
   parameter: X-cb-user-key
   description: >-
-    API key passed as the X-cb-user-key request header. Preferred over the
-    query parameter to avoid leaking the key in logs and URLs.
+    API key passed as the X-cb-user-key request header. The only scheme declared by the
+    six published OpenAPI documents, and the form Crunchbase's own cURL examples use.
+    Preferred - it keeps a long-lived credential out of URLs and proxy logs.
   sources:
-  - openapi/crunchbase-data-openapi.yml
+  - openapi/crunchbase-data-advanced-financials-openapi.yml
+  - openapi/crunchbase-data-core-financials-openapi.yml
+  - openapi/crunchbase-data-firmographic-openapi.yml
+  - openapi/crunchbase-data-insights-openapi.yml
+  - openapi/crunchbase-data-predictions-insights-openapi.yml
+  - openapi/crunchbase-data-predictions-openapi.yml
   - https://data.crunchbase.com/docs/using-the-api
-notes: >-
-  All requests must use HTTPS; non-HTTPS calls return HTTP 426. API keys are
-  license-gated - full API access requires a Crunchbase Enterprise or
-  Applications license, with a reduced Basic API for Crunchbase Basic plan
-  holders. There is no OAuth or user-delegated flow; access is a single
-  account-level API key.
+- name: userKeyQuery
+  surface: REST Data API
+  type: apiKey
+  in: query
+  parameter: user_key
+  description: >-
+    The same key passed as the user_key query parameter, e.g.
+    ?user_key=YOUR_API_KEY. Documented and supported but NOT declared in any of the six
+    OpenAPI documents - a real gap between the contract and the docs.
+  declared_in_spec: false
+  sources:
+  - https://data.crunchbase.com/docs/using-the-api
+- name: MCPOAuth
+  surface: MCP server (https://mcp.crunchbase.com)
+  type: oauth2
+  flow: authorizationCode
+  pkce: true
+  pkce_methods:
+  - S256
+  - plain
+  issuer: https://www.crunchbase.com
+  authorizationUrl: https://www.crunchbase.com/oauth/authorize
+  tokenUrl: https://oauth.crunchbase.com/token
+  revocationUrl: https://oauth.crunchbase.com/revoke
+  grant_types:
+  - authorization_code
+  - refresh_token
+  token_endpoint_auth_methods:
+  - client_secret_post
+  - none
+  scopes:
+  - offline_access
+  - lists.read
+  client_registration: >-
+    Client ID Metadata Documents (CIMD) supported; Dynamic Client Registration
+    explicitly NOT supported. Clients without CIMD need a client_id/client_secret
+    pre-registered by a Crunchbase CSM and retrieved under Settings > Integrations > MCP.
+  sources:
+  - https://www.crunchbase.com/.well-known/oauth-authorization-server
+  - https://mcp.crunchbase.com/.well-known/oauth-protected-resource
+  - https://data.crunchbase.com/docs/connecting-ai-tools
+key_issuance:
+  self_serve: false
+  where: Crunchbase UI - Account Settings > Integrations > Crunchbase API Key ("Show Key")
+  gate: >-
+    Full API access requires an Enterprise or Applications licence. Holders of the paid
+    Crunchbase Basic plan get a reduced Basic API. There is no free or trial API key.
+  support_contact: api@crunchbase.com
+  note: >-
+    Legacy keys are being retired. Each legacy key has been mapped to the data package
+    that mirrors its previous plan; see lifecycle/crunchbase-data-lifecycle.yml.
+transport:
+  https_required: true
+  http_response: 426
+authorization_model:
+  rest: >-
+    No scopes and no roles. Authorization is package-shaped: the key is provisioned to
+    one of Fundamentals / Insights / Predictions (published as six OpenAPI documents),
+    and an operation outside that package is simply not callable. There is no way to
+    express least privilege within a key.
+  mcp: >-
+    Two OAuth scopes (offline_access, lists.read) plus a per-user MCP seat that
+    Crunchbase documents as carrying its highest level of data access including
+    predictions and insights. Notably, no lists.write scope is advertised even though
+    cb_list_create and cb_list_add_entities are documented write tools.
+observed:
+  unauthenticated_response:
+    status: 401
+    body: '[{"status":401,"code":"LA401","message":"Unauthorized user_key"}]'
+    note: >-
+      Probed 2026-08-14. Every path on api.crunchbase.com returns this, including
+      /.well-known/* - the origin authenticates ahead of routing.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

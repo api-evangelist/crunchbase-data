@@ -1,0 +1,122 @@
+generated: '2026-08-14'
+method: probed
+source: live GET of /.well-known/* on every apis.yml + OpenAPI servers[] host
+description: >-
+  Crunchbase serves a real, populated /.well-known/ discovery surface, but it is
+  split across three hosts. The developer-documentation host
+  (data.crunchbase.com) serves an RFC 9727 api-catalog linkset that points at six
+  first-party OpenAPI documents - this is how the machine-readable contract for
+  the Crunchbase Data API is actually discoverable, and it is the only place it
+  is published. The product host (www.crunchbase.com) serves an RFC 9116
+  security.txt and RFC 8414 OAuth authorization-server metadata. The MCP host
+  (mcp.crunchbase.com) serves RFC 9728 OAuth protected-resource metadata. The API
+  host itself (api.crunchbase.com) answers every path with HTTP 401
+  "Unauthorized user_key" because the whole origin is key-gated ahead of routing.
+hosts:
+- host: data.crunchbase.com
+  role: developer documentation / API reference
+  documents:
+  - path: /.well-known/api-catalog
+    status: 200
+    rfc: RFC 9727
+    file: crunchbase-data-api-catalog.json
+    note: >-
+      Linkset with six service-desc entries pointing at
+      https://data.crunchbase.com/openapi/{advanced-financials,core-financials,firmographic,insights,predictions-insights,predictions}.yaml
+      - all six fetched 200 and are saved verbatim in openapi/.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: www.crunchbase.com
+  role: product / web application
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    rfc: RFC 9116
+    file: crunchbase-data-security.txt
+    note: Contact mailto:security@crunchbase.com; Policy https://www.crunchbase.com/.well-known/security-policy.html
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    rfc: RFC 8414
+    file: crunchbase-data-oauth-authorization-server.json
+    note: >-
+      issuer https://www.crunchbase.com; authorization_code + refresh_token;
+      PKCE S256; scopes_supported [offline_access, lists.read];
+      client_id_metadata_document_supported true (CIMD), no dynamic client
+      registration endpoint advertised.
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: mcp.crunchbase.com
+  role: remote MCP server
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    rfc: RFC 9728
+    file: crunchbase-data-oauth-protected-resource.json
+    note: >-
+      resource https://mcp.crunchbase.com; authorization_servers
+      [https://www.crunchbase.com]; scopes_supported [offline_access].
+- host: api.crunchbase.com
+  role: production API
+  note: >-
+    Every /.well-known/* path returns HTTP 401 with body
+    [{"status":401,"code":"LA401","message":"Unauthorized user_key"}]. The origin
+    requires an API key before routing, so no anonymous discovery document can be
+    served here. Recorded as gated, not as absent.
+  documents:
+  - path: /.well-known/security.txt
+    status: 401
+  - path: /.well-known/openid-configuration
+    status: 401
+  - path: /.well-known/oauth-authorization-server
+    status: 401
+  - path: /.well-known/oauth-protected-resource
+    status: 401
+  - path: /.well-known/api-catalog
+    status: 401
+  - path: /.well-known/ai-plugin.json
+    status: 401
+  - path: /.well-known/agent-card.json
+    status: 401
+  - path: /.well-known/agent.json
+    status: 401
+- host: about.crunchbase.com
+  role: marketing site
+  note: All /.well-known/* paths return 404 with a static "Invalid .well-known request" body.
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+summary:
+  hits: 4
+  api_catalog: true
+  security_txt: true
+  oauth_metadata: true
+  agent_card: false
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

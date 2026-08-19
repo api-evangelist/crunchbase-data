@@ -1,0 +1,138 @@
+generated: '2026-08-14'
+method: derived
+source: >-
+  openapi/crunchbase-data-*-openapi.yml, well-known/crunchbase-data-well-known.yml,
+  scopes/crunchbase-data-scopes.yml, and live probes of the crunchbase.com hosts
+sources:
+- https://data.crunchbase.com/.well-known/api-catalog
+- https://www.crunchbase.com/.well-known/security.txt
+- https://www.crunchbase.com/.well-known/oauth-authorization-server
+- https://mcp.crunchbase.com/.well-known/oauth-protected-resource
+- https://data.crunchbase.com/docs/tool-reference
+description: >-
+  Which cross-cutting web/API standards the Crunchbase surface actually conforms to.
+  The pattern is unusual and worth naming: the DISCOVERY layer is unusually
+  standards-current for a data vendor - RFC 9727 api-catalog, RFC 9116 security.txt,
+  RFC 8414 and RFC 9728 OAuth metadata, MCP, llms.txt are all served and all real -
+  while the REST API itself is conventional and thin, with a bespoke error shape, no
+  OAuth, no RFC 9457 and no HTTP caching or rate-limit header contract.
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: >-
+    Six documents at openapi 3.0.1, published by Crunchbase and indexed by its own
+    api-catalog. 109 unique operations, every one with an operationId, a summary, tags,
+    and 200/400/404/500 responses.
+- id: openapi-3.1
+  conforms: false
+  evidence: All six documents declare 3.0.1.
+- id: rfc9727-api-catalog
+  conforms: true
+  evidence: >-
+    https://data.crunchbase.com/.well-known/api-catalog returns 200 with a valid
+    linkset whose six service-desc entries resolve to real OpenAPI documents.
+- id: rfc9116-security-txt
+  conforms: true
+  evidence: >-
+    https://www.crunchbase.com/.well-known/security.txt returns 200 with Contact,
+    Encryption, Preferred-Languages, Canonical, Policy and Hiring fields.
+  gap: No Expires field, which RFC 9116 requires.
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: true
+  evidence: >-
+    https://www.crunchbase.com/.well-known/oauth-authorization-server returns 200 with
+    issuer, authorization_endpoint, token_endpoint, revocation_endpoint,
+    grant_types_supported, response_types_supported, scopes_supported and
+    code_challenge_methods_supported.
+- id: rfc9728-oauth-protected-resource-metadata
+  conforms: true
+  evidence: >-
+    https://mcp.crunchbase.com/.well-known/oauth-protected-resource returns 200 with
+    resource, authorization_servers and scopes_supported.
+- id: oauth2
+  conforms: true
+  scope: MCP server only
+  evidence: >-
+    OAuth 2.1 authorization_code + refresh_token with PKCE (S256 and plain) against
+    https://www.crunchbase.com. The REST Data API has no OAuth surface.
+- id: rfc7636-pkce
+  conforms: true
+  evidence: code_challenge_methods_supported [S256, plain].
+  gap: '"plain" is still advertised; OAuth 2.1 requires S256 and discourages plain.'
+- id: rfc7591-dynamic-client-registration
+  conforms: false
+  evidence: >-
+    Crunchbase states plainly in https://data.crunchbase.com/docs/connecting-ai-tools
+    that DCR is not supported. Client ID Metadata Documents are supported instead;
+    everyone else needs a CSM-issued client_id/client_secret.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on every host.
+- id: mcp
+  conforms: true
+  evidence: >-
+    First-party remote server at https://mcp.crunchbase.com over Streamable HTTP with
+    14 documented tools; RFC 9728 protected-resource metadata served; the vendor
+    documents Claude, ChatGPT, VS Code, Perplexity and Mistral Vibe as clients.
+- id: llmstxt
+  conforms: true
+  evidence: >-
+    https://data.crunchbase.com/llms.txt returns 200 with a 473-line index and a
+    parallel .md rendering of every documentation and reference page.
+- id: a2a
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json return 404 (or 401 on the
+    key-gated API host) on all four hosts probed.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    No operation declares application/problem+json. Errors carry application/json
+    against a schema whose only property is a free-text string.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset or Deprecation header contract is published; no operation is marked deprecated.
+- id: rfc6585-429
+  conforms: true
+  evidence: 429 documented as the rate-limit response.
+  gap: >-
+    RFC 6585 recommends Retry-After on 429. No Retry-After, RateLimit-* or
+    X-RateLimit-* header is published.
+- id: ietf-ratelimit-headers
+  conforms: false
+  evidence: No RateLimit-Limit / RateLimit-Remaining / RateLimit-Reset headers are documented.
+- id: keyset-pagination
+  conforms: true
+  evidence: after_id / before_id cursors over entity UUIDs on search, cards and deleted-entities.
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No idempotency key. Not required on the read-only REST surface, but the MCP list
+    write tools have no idempotency contract either.
+- id: json-api
+  conforms: false
+  evidence: Bespoke envelope; no JSON:API media type or document structure.
+- id: odata
+  conforms: false
+- id: scim
+  conforms: false
+- id: fhir
+  conforms: false
+- id: fapi
+  conforms: false
+- id: psd2
+  conforms: false
+compliance_program:
+  published: false
+  trust_center: null
+  certifications: []
+  note: >-
+    No trust center and no named certifications found. trust.crunchbase.com does not
+    resolve; about.crunchbase.com/trust and /security both return 404. Crunchbase
+    publishes a Vulnerability Disclosure Program (see
+    security/crunchbase-data-vulnerability-disclosure.yml) but no SOC 2 / ISO 27001 /
+    PCI / HIPAA / FedRAMP claim on any public page probed. No Compliance pointer is
+    emitted in apis.yml as a result.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

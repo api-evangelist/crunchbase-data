@@ -1,0 +1,65 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Crunchbase Advanced Financials Package
+  version: 1.0.0
+extends: openapi/crunchbase-data-advanced-financials-openapi.yml
+x-provenance:
+  generated: '2026-08-14'
+  method: generated
+  source: >-
+    Derived from the verbatim Crunchbase document at
+    https://data.crunchbase.com/openapi/advanced-financials.yaml (discovered via
+    https://data.crunchbase.com/.well-known/api-catalog) plus the artifacts in this
+    repo. The original spec is never mutated; every enhancement below is expressed as
+    an Overlay action.
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: crunchbase-data
+      x-apievangelist-package: advanced-financials
+      x-apievangelist-operations: 57
+      x-apievangelist-discovery: https://data.crunchbase.com/.well-known/api-catalog
+      x-apievangelist-artifacts:
+        authentication: authentication/crunchbase-data-authentication.yml
+        conventions: conventions/crunchbase-data-conventions.yml
+        errors: errors/crunchbase-data-problem-types.yml
+        rate_limits: rate-limits/crunchbase-data-rate-limits.yml
+        lifecycle: lifecycle/crunchbase-data-lifecycle.yml
+        data_model: data-model/crunchbase-data-data-model.yml
+        mcp: mcp/crunchbase-data-mcp.yml
+        tool_crosswalk: mcp/crunchbase-data-tool-crosswalk.yml
+        skills: skills/_index.yml
+  - target: $.info
+    update:
+      x-apievangelist-undeclared-responses:
+        note: >-
+          The deployed API returns three statuses no operation in this document
+          declares. Recorded here rather than injected into the original spec.
+        statuses:
+          - status: 401
+            code: LA401
+            body: '[{"status":401,"code":"LA401","message":"Unauthorized user_key"}]'
+            source: live probe of https://api.crunchbase.com 2026-08-14
+          - status: 426
+            meaning: HTTPS required
+            source: https://data.crunchbase.com/docs/using-the-api
+          - status: 429
+            meaning: rate limit exceeded (200 requests per minute)
+            source: https://data.crunchbase.com/docs/using-the-api
+  - target: $.components.securitySchemes
+    update:
+      userKeyQuery:
+        type: apiKey
+        in: query
+        name: user_key
+        description: >-
+          Documented at https://data.crunchbase.com/docs/using-the-api but absent from
+          this document. Supported by the deployed API. Prefer the X-cb-user-key
+          header - the query form places a long-lived credential in URLs and logs.
+  - target: $.servers
+    update:
+      - url: https://api.crunchbase.com/v4
+        description: >-
+          Crunchbase Data API v4 production. All paths in this document are prefixed
+          /data/, so the effective base is https://api.crunchbase.com/v4/data/ as the
+          developer documentation states. HTTPS is mandatory; plain HTTP returns 426.
