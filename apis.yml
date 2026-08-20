@@ -39,6 +39,19 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/crunchbase
 tags:
 - Company Data
 - Web Intelligence
+- funding-data
+- Firmographics
+- B2B Data
+- investor-data
+- Reference Data
+- Private Markets
+- Predictions
+- Market Insights
+- MCP
+- Fortune 1000
+tags_raw:
+- Company Data
+- Web Intelligence
 - Funding Data
 - Firmographics
 - B2B Data
@@ -83,6 +96,10 @@ apis:
   humanURL: https://data.crunchbase.com/docs/fundamentals
   baseURL: https://api.crunchbase.com/v4/data
   tags:
+  - funding-data
+  - investor-data
+  - Company Data
+  tags_raw:
   - Funding Data
   - Investor Data
   - Company Data
@@ -103,6 +120,10 @@ apis:
   humanURL: https://data.crunchbase.com/docs/fundamentals
   baseURL: https://api.crunchbase.com/v4/data
   tags:
+  - funding-data
+  - Private Markets
+  - Company Data
+  tags_raw:
   - Funding Data
   - Private Markets
   - Company Data
@@ -145,6 +166,10 @@ apis:
   humanURL: https://data.crunchbase.com/docs/predictions
   baseURL: https://api.crunchbase.com/v4/data
   tags:
+  - Predictions
+  - Private Markets
+  - investor-data
+  tags_raw:
   - Predictions
   - Private Markets
   - Investor Data
