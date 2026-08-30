@@ -1,0 +1,142 @@
+openapi: 3.2.0
+info:
+  title: Crunchbase Data Metadata API
+  version: 1.1.0
+  contact:
+    email: partnerships@crunchbase.com
+  termsOfService: https://data.crunchbase.com/docs/terms
+  description: 'Operations tagged Metadata across 6 of this provider''s published API definitions: crunchbase-data-advanced-financials-openapi.yml, crunchbase-data-core-financials-openapi.yml, crunchbase-data-firmographic-openapi.yml, crunchbase-data-insights-openapi.yml, crunchbase-data-predictions-insights-openapi.yml, crunchbase-data-predictions-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.crunchbase.com/v4
+security:
+- ApiKeyAuthHeader: []
+tags:
+- name: Metadata
+paths:
+  /md/applications/crunchbase/openapi.yaml:
+    get:
+      tags:
+      - Metadata
+      summary: Retrieve OpenAPI specification document in yaml format
+      operationId: getOpenApiSpecYaml
+      responses:
+        '200':
+          $ref: '#/components/responses/OpenAPISpecification'
+        '400':
+          $ref: '#/components/responses/GenericBadRequestError'
+        '500':
+          $ref: '#/components/responses/GenericInternalServerError'
+    servers:
+    - url: https://api.crunchbase.com/v4
+  /md/applications/crunchbase/openapi.json:
+    get:
+      tags:
+      - Metadata
+      summary: Retrieve OpenAPI specification document in json format
+      operationId: getOpenApiSpecJson
+      responses:
+        '200':
+          $ref: '#/components/responses/OpenAPISpecification'
+        '400':
+          $ref: '#/components/responses/GenericBadRequestError'
+        '500':
+          $ref: '#/components/responses/GenericInternalServerError'
+    servers:
+    - url: https://api.crunchbase.com/v4
+  /md/applications/crunchbase/fields:
+    get:
+      tags:
+      - Metadata
+      summary: Returns the list of fields for collections with type and description
+      operationId: getFieldsMetadata
+      parameters:
+      - name: collection_ids
+        in: query
+        description: A comma separated list of collection ids to filter against. Leaving this blank means it will search across all collections.
+        style: form
+        explode: false
+        schema:
+          title: collection_ids
+          type: array
+          items:
+            type: string
+            enum:
+            - acquisitions
+            - addresses
+            - categories
+            - category_groups
+            - degrees
+            - diversity_spotlights
+            - event_appearances
+            - events
+            - funding_rounds
+            - funds
+            - investments
+            - ipos
+            - jobs
+            - locations
+            - organizations
+            - ownerships
+            - people
+            - press_references
+            - principals
+      responses:
+        '200':
+          $ref: '#/components/responses/FieldsMetadataCSV'
+        '400':
+          $ref: '#/components/responses/GenericBadRequestError'
+        '500':
+          $ref: '#/components/responses/GenericInternalServerError'
+    servers:
+    - url: https://api.crunchbase.com/v4
+components:
+  responses:
+    FieldsMetadataCSV:
+      description: Fields metadata in CSV format
+      content:
+        text/csv:
+          schema:
+            type: string
+            format: binary
+    OpenAPISpecification:
+      description: OpenAPI Specification document
+      content:
+        application/json:
+          schema:
+            type: object
+            description: OpenAPI 3.0 specification document
+    GenericInternalServerError:
+      description: Request Failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    GenericBadRequestError:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+  schemas:
+    Errors:
+      type: object
+      description: Developer friendly error message
+      properties:
+        value:
+          type: string
+          description: stuff
+  securitySchemes:
+    ApiKeyAuthHeader:
+      type: apiKey
+      name: X-cb-user-key
+      in: header
+externalDocs:
+  description: API Reference doc
+  url: https://data.crunchbase.com/docs
+x-refined-from:
+- crunchbase-data-advanced-financials-openapi.yml
+- crunchbase-data-core-financials-openapi.yml
+- crunchbase-data-firmographic-openapi.yml
+- crunchbase-data-insights-openapi.yml
+- crunchbase-data-predictions-insights-openapi.yml
+- crunchbase-data-predictions-openapi.yml

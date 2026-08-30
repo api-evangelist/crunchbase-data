@@ -1,0 +1,496 @@
+openapi: 3.2.0
+info:
+  title: Crunchbase Data Deleted Entities API
+  version: 1.1.0
+  contact:
+    email: partnerships@crunchbase.com
+  termsOfService: https://data.crunchbase.com/docs/terms
+  description: 'Operations tagged Deleted Entities across 6 of this provider''s published API definitions: crunchbase-data-advanced-financials-openapi.yml, crunchbase-data-core-financials-openapi.yml, crunchbase-data-firmographic-openapi.yml, crunchbase-data-insights-openapi.yml, crunchbase-data-predictions-insights-openapi.yml, crunchbase-data-predictions-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.crunchbase.com/v4
+security:
+- ApiKeyAuthHeader: []
+tags:
+- name: Deleted Entities
+paths:
+  /data/deleted_entities:
+    get:
+      tags:
+      - Deleted Entities
+      summary: Retrieve deleted entities.
+      operationId: getDeletedEntities
+      parameters:
+      - name: collection_ids
+        in: query
+        description: Filter by collection id(s). Comma separated list of collection ids.  E.g. acquisitions, categories, event_appearances, events, funding_rounds, funds, investments, ipos, jobs, locations, organizations, ownerships, people, press_references
+        style: form
+        explode: false
+        schema:
+          title: collection_ids
+          type: array
+          items:
+            type: string
+            enum:
+            - acquisitions
+            - categories
+            - event_appearances
+            - events
+            - funding_rounds
+            - funds
+            - investments
+            - ipos
+            - jobs
+            - locations
+            - organizations
+            - ownerships
+            - people
+            - press_references
+      - name: limit
+        in: query
+        description: Number of results to retrieve; default = 10, max = 25
+        schema:
+          title: limit
+          type: integer
+      - name: before_id
+        in: query
+        description: Used to paginate search results to the previous page. before_id should be the uuid of the first item in the current page. May not be provided simultaneously with after_id
+        schema:
+          title: before_id
+          type: string
+          format: uuid
+      - name: after_id
+        in: query
+        description: Used to paginate search results to the next page. after_id should be the uuid of the last item in the current page. May not be provided simultaneously with before_id.
+        schema:
+          title: after_id
+          type: string
+          format: uuid
+      - name: deleted_at_order
+        in: query
+        description: Direction of sorting by deleted_at property
+        schema:
+          title: deleted_at_order
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
+      responses:
+        '200':
+          $ref: '#/components/responses/DeletedEntitiesResult'
+        '400':
+          $ref: '#/components/responses/GenericBadRequestError'
+        '500':
+          $ref: '#/components/responses/GenericInternalServerError'
+    servers:
+    - url: https://api.crunchbase.com/v4
+  /data/deleted_entities/{collection_id}:
+    get:
+      tags:
+      - Deleted Entities
+      summary: Retrieve deleted entities of a specific collection.
+      operationId: getDeletedEntitiesForCollection
+      parameters:
+      - name: collection_id
+        in: path
+        description: Filter by collection Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          title: collection_id
+          type: string
+          enum:
+          - acquisitions
+          - categories
+          - event_appearances
+          - events
+          - funding_rounds
+          - funds
+          - investments
+          - ipos
+          - jobs
+          - locations
+          - organizations
+          - ownerships
+          - people
+          - press_references
+      - name: limit
+        in: query
+        description: Number of results to retrieve; default = 10, max = 25
+        schema:
+          title: limit
+          type: integer
+      - name: before_id
+        in: query
+        description: Used to paginate search results to the previous page. before_id should be the uuid of the first item in the current page. May not be provided simultaneously with after_id
+        schema:
+          title: before_id
+          type: string
+          format: uuid
+      - name: after_id
+        in: query
+        description: Used to paginate search results to the next page. after_id should be the uuid of the last item in the current page. May not be provided simultaneously with before_id.
+        schema:
+          title: after_id
+          type: string
+          format: uuid
+      - name: deleted_at_order
+        in: query
+        description: Direction of sorting by deleted_at property
+        schema:
+          title: deleted_at_order
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
+      responses:
+        '200':
+          $ref: '#/components/responses/DeletedEntitiesResult'
+        '400':
+          $ref: '#/components/responses/GenericBadRequestError'
+        '500':
+          $ref: '#/components/responses/GenericInternalServerError'
+    servers:
+    - url: https://api.crunchbase.com/v4
+components:
+  responses:
+    DeletedEntitiesResult:
+      description: Results are identifiers matching the search query.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              entities:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    deleted_at:
+                      type: string
+                      description: Timestamp when entity was deleted
+                      format: date-time
+                    identifier:
+                      $ref: '#/components/schemas/EntityIdentifier'
+    GenericInternalServerError:
+      description: Request Failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    GenericBadRequestError:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+  schemas:
+    EntityIdentifier:
+      type: object
+      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
+      required:
+      - entity_def_id
+      - uuid
+      properties:
+        entity_def_id:
+          type: string
+          enum:
+          - acquisition
+          - address
+          - category
+          - category_group
+          - degree
+          - diversity_spotlight
+          - event
+          - event_appearance
+          - fund
+          - funding_round
+          - investment
+          - ipo
+          - job
+          - location
+          - organization
+          - ownership
+          - person
+          - press_reference
+        image_id:
+          type: string
+          maxLength: 255
+        permalink:
+          type: string
+          maxLength: 255
+        uuid:
+          type: string
+          description: Universally Unique Identifier
+          format: uuid
+        value:
+          type: string
+          maxLength: 255
+    Errors:
+      type: object
+      description: Developer friendly error message
+      properties:
+        value:
+          type: string
+          description: stuff
+    EntityIdentifier_2:
+      type: object
+      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
+      required:
+      - entity_def_id
+      - uuid
+      properties:
+        entity_def_id:
+          type: string
+          enum:
+          - address
+          - category
+          - category_group
+          - degree
+          - diversity_spotlight
+          - event
+          - event_appearance
+          - investment
+          - ipo
+          - job
+          - location
+          - organization
+          - ownership
+          - person
+        image_id:
+          type: string
+          maxLength: 255
+        permalink:
+          type: string
+          maxLength: 255
+        uuid:
+          type: string
+          description: Universally Unique Identifier
+          format: uuid
+        value:
+          type: string
+          maxLength: 255
+    EntityIdentifier_3:
+      type: object
+      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
+      required:
+      - entity_def_id
+      - uuid
+      properties:
+        entity_def_id:
+          type: string
+          enum:
+          - address
+          - category
+          - category_group
+          - degree
+          - diversity_spotlight
+          - event
+          - event_appearance
+          - ipo
+          - job
+          - location
+          - organization
+          - ownership
+          - person
+        image_id:
+          type: string
+          maxLength: 255
+        permalink:
+          type: string
+          maxLength: 255
+        uuid:
+          type: string
+          description: Universally Unique Identifier
+          format: uuid
+        value:
+          type: string
+          maxLength: 255
+    EntityIdentifier_4:
+      type: object
+      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
+      required:
+      - entity_def_id
+      - uuid
+      properties:
+        entity_def_id:
+          type: string
+          enum:
+          - acquisition
+          - address
+          - award
+          - category
+          - category_group
+          - market_insight
+          - market_insight_reason
+          - current_valuation_estimate
+          - degree
+          - diversity_spotlight
+          - event
+          - event_appearance
+          - fund
+          - funding_round
+          - growth_insight
+          - investment
+          - investor_insight
+          - investor_match
+          - ipo
+          - job
+          - key_employee_change
+          - layoff
+          - legal_proceeding
+          - location
+          - micro_category
+          - organization
+          - org_similarity
+          - product_similarity
+          - ownership
+          - partnership_announcement
+          - person
+          - press_reference
+          - product
+          - product_launch
+          - research_insight
+        image_id:
+          type: string
+          maxLength: 255
+        permalink:
+          type: string
+          maxLength: 255
+        uuid:
+          type: string
+          description: Universally Unique Identifier
+          format: uuid
+        value:
+          type: string
+          maxLength: 255
+    EntityIdentifier_5:
+      type: object
+      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
+      required:
+      - entity_def_id
+      - uuid
+      properties:
+        entity_def_id:
+          type: string
+          enum:
+          - acquisition
+          - acquisition_prediction
+          - address
+          - award
+          - category
+          - category_group
+          - market_insight
+          - market_insight_reason
+          - closure_prediction
+          - current_valuation_estimate
+          - degree
+          - diversity_spotlight
+          - event
+          - event_appearance
+          - fund
+          - funding_prediction
+          - funding_round
+          - growth_insight
+          - growth_prediction
+          - investment
+          - investor_insight
+          - investor_match
+          - ipo
+          - ipo_prediction
+          - job
+          - key_employee_change
+          - layoff
+          - layoff_prediction
+          - legal_proceeding
+          - location
+          - micro_category
+          - remain_private_prediction
+          - organization
+          - org_similarity
+          - product_similarity
+          - ownership
+          - partnership_announcement
+          - person
+          - press_reference
+          - product
+          - product_launch
+          - research_insight
+        image_id:
+          type: string
+          maxLength: 255
+        permalink:
+          type: string
+          maxLength: 255
+        uuid:
+          type: string
+          description: Universally Unique Identifier
+          format: uuid
+        value:
+          type: string
+          maxLength: 255
+    EntityIdentifier_6:
+      type: object
+      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
+      required:
+      - entity_def_id
+      - uuid
+      properties:
+        entity_def_id:
+          type: string
+          enum:
+          - acquisition
+          - acquisition_prediction
+          - address
+          - category
+          - category_group
+          - closure_prediction
+          - degree
+          - diversity_spotlight
+          - event
+          - event_appearance
+          - fund
+          - funding_prediction
+          - funding_round
+          - growth_prediction
+          - investment
+          - ipo
+          - ipo_prediction
+          - job
+          - layoff_prediction
+          - location
+          - remain_private_prediction
+          - organization
+          - ownership
+          - person
+          - press_reference
+        image_id:
+          type: string
+          maxLength: 255
+        permalink:
+          type: string
+          maxLength: 255
+        uuid:
+          type: string
+          description: Universally Unique Identifier
+          format: uuid
+        value:
+          type: string
+          maxLength: 255
+  securitySchemes:
+    ApiKeyAuthHeader:
+      type: apiKey
+      name: X-cb-user-key
+      in: header
+externalDocs:
+  description: API Reference doc
+  url: https://data.crunchbase.com/docs
+x-refined-from:
+- crunchbase-data-advanced-financials-openapi.yml
+- crunchbase-data-core-financials-openapi.yml
+- crunchbase-data-firmographic-openapi.yml
+- crunchbase-data-insights-openapi.yml
+- crunchbase-data-predictions-insights-openapi.yml
+- crunchbase-data-predictions-openapi.yml
