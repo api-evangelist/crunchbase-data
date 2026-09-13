@@ -10,15 +10,12 @@ sources:
 - https://data.crunchbase.com/docs/managing-mcp-access
 - https://mcp.crunchbase.com/.well-known/oauth-protected-resource
 - https://about.crunchbase.com/products/crunchbase-mcp/
-description: >-
-  Crunchbase ships a first-party REMOTE MCP server at https://mcp.crunchbase.com
-  over Streamable HTTP, authenticated with OAuth 2.1 + PKCE against the user's own
-  Crunchbase account. It is not a wrapper over a slice of the REST API: Crunchbase
-  states that everything available through the Data API is available through MCP,
-  plus expert (natural-language) tools and list write operations that have no REST
-  equivalent. Access is sold per workspace and assigned per user as an "MCP seat";
-  an MCP seat carries Crunchbase's highest level of data access, including
-  predictions and insights.
+description: 'Crunchbase ships a first-party REMOTE MCP server at https://mcp.crunchbase.com over Streamable
+  HTTP, authenticated with OAuth 2.1 + PKCE against the user''s own Crunchbase account. It is not a wrapper
+  over a slice of the REST API: Crunchbase states that everything available through the Data API is available
+  through MCP, plus expert (natural-language) tools and list write operations that have no REST equivalent.
+  Access is sold per workspace and assigned per user as an "MCP seat"; an MCP seat carries Crunchbase''s
+  highest level of data access, including predictions and insights.'
 server:
   name: Crunchbase
   transport: http
@@ -31,15 +28,17 @@ deployment:
   endpoint: https://mcp.crunchbase.com
   auth: oauth
   verified: probed
-  note: >-
-    Remote only. Crunchbase publishes no npx/stdio package - the server is a hosted
-    HTTPS endpoint an MCP client POSTs to. Probed 2026-08-14: POST tools/list to
-    https://mcp.crunchbase.com/mcp returned HTTP 401 with an empty JSON object, and
-    https://mcp.crunchbase.com/.well-known/oauth-protected-resource returned 200
-    with resource=https://mcp.crunchbase.com and
-    authorization_servers=[https://www.crunchbase.com]. The live tool schemas are
-    therefore auth-gated; the tools[] below are transcribed from the provider's own
-    published Tool Reference, not from an authenticated tools/list.
+  note: 'Remote only. Crunchbase publishes no npx/stdio package - the server is a hosted HTTPS endpoint
+    an MCP client POSTs to. Probed 2026-08-14: POST tools/list to https://mcp.crunchbase.com/mcp returned
+    HTTP 401 with an empty JSON object, and https://mcp.crunchbase.com/.well-known/oauth-protected-resource
+    returned 200 with resource=https://mcp.crunchbase.com and authorization_servers=[https://www.crunchbase.com].
+    The live tool schemas are therefore auth-gated; the tools[] below are transcribed from the provider''s
+    own published Tool Reference, not from an authenticated tools/list.'
+  probe_prior: (never probed)
+  probe: gated
+  probe_why: RFC 9728 challenge (host-wide OAuth-protected resource)
+  checked: '2026-09-11'
+  source: claimed-backlog re-probe 2026-09-11
 authentication:
   scheme: OAuth 2.1
   pkce: true
@@ -58,18 +57,15 @@ authentication:
   - lists.read
   client_registration:
     cimd: true
-    note: >-
-      Clients supporting Client ID Metadata Documents connect with no registration.
-      Dynamic Client Registration (DCR) is explicitly NOT supported; clients without
-      CIMD need a pre-registered client_id/client_secret issued by a Crunchbase CSM,
-      retrieved under Settings > Integrations > MCP.
+    note: Clients supporting Client ID Metadata Documents connect with no registration. Dynamic Client
+      Registration (DCR) is explicitly NOT supported; clients without CIMD need a pre-registered client_id/client_secret
+      issued by a Crunchbase CSM, retrieved under Settings > Integrations > MCP.
     dcr: false
 access:
   model: per-workspace purchase, per-user MCP seat
   seat_grants: highest level of Crunchbase data access, including predictions and insights
-  programmatic: >-
-    Headless / backend / non-interactive MCP access is offered but arranged
-    individually through a Customer Success Manager; it is not self-serve.
+  programmatic: Headless / backend / non-interactive MCP access is offered but arranged individually through
+    a Customer Success Manager; it is not self-serve.
   docs: https://data.crunchbase.com/docs/managing-mcp-access
 clients_supported:
 - Claude (web, desktop, mobile)
@@ -83,25 +79,19 @@ tool_count: 14
 tools:
 - name: cb_expert_query_answer
   category: expert
-  description: >-
-    Answers a natural-language question using live Crunchbase data; the expert
-    service interprets the question, constructs and executes the queries, and
-    returns an answer with supporting results. Each response carries a request_id
-    needed for cb_expert_submit_feedback.
+  description: Answers a natural-language question using live Crunchbase data; the expert service interprets
+    the question, constructs and executes the queries, and returns an answer with supporting results.
+    Each response carries a request_id needed for cb_expert_submit_feedback.
   write: false
 - name: cb_expert_build_search
   category: expert
-  description: >-
-    Translates a natural-language description of the entities you want into a
-    compiled, structured Crunchbase search, handling field resolution, operator
-    selection and value formatting.
+  description: Translates a natural-language description of the entities you want into a compiled, structured
+    Crunchbase search, handling field resolution, operator selection and value formatting.
   write: false
 - name: cb_expert_query_domain
   category: expert
-  description: >-
-    Answers meta-questions about the shape of the Crunchbase data domain - what
-    entities, fields and relationships exist, and whether a draft question is
-    answerable. Does not query records.
+  description: Answers meta-questions about the shape of the Crunchbase data domain - what entities, fields
+    and relationships exist, and whether a draft question is answerable. Does not query records.
   parameters:
   - name: intent
     type: string
@@ -118,17 +108,16 @@ tools:
   write: false
 - name: cb_expert_resolve_entity
   category: expert
-  description: >-
-    Disambiguates an entity name against the Crunchbase catalog and resolves it to
-    a canonical entity; returns a single match when confident, otherwise a ranked
-    candidate list.
+  description: Disambiguates an entity name against the Crunchbase catalog and resolves it to a canonical
+    entity; returns a single match when confident, otherwise a ranked candidate list.
   parameters:
   - name: name
     type: string
     notes: Required, 1-100 characters.
   - name: collection_id
     type: string
-    notes: 'Collection to search within, e.g. organizations, people, principal.investors. Defaults to organizations + people.'
+    notes: Collection to search within, e.g. organizations, people, principal.investors. Defaults to organizations
+      + people.
   - name: domains
     type: array
     notes: Website domains; strongly preferred - domain lookup takes precedence over name matching.
@@ -137,14 +126,13 @@ tools:
     notes: Up to 10,000 characters of free-text background to improve ranking.
   - name: cb_entity_get
     type: object|null
-    notes: Object with field_ids/card_ids/related_entity_limit to customize the auto-fetched profile, or null to disable.
+    notes: Object with field_ids/card_ids/related_entity_limit to customize the auto-fetched profile,
+      or null to disable.
   write: false
 - name: cb_expert_submit_feedback
   category: expert
-  description: >-
-    Records user feedback on a previous cb_expert_query_answer result; negative
-    feedback may trigger the expert service to rewrite the query and return
-    corrected results.
+  description: Records user feedback on a previous cb_expert_query_answer result; negative feedback may
+    trigger the expert service to rewrite the query and return corrected results.
   parameters:
   - name: subject_request_id
     type: string
@@ -158,19 +146,15 @@ tools:
   write: false
 - name: cb_reference
   category: structured
-  description: >-
-    The schema reference for everything else. Returns Markdown documentation for a
-    given path; empty path or "index" returns the full navigable index. Paths
-    include entities, entities/<entity_def_id>/fields[/<field_id>],
-    entities/<entity_def_id>/cards, field_types, operators, and
-    guidance/{search_query,build_search,query_answer}.
+  description: The schema reference for everything else. Returns Markdown documentation for a given path;
+    empty path or "index" returns the full navigable index. Paths include entities, entities/<entity_def_id>/fields[/<field_id>],
+    entities/<entity_def_id>/cards, field_types, operators, and guidance/{search_query,build_search,query_answer}.
   write: false
 - name: cb_entity_autocomplete
   category: structured
-  description: >-
-    Searches Crunchbase entities by name and returns matching identifiers with
-    short descriptions - the way to obtain valid identifiers (including locations
-    and categories used as filter values) before calling other tools.
+  description: Searches Crunchbase entities by name and returns matching identifiers with short descriptions
+    - the way to obtain valid identifiers (including locations and categories used as filter values) before
+    calling other tools.
   parameters:
   - name: query
     type: string
@@ -184,16 +168,15 @@ tools:
   write: false
 - name: cb_entity_get
   category: structured
-  description: >-
-    Retrieves the full profile for one already-identified entity - fields plus
-    relationship cards. Documented as the most expensive call in the toolset.
+  description: Retrieves the full profile for one already-identified entity - fields plus relationship
+    cards. Documented as the most expensive call in the toolset.
   parameters:
   - name: entity_id
     type: string
     notes: Required. UUID or permalink; must be a real identifier obtained from another tool.
   - name: entity_def_id
     type: string
-    notes: 'Entity type, e.g. organization, person, funding_round. Defaults to organization.'
+    notes: Entity type, e.g. organization, person, funding_round. Defaults to organization.
   - name: field_ids
     type: array
     notes: Specific fields; defaults to all. Pass [] to skip top-level fields.
@@ -209,16 +192,15 @@ tools:
   write: false
 - name: cb_search_query
   category: structured
-  description: >-
-    Executes a structured search and returns matching entities with the requested
-    fields - the deterministic, repeatable precision instrument.
+  description: Executes a structured search and returns matching entities with the requested fields -
+    the deterministic, repeatable precision instrument.
   parameters:
   - name: collection_id
     type: string
-    notes: 'Required, e.g. organization.companies, funding_rounds.'
+    notes: Required, e.g. organization.companies, funding_rounds.
   - name: predicates
     type: array
-    notes: 'Flat {field_id, operator_id, values} filters. Mutually exclusive with query.'
+    notes: Flat {field_id, operator_id, values} filters. Mutually exclusive with query.
   - name: query
     type: array
     notes: Recursive query items with type predicate or sub_query. Mutually exclusive with predicates.
@@ -253,16 +235,13 @@ tools:
   write: false
 - name: cb_metering_get_state
   category: utility
-  description: >-
-    Returns the caller-visible meter states for the current user - which limits
-    apply and how they affect each tool. Takes no parameters.
+  description: Returns the caller-visible meter states for the current user - which limits apply and how
+    they affect each tool. Takes no parameters.
   write: false
-notes: >-
-  Crunchbase documents cb_list_create and cb_list_add_entities as the toolset's only
-  write operations and recommends keeping them on manual approval. The MCP surface is
-  a genuine superset of the REST surface: the five cb_expert_* tools, cb_reference,
-  the four cb_list_* tools and cb_metering_get_state have no public REST operation in
-  the six published OpenAPI documents - see mcp/crunchbase-data-tool-crosswalk.yml.
+notes: 'Crunchbase documents cb_list_create and cb_list_add_entities as the toolset''s only write operations
+  and recommends keeping them on manual approval. The MCP surface is a genuine superset of the REST surface:
+  the five cb_expert_* tools, cb_reference, the four cb_list_* tools and cb_metering_get_state have no
+  public REST operation in the six published OpenAPI documents - see mcp/crunchbase-data-tool-crosswalk.yml.'
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
