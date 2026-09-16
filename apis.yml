@@ -73,11 +73,12 @@ specificationVersion: '0.23'
 apis:
 - aid: crunchbase-data:crunchbase-data-mcp
   name: Crunchbase MCP Server
-  description: 'First-party remote Model Context Protocol server over Streamable HTTP, exposing fourteen tools -
-    five natural-language expert tools, four structured schema/lookup/search tools, four Crunchbase list tools and
-    a metering utility. Authenticated with OAuth 2.1 + PKCE against the signed-in Crunchbase account and gated by
-    a per-user MCP seat. Its surface is a superset of the REST API: ten of the fourteen tools have no public REST
-    equivalent.'
+  description: >-
+    First-party remote Model Context Protocol server over Streamable HTTP, exposing fourteen tools - five
+    natural-language expert tools, four structured schema/lookup/search tools, four Crunchbase list tools
+    and a metering utility. Authenticated with OAuth 2.1 + PKCE against the signed-in Crunchbase account
+    and gated by a per-user MCP seat. Its surface is a superset of the REST API: ten of the fourteen tools
+    have no public REST equivalent.
   humanURL: https://data.crunchbase.com/docs/mcp-overview
   baseURL: https://mcp.crunchbase.com
   tags:
@@ -207,95 +208,6 @@ apis:
     url: data-model/crunchbase-data-data-model.yml
   - type: Documentation
     url: https://data.crunchbase.com/docs/api-packages-overview
-- aid: crunchbase-data:crunchbase-autocomplete-api
-  name: Crunchbase Autocomplete API
-  description: Type-ahead suggestions for entities.
-  humanURL: https://data.crunchbase.com/docs
-  baseURL: https://api.crunchbase.com/api/v4
-  tags:
-  - Autocomplete
-  properties:
-  - type: OpenAPI
-    url: openapi/crunchbase-autocomplete-api-openapi.yml
-  - type: Documentation
-    url: https://data.crunchbase.com/docs
-  - type: Authentication
-    url: https://data.crunchbase.com/docs/authentication
-  - type: RateLimits
-    url: https://data.crunchbase.com/docs/rate-limiting
-  - type: ChangeLog
-    url: https://data.crunchbase.com/docs/changelog
-  - type: JSONSchema
-    url: json-schema/crunchbase-organization-schema.json
-  - type: JSONLDContext
-    url: json-ld/crunchbase-context.jsonld
-- aid: crunchbase-data:crunchbase-deletes-api
-  name: Crunchbase Deletes API
-  description: Feeds of deleted entities for downstream sync.
-  humanURL: https://data.crunchbase.com/docs
-  baseURL: https://api.crunchbase.com/api/v4
-  tags: []
-  tags_raw:
-  - Deletes
-  properties:
-  - type: OpenAPI
-    url: openapi/crunchbase-deletes-api-openapi.yml
-  - type: Documentation
-    url: https://data.crunchbase.com/docs
-  - type: Authentication
-    url: https://data.crunchbase.com/docs/authentication
-  - type: RateLimits
-    url: https://data.crunchbase.com/docs/rate-limiting
-  - type: ChangeLog
-    url: https://data.crunchbase.com/docs/changelog
-  - type: JSONSchema
-    url: json-schema/crunchbase-organization-schema.json
-  - type: JSONLDContext
-    url: json-ld/crunchbase-context.jsonld
-- aid: crunchbase-data:crunchbase-entities-api
-  name: Crunchbase Entities API
-  description: Entity lookup endpoints for organizations, people, funding rounds, acquisitions, and IPOs.
-  humanURL: https://data.crunchbase.com/docs
-  baseURL: https://api.crunchbase.com/api/v4
-  tags:
-  - Entities
-  properties:
-  - type: OpenAPI
-    url: openapi/crunchbase-entities-api-openapi.yml
-  - type: Documentation
-    url: https://data.crunchbase.com/docs
-  - type: Authentication
-    url: https://data.crunchbase.com/docs/authentication
-  - type: RateLimits
-    url: https://data.crunchbase.com/docs/rate-limiting
-  - type: ChangeLog
-    url: https://data.crunchbase.com/docs/changelog
-  - type: JSONSchema
-    url: json-schema/crunchbase-organization-schema.json
-  - type: JSONLDContext
-    url: json-ld/crunchbase-context.jsonld
-- aid: crunchbase-data:crunchbase-search-api
-  name: Crunchbase Search API
-  description: Full-text and faceted search across entity types.
-  humanURL: https://data.crunchbase.com/docs
-  baseURL: https://api.crunchbase.com/api/v4
-  tags:
-  - Search
-  properties:
-  - type: OpenAPI
-    url: openapi/crunchbase-search-api-openapi.yml
-  - type: Documentation
-    url: https://data.crunchbase.com/docs
-  - type: Authentication
-    url: https://data.crunchbase.com/docs/authentication
-  - type: RateLimits
-    url: https://data.crunchbase.com/docs/rate-limiting
-  - type: ChangeLog
-    url: https://data.crunchbase.com/docs/changelog
-  - type: JSONSchema
-    url: json-schema/crunchbase-organization-schema.json
-  - type: JSONLDContext
-    url: json-ld/crunchbase-context.jsonld
 common:
 - type: Overlay
   url: overlays/crunchbase-data-firmographic-overlay.yaml
