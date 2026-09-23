@@ -1,11 +1,11 @@
 openapi: 3.2.0
 info:
-  title: Crunchbase Data Deleted Entities API
-  version: 1.1.0
+  title: Predictions & Insights Package Deleted Entities API
+  description: Crunchbase API, 2026-08-13
+  termsOfService: https://data.crunchbase.com/docs/terms
   contact:
     email: partnerships@crunchbase.com
-  termsOfService: https://data.crunchbase.com/docs/terms
-  description: 'Operations tagged Deleted Entities across 6 of this provider''s published API definitions: crunchbase-data-advanced-financials-openapi.yml, crunchbase-data-core-financials-openapi.yml, crunchbase-data-firmographic-openapi.yml, crunchbase-data-insights-openapi.yml, crunchbase-data-predictions-insights-openapi.yml, crunchbase-data-predictions-openapi.yml. Each path carries the servers of the definition it was published in.'
+  version: 1.1.0
 servers:
 - url: https://api.crunchbase.com/v4
 security:
@@ -17,7 +17,7 @@ paths:
     get:
       tags:
       - Deleted Entities
-      summary: Retrieve deleted entities.
+      summary: Retrieve deleted entities
       operationId: getDeletedEntities
       parameters:
       - name: collection_ids
@@ -82,13 +82,11 @@ paths:
           $ref: '#/components/responses/GenericBadRequestError'
         '500':
           $ref: '#/components/responses/GenericInternalServerError'
-    servers:
-    - url: https://api.crunchbase.com/v4
   /data/deleted_entities/{collection_id}:
     get:
       tags:
       - Deleted Entities
-      summary: Retrieve deleted entities of a specific collection.
+      summary: Retrieve deleted entities of a specific collection
       operationId: getDeletedEntitiesForCollection
       parameters:
       - name: collection_id
@@ -152,10 +150,93 @@ paths:
           $ref: '#/components/responses/GenericBadRequestError'
         '500':
           $ref: '#/components/responses/GenericInternalServerError'
-    servers:
-    - url: https://api.crunchbase.com/v4
 components:
+  schemas:
+    Errors:
+      type: object
+      description: Developer friendly error message
+      properties:
+        value:
+          type: string
+          description: stuff
+    EntityIdentifier:
+      type: object
+      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
+      required:
+      - entity_def_id
+      - uuid
+      properties:
+        entity_def_id:
+          type: string
+          enum:
+          - acquisition
+          - acquisition_prediction
+          - address
+          - award
+          - category
+          - category_group
+          - market_insight
+          - market_insight_reason
+          - closure_prediction
+          - current_valuation_estimate
+          - degree
+          - diversity_spotlight
+          - event
+          - event_appearance
+          - fund
+          - funding_prediction
+          - funding_round
+          - growth_insight
+          - growth_prediction
+          - investment
+          - investor_insight
+          - investor_match
+          - ipo
+          - ipo_prediction
+          - job
+          - key_employee_change
+          - layoff
+          - layoff_prediction
+          - legal_proceeding
+          - location
+          - micro_category
+          - remain_private_prediction
+          - organization
+          - org_similarity
+          - product_similarity
+          - ownership
+          - partnership_announcement
+          - person
+          - press_reference
+          - product
+          - product_launch
+          - research_insight
+        image_id:
+          type: string
+          maxLength: 255
+        permalink:
+          type: string
+          maxLength: 255
+        uuid:
+          type: string
+          description: Universally Unique Identifier
+          format: uuid
+        value:
+          type: string
+          maxLength: 255
   responses:
+    GenericInternalServerError:
+      description: Request Failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    GenericBadRequestError:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
     DeletedEntitiesResult:
       description: Results are identifiers matching the search query.
       content:
@@ -174,311 +255,6 @@ components:
                       format: date-time
                     identifier:
                       $ref: '#/components/schemas/EntityIdentifier'
-    GenericInternalServerError:
-      description: Request Failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Errors'
-    GenericBadRequestError:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Errors'
-  schemas:
-    EntityIdentifier:
-      type: object
-      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
-      required:
-      - entity_def_id
-      - uuid
-      properties:
-        entity_def_id:
-          type: string
-          enum:
-          - acquisition
-          - address
-          - category
-          - category_group
-          - degree
-          - diversity_spotlight
-          - event
-          - event_appearance
-          - fund
-          - funding_round
-          - investment
-          - ipo
-          - job
-          - location
-          - organization
-          - ownership
-          - person
-          - press_reference
-        image_id:
-          type: string
-          maxLength: 255
-        permalink:
-          type: string
-          maxLength: 255
-        uuid:
-          type: string
-          description: Universally Unique Identifier
-          format: uuid
-        value:
-          type: string
-          maxLength: 255
-    Errors:
-      type: object
-      description: Developer friendly error message
-      properties:
-        value:
-          type: string
-          description: stuff
-    EntityIdentifier_2:
-      type: object
-      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
-      required:
-      - entity_def_id
-      - uuid
-      properties:
-        entity_def_id:
-          type: string
-          enum:
-          - address
-          - category
-          - category_group
-          - degree
-          - diversity_spotlight
-          - event
-          - event_appearance
-          - investment
-          - ipo
-          - job
-          - location
-          - organization
-          - ownership
-          - person
-        image_id:
-          type: string
-          maxLength: 255
-        permalink:
-          type: string
-          maxLength: 255
-        uuid:
-          type: string
-          description: Universally Unique Identifier
-          format: uuid
-        value:
-          type: string
-          maxLength: 255
-    EntityIdentifier_3:
-      type: object
-      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
-      required:
-      - entity_def_id
-      - uuid
-      properties:
-        entity_def_id:
-          type: string
-          enum:
-          - address
-          - category
-          - category_group
-          - degree
-          - diversity_spotlight
-          - event
-          - event_appearance
-          - ipo
-          - job
-          - location
-          - organization
-          - ownership
-          - person
-        image_id:
-          type: string
-          maxLength: 255
-        permalink:
-          type: string
-          maxLength: 255
-        uuid:
-          type: string
-          description: Universally Unique Identifier
-          format: uuid
-        value:
-          type: string
-          maxLength: 255
-    EntityIdentifier_4:
-      type: object
-      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
-      required:
-      - entity_def_id
-      - uuid
-      properties:
-        entity_def_id:
-          type: string
-          enum:
-          - acquisition
-          - address
-          - award
-          - category
-          - category_group
-          - market_insight
-          - market_insight_reason
-          - current_valuation_estimate
-          - degree
-          - diversity_spotlight
-          - event
-          - event_appearance
-          - fund
-          - funding_round
-          - growth_insight
-          - investment
-          - investor_insight
-          - investor_match
-          - ipo
-          - job
-          - key_employee_change
-          - layoff
-          - legal_proceeding
-          - location
-          - micro_category
-          - organization
-          - org_similarity
-          - product_similarity
-          - ownership
-          - partnership_announcement
-          - person
-          - press_reference
-          - product
-          - product_launch
-          - research_insight
-        image_id:
-          type: string
-          maxLength: 255
-        permalink:
-          type: string
-          maxLength: 255
-        uuid:
-          type: string
-          description: Universally Unique Identifier
-          format: uuid
-        value:
-          type: string
-          maxLength: 255
-    EntityIdentifier_5:
-      type: object
-      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
-      required:
-      - entity_def_id
-      - uuid
-      properties:
-        entity_def_id:
-          type: string
-          enum:
-          - acquisition
-          - acquisition_prediction
-          - address
-          - award
-          - category
-          - category_group
-          - market_insight
-          - market_insight_reason
-          - closure_prediction
-          - current_valuation_estimate
-          - degree
-          - diversity_spotlight
-          - event
-          - event_appearance
-          - fund
-          - funding_prediction
-          - funding_round
-          - growth_insight
-          - growth_prediction
-          - investment
-          - investor_insight
-          - investor_match
-          - ipo
-          - ipo_prediction
-          - job
-          - key_employee_change
-          - layoff
-          - layoff_prediction
-          - legal_proceeding
-          - location
-          - micro_category
-          - remain_private_prediction
-          - organization
-          - org_similarity
-          - product_similarity
-          - ownership
-          - partnership_announcement
-          - person
-          - press_reference
-          - product
-          - product_launch
-          - research_insight
-        image_id:
-          type: string
-          maxLength: 255
-        permalink:
-          type: string
-          maxLength: 255
-        uuid:
-          type: string
-          description: Universally Unique Identifier
-          format: uuid
-        value:
-          type: string
-          maxLength: 255
-    EntityIdentifier_6:
-      type: object
-      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
-      required:
-      - entity_def_id
-      - uuid
-      properties:
-        entity_def_id:
-          type: string
-          enum:
-          - acquisition
-          - acquisition_prediction
-          - address
-          - category
-          - category_group
-          - closure_prediction
-          - degree
-          - diversity_spotlight
-          - event
-          - event_appearance
-          - fund
-          - funding_prediction
-          - funding_round
-          - growth_prediction
-          - investment
-          - ipo
-          - ipo_prediction
-          - job
-          - layoff_prediction
-          - location
-          - remain_private_prediction
-          - organization
-          - ownership
-          - person
-          - press_reference
-        image_id:
-          type: string
-          maxLength: 255
-        permalink:
-          type: string
-          maxLength: 255
-        uuid:
-          type: string
-          description: Universally Unique Identifier
-          format: uuid
-        value:
-          type: string
-          maxLength: 255
   securitySchemes:
     ApiKeyAuthHeader:
       type: apiKey
@@ -487,10 +263,3 @@ components:
 externalDocs:
   description: API Reference doc
   url: https://data.crunchbase.com/docs
-x-refined-from:
-- crunchbase-data-advanced-financials-openapi.yml
-- crunchbase-data-core-financials-openapi.yml
-- crunchbase-data-firmographic-openapi.yml
-- crunchbase-data-insights-openapi.yml
-- crunchbase-data-predictions-insights-openapi.yml
-- crunchbase-data-predictions-openapi.yml

@@ -1,11 +1,11 @@
 openapi: 3.2.0
 info:
-  title: Crunchbase Data Autocomplete API
-  version: 1.1.0
+  title: Predictions & Insights Package Autocomplete API
+  description: Crunchbase API, 2026-08-13
+  termsOfService: https://data.crunchbase.com/docs/terms
   contact:
     email: partnerships@crunchbase.com
-  termsOfService: https://data.crunchbase.com/docs/terms
-  description: 'Operations tagged Autocomplete across 6 of this provider''s published API definitions: crunchbase-data-advanced-financials-openapi.yml, crunchbase-data-core-financials-openapi.yml, crunchbase-data-firmographic-openapi.yml, crunchbase-data-insights-openapi.yml, crunchbase-data-predictions-insights-openapi.yml, crunchbase-data-predictions-openapi.yml. Each path carries the servers of the definition it was published in.'
+  version: 1.1.0
 servers:
 - url: https://api.crunchbase.com/v4
 security:
@@ -17,7 +17,7 @@ paths:
     get:
       tags:
       - Autocomplete
-      summary: Suggests matching Identifier entities based on the query and entity_def_ids provided.
+      summary: Suggests matching Identifier entities based on the query and entity_def_ids…
       operationId: autocompletes
       parameters:
       - name: query
@@ -38,25 +38,49 @@ paths:
           items:
             type: string
             enum:
+            - acquisition_predictions
             - acquisitions
             - addresses
+            - awards
             - categories
             - category_groups
+            - closure_predictions
+            - current_valuation_estimates
             - degrees
             - diversity_spotlights
             - event_appearances
             - events
+            - funding_predictions
             - funding_rounds
             - funds
+            - growth_insights
+            - growth_predictions
             - investments
+            - investor_insights
+            - investor_matches
+            - ipo_predictions
             - ipos
             - jobs
+            - key_employee_changes
+            - layoff_predictions
+            - layoffs
+            - legal_proceedings
             - locations
+            - market_insight_reasons
+            - market_insights
+            - micro_categories
+            - org_similarities
             - organizations
             - ownerships
+            - partnership_announcements
             - people
             - press_references
             - principals
+            - product_launches
+            - product_similarities
+            - products
+            - remain_private_predictions
+            - research_insights
       - name: limit
         in: query
         description: Number of results to retrieve; default = 10, max = 25
@@ -70,8 +94,6 @@ paths:
           $ref: '#/components/responses/GenericBadRequestError'
         '500':
           $ref: '#/components/responses/GenericInternalServerError'
-    servers:
-    - url: https://api.crunchbase.com/v4
 components:
   responses:
     AutocompleteResult:
@@ -111,6 +133,13 @@ components:
           schema:
             $ref: '#/components/schemas/Errors'
   schemas:
+    Errors:
+      type: object
+      description: Developer friendly error message
+      properties:
+        value:
+          type: string
+          description: stuff
     EntityIdentifier:
       type: object
       description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
@@ -122,185 +151,6 @@ components:
           type: string
           enum:
           - acquisition
-          - address
-          - category
-          - category_group
-          - degree
-          - diversity_spotlight
-          - event
-          - event_appearance
-          - fund
-          - funding_round
-          - investment
-          - ipo
-          - job
-          - location
-          - organization
-          - ownership
-          - person
-          - press_reference
-        image_id:
-          type: string
-          maxLength: 255
-        permalink:
-          type: string
-          maxLength: 255
-        uuid:
-          type: string
-          description: Universally Unique Identifier
-          format: uuid
-        value:
-          type: string
-          maxLength: 255
-    Errors:
-      type: object
-      description: Developer friendly error message
-      properties:
-        value:
-          type: string
-          description: stuff
-    EntityIdentifier_2:
-      type: object
-      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
-      required:
-      - entity_def_id
-      - uuid
-      properties:
-        entity_def_id:
-          type: string
-          enum:
-          - address
-          - category
-          - category_group
-          - degree
-          - diversity_spotlight
-          - event
-          - event_appearance
-          - investment
-          - ipo
-          - job
-          - location
-          - organization
-          - ownership
-          - person
-        image_id:
-          type: string
-          maxLength: 255
-        permalink:
-          type: string
-          maxLength: 255
-        uuid:
-          type: string
-          description: Universally Unique Identifier
-          format: uuid
-        value:
-          type: string
-          maxLength: 255
-    EntityIdentifier_3:
-      type: object
-      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
-      required:
-      - entity_def_id
-      - uuid
-      properties:
-        entity_def_id:
-          type: string
-          enum:
-          - address
-          - category
-          - category_group
-          - degree
-          - diversity_spotlight
-          - event
-          - event_appearance
-          - ipo
-          - job
-          - location
-          - organization
-          - ownership
-          - person
-        image_id:
-          type: string
-          maxLength: 255
-        permalink:
-          type: string
-          maxLength: 255
-        uuid:
-          type: string
-          description: Universally Unique Identifier
-          format: uuid
-        value:
-          type: string
-          maxLength: 255
-    EntityIdentifier_4:
-      type: object
-      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
-      required:
-      - entity_def_id
-      - uuid
-      properties:
-        entity_def_id:
-          type: string
-          enum:
-          - acquisition
-          - address
-          - award
-          - category
-          - category_group
-          - market_insight
-          - market_insight_reason
-          - current_valuation_estimate
-          - degree
-          - diversity_spotlight
-          - event
-          - event_appearance
-          - fund
-          - funding_round
-          - growth_insight
-          - investment
-          - investor_insight
-          - investor_match
-          - ipo
-          - job
-          - key_employee_change
-          - layoff
-          - legal_proceeding
-          - location
-          - micro_category
-          - organization
-          - org_similarity
-          - product_similarity
-          - ownership
-          - partnership_announcement
-          - person
-          - press_reference
-          - product
-          - product_launch
-          - research_insight
-        image_id:
-          type: string
-          maxLength: 255
-        permalink:
-          type: string
-          maxLength: 255
-        uuid:
-          type: string
-          description: Universally Unique Identifier
-          format: uuid
-        value:
-          type: string
-          maxLength: 255
-    EntityIdentifier_5:
-      type: object
-      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
-      required:
-      - entity_def_id
-      - uuid
-      properties:
-        entity_def_id:
-          type: string
-          enum:
-          - acquisition
           - acquisition_prediction
           - address
           - award
@@ -342,54 +192,6 @@ components:
           - product
           - product_launch
           - research_insight
-        image_id:
-          type: string
-          maxLength: 255
-        permalink:
-          type: string
-          maxLength: 255
-        uuid:
-          type: string
-          description: Universally Unique Identifier
-          format: uuid
-        value:
-          type: string
-          maxLength: 255
-    EntityIdentifier_6:
-      type: object
-      description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
-      required:
-      - entity_def_id
-      - uuid
-      properties:
-        entity_def_id:
-          type: string
-          enum:
-          - acquisition
-          - acquisition_prediction
-          - address
-          - category
-          - category_group
-          - closure_prediction
-          - degree
-          - diversity_spotlight
-          - event
-          - event_appearance
-          - fund
-          - funding_prediction
-          - funding_round
-          - growth_prediction
-          - investment
-          - ipo
-          - ipo_prediction
-          - job
-          - layoff_prediction
-          - location
-          - remain_private_prediction
-          - organization
-          - ownership
-          - person
-          - press_reference
         image_id:
           type: string
           maxLength: 255
@@ -411,10 +213,3 @@ components:
 externalDocs:
   description: API Reference doc
   url: https://data.crunchbase.com/docs
-x-refined-from:
-- crunchbase-data-advanced-financials-openapi.yml
-- crunchbase-data-core-financials-openapi.yml
-- crunchbase-data-firmographic-openapi.yml
-- crunchbase-data-insights-openapi.yml
-- crunchbase-data-predictions-insights-openapi.yml
-- crunchbase-data-predictions-openapi.yml

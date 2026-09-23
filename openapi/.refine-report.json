@@ -1,20 +1,34 @@
 {
   "provider": "crunchbase-data",
   "sources": [
-    "crunchbase-data-autocomplete-api-openapi.yml",
-    "crunchbase-data-deleted-entities-api-openapi.yml",
-    "crunchbase-data-entity-lookup-api-openapi.yml",
-    "crunchbase-data-search-api-openapi.yml"
+    "_original/crunchbase-data-predictions-insights-openapi.yml"
   ],
   "outputs": [
     "crunchbase-data-autocomplete-api-openapi.yml",
     "crunchbase-data-deleted-entities-api-openapi.yml",
-    "crunchbase-data-entity-lookup-api-openapi.yml",
+    "crunchbase-data-entity-api-openapi.yml",
+    "crunchbase-data-metadata-api-openapi.yml",
     "crunchbase-data-search-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "5 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "crunchbase-data-predictions-insights-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "_original/crunchbase-data-predictions-openapi.yml: archived document superseded by a larger archived document",
+    "_original/crunchbase-data-insights-openapi.yml: archived document superseded by a larger archived document",
+    "_original/crunchbase-data-firmographic-openapi.yml: archived document superseded by a larger archived document",
+    "_original/crunchbase-data-core-financials-openapi.yml: archived document superseded by a larger archived document",
+    "_original/crunchbase-data-advanced-financials-openapi.yml: archived document superseded by a larger archived document",
+    "crunchbase-data-autocomplete-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "crunchbase-data-deleted-entities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "crunchbase-data-entity-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "crunchbase-data-metadata-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "crunchbase-data-search-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

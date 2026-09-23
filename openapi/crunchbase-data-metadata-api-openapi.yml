@@ -1,11 +1,11 @@
 openapi: 3.2.0
 info:
-  title: Crunchbase Data Metadata API
-  version: 1.1.0
+  title: Predictions & Insights Package Metadata API
+  description: Crunchbase API, 2026-08-13
+  termsOfService: https://data.crunchbase.com/docs/terms
   contact:
     email: partnerships@crunchbase.com
-  termsOfService: https://data.crunchbase.com/docs/terms
-  description: 'Operations tagged Metadata across 6 of this provider''s published API definitions: crunchbase-data-advanced-financials-openapi.yml, crunchbase-data-core-financials-openapi.yml, crunchbase-data-firmographic-openapi.yml, crunchbase-data-insights-openapi.yml, crunchbase-data-predictions-insights-openapi.yml, crunchbase-data-predictions-openapi.yml. Each path carries the servers of the definition it was published in.'
+  version: 1.1.0
 servers:
 - url: https://api.crunchbase.com/v4
 security:
@@ -26,8 +26,6 @@ paths:
           $ref: '#/components/responses/GenericBadRequestError'
         '500':
           $ref: '#/components/responses/GenericInternalServerError'
-    servers:
-    - url: https://api.crunchbase.com/v4
   /md/applications/crunchbase/openapi.json:
     get:
       tags:
@@ -41,8 +39,6 @@ paths:
           $ref: '#/components/responses/GenericBadRequestError'
         '500':
           $ref: '#/components/responses/GenericInternalServerError'
-    servers:
-    - url: https://api.crunchbase.com/v4
   /md/applications/crunchbase/fields:
     get:
       tags:
@@ -61,25 +57,49 @@ paths:
           items:
             type: string
             enum:
+            - acquisition_predictions
             - acquisitions
             - addresses
+            - awards
             - categories
             - category_groups
+            - closure_predictions
+            - current_valuation_estimates
             - degrees
             - diversity_spotlights
             - event_appearances
             - events
+            - funding_predictions
             - funding_rounds
             - funds
+            - growth_insights
+            - growth_predictions
             - investments
+            - investor_insights
+            - investor_matches
+            - ipo_predictions
             - ipos
             - jobs
+            - key_employee_changes
+            - layoff_predictions
+            - layoffs
+            - legal_proceedings
             - locations
+            - market_insight_reasons
+            - market_insights
+            - micro_categories
+            - org_similarities
             - organizations
             - ownerships
+            - partnership_announcements
             - people
             - press_references
             - principals
+            - product_launches
+            - product_similarities
+            - products
+            - remain_private_predictions
+            - research_insights
       responses:
         '200':
           $ref: '#/components/responses/FieldsMetadataCSV'
@@ -87,24 +107,16 @@ paths:
           $ref: '#/components/responses/GenericBadRequestError'
         '500':
           $ref: '#/components/responses/GenericInternalServerError'
-    servers:
-    - url: https://api.crunchbase.com/v4
 components:
+  schemas:
+    Errors:
+      type: object
+      description: Developer friendly error message
+      properties:
+        value:
+          type: string
+          description: stuff
   responses:
-    FieldsMetadataCSV:
-      description: Fields metadata in CSV format
-      content:
-        text/csv:
-          schema:
-            type: string
-            format: binary
-    OpenAPISpecification:
-      description: OpenAPI Specification document
-      content:
-        application/json:
-          schema:
-            type: object
-            description: OpenAPI 3.0 specification document
     GenericInternalServerError:
       description: Request Failed
       content:
@@ -117,14 +129,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Errors'
-  schemas:
-    Errors:
-      type: object
-      description: Developer friendly error message
-      properties:
-        value:
-          type: string
-          description: stuff
+    OpenAPISpecification:
+      description: OpenAPI Specification document
+      content:
+        application/json:
+          schema:
+            type: object
+            description: OpenAPI 3.0 specification document
+    FieldsMetadataCSV:
+      description: Fields metadata in CSV format
+      content:
+        text/csv:
+          schema:
+            type: string
+            format: binary
   securitySchemes:
     ApiKeyAuthHeader:
       type: apiKey
@@ -133,10 +151,3 @@ components:
 externalDocs:
   description: API Reference doc
   url: https://data.crunchbase.com/docs
-x-refined-from:
-- crunchbase-data-advanced-financials-openapi.yml
-- crunchbase-data-core-financials-openapi.yml
-- crunchbase-data-firmographic-openapi.yml
-- crunchbase-data-insights-openapi.yml
-- crunchbase-data-predictions-insights-openapi.yml
-- crunchbase-data-predictions-openapi.yml
