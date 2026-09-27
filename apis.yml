@@ -41,6 +41,9 @@ accessModel:
   generated: '2026-08-14'
   method: searched
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/crunchbase-data.png
+x-docs-platform: readme
+x-docs-platform-confidence: high
+x-docs-platform-checked: 2026-09-24
 tags:
 - Company Data
 - Web Intelligence
@@ -54,6 +57,7 @@ tags:
 - Market Insights
 - MCP
 - Fortune 1000
+- Startups
 tags_raw:
 - Company Data
 - Web Intelligence
@@ -67,6 +71,7 @@ tags_raw:
 - Market Insights
 - MCP
 - Fortune 1000
+- Startups
 created: '2026-07-11'
 modified: '2026-08-14'
 specificationVersion: '0.23'

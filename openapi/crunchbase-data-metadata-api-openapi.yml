@@ -108,6 +108,33 @@ paths:
         '500':
           $ref: '#/components/responses/GenericInternalServerError'
 components:
+  responses:
+    OpenAPISpecification:
+      description: OpenAPI Specification document
+      content:
+        application/json:
+          schema:
+            type: object
+            description: OpenAPI 3.0 specification document
+    GenericBadRequestError:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    GenericInternalServerError:
+      description: Request Failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    FieldsMetadataCSV:
+      description: Fields metadata in CSV format
+      content:
+        text/csv:
+          schema:
+            type: string
+            format: binary
   schemas:
     Errors:
       type: object
@@ -116,33 +143,6 @@ components:
         value:
           type: string
           description: stuff
-  responses:
-    GenericInternalServerError:
-      description: Request Failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Errors'
-    GenericBadRequestError:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Errors'
-    OpenAPISpecification:
-      description: OpenAPI Specification document
-      content:
-        application/json:
-          schema:
-            type: object
-            description: OpenAPI 3.0 specification document
-    FieldsMetadataCSV:
-      description: Fields metadata in CSV format
-      content:
-        text/csv:
-          schema:
-            type: string
-            format: binary
   securitySchemes:
     ApiKeyAuthHeader:
       type: apiKey

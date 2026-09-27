@@ -151,14 +151,38 @@ paths:
         '500':
           $ref: '#/components/responses/GenericInternalServerError'
 components:
+  responses:
+    GenericBadRequestError:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    GenericInternalServerError:
+      description: Request Failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    DeletedEntitiesResult:
+      description: Results are identifiers matching the search query.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              entities:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    deleted_at:
+                      type: string
+                      description: Timestamp when entity was deleted
+                      format: date-time
+                    identifier:
+                      $ref: '#/components/schemas/EntityIdentifier'
   schemas:
-    Errors:
-      type: object
-      description: Developer friendly error message
-      properties:
-        value:
-          type: string
-          description: stuff
     EntityIdentifier:
       type: object
       description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
@@ -224,37 +248,13 @@ components:
         value:
           type: string
           maxLength: 255
-  responses:
-    GenericInternalServerError:
-      description: Request Failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Errors'
-    GenericBadRequestError:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Errors'
-    DeletedEntitiesResult:
-      description: Results are identifiers matching the search query.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              entities:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    deleted_at:
-                      type: string
-                      description: Timestamp when entity was deleted
-                      format: date-time
-                    identifier:
-                      $ref: '#/components/schemas/EntityIdentifier'
+    Errors:
+      type: object
+      description: Developer friendly error message
+      properties:
+        value:
+          type: string
+          description: stuff
   securitySchemes:
     ApiKeyAuthHeader:
       type: apiKey
