@@ -122,12 +122,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Errors'
-    GenericInternalServerError:
-      description: Request Failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Errors'
     FieldsMetadataCSV:
       description: Fields metadata in CSV format
       content:
@@ -135,6 +129,12 @@ components:
           schema:
             type: string
             format: binary
+    GenericInternalServerError:
+      description: Request Failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
   schemas:
     Errors:
       type: object

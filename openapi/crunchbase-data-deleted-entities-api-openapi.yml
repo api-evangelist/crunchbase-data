@@ -152,18 +152,6 @@ paths:
           $ref: '#/components/responses/GenericInternalServerError'
 components:
   responses:
-    GenericBadRequestError:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Errors'
-    GenericInternalServerError:
-      description: Request Failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Errors'
     DeletedEntitiesResult:
       description: Results are identifiers matching the search query.
       content:
@@ -182,7 +170,26 @@ components:
                       format: date-time
                     identifier:
                       $ref: '#/components/schemas/EntityIdentifier'
+    GenericBadRequestError:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    GenericInternalServerError:
+      description: Request Failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
   schemas:
+    Errors:
+      type: object
+      description: Developer friendly error message
+      properties:
+        value:
+          type: string
+          description: stuff
     EntityIdentifier:
       type: object
       description: Every entity in the system has a unique identifier that contains all necessary properties to represent it.
@@ -248,13 +255,6 @@ components:
         value:
           type: string
           maxLength: 255
-    Errors:
-      type: object
-      description: Developer friendly error message
-      properties:
-        value:
-          type: string
-          description: stuff
   securitySchemes:
     ApiKeyAuthHeader:
       type: apiKey
