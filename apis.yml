@@ -214,6 +214,9 @@ apis:
   - type: Documentation
     url: https://data.crunchbase.com/docs/api-packages-overview
 common:
+- type: CapabilityMap
+  url: capabilities/crunchbase-data-capability-edges.yml
+  name: Crunchbase Business Capability Map
 - type: Overlay
   url: overlays/crunchbase-data-firmographic-overlay.yaml
 - type: Overlay
