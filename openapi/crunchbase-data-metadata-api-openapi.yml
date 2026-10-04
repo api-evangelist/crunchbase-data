@@ -116,8 +116,8 @@ components:
           schema:
             type: object
             description: OpenAPI 3.0 specification document
-    GenericBadRequestError:
-      description: Bad Request
+    GenericInternalServerError:
+      description: Request Failed
       content:
         application/json:
           schema:
@@ -129,8 +129,8 @@ components:
           schema:
             type: string
             format: binary
-    GenericInternalServerError:
-      description: Request Failed
+    GenericBadRequestError:
+      description: Bad Request
       content:
         application/json:
           schema:

@@ -170,14 +170,14 @@ components:
                       format: date-time
                     identifier:
                       $ref: '#/components/schemas/EntityIdentifier'
-    GenericBadRequestError:
-      description: Bad Request
+    GenericInternalServerError:
+      description: Request Failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Errors'
-    GenericInternalServerError:
-      description: Request Failed
+    GenericBadRequestError:
+      description: Bad Request
       content:
         application/json:
           schema:
