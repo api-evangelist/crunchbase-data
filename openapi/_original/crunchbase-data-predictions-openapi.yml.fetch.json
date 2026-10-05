@@ -1,0 +1,12 @@
+{
+ "url": "https://data.crunchbase.com/openapi/predictions.yaml",
+ "requested_url": "https://data.crunchbase.com/openapi/predictions.yaml",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 614374,
+ "sha256": "81fb323925edd839f43cbe42293fcc02eb797d6735e870ec7a126313871ec411",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}

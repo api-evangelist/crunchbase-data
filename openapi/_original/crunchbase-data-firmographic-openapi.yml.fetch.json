@@ -1,0 +1,12 @@
+{
+ "url": "https://data.crunchbase.com/openapi/core-financials.yaml",
+ "requested_url": "https://data.crunchbase.com/openapi/core-financials.yaml",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 362154,
+ "sha256": "4e7f37dc044b453c177e5cee30e7b2a4a5b1fcfde72928d8939d5823a40f50a0",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 0.935), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
