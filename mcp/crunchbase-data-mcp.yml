@@ -245,3 +245,18 @@ notes: 'Crunchbase documents cb_list_create and cb_list_add_entities as the tool
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+rfc9728:
+  endpoint: https://mcp.crunchbase.com
+  metadata_url: https://mcp.crunchbase.com/.well-known/oauth-protected-resource
+  discovered_via: WWW-Authenticate resource_metadata on an anonymous POST initialize
+  fetched: '2026-09-25'
+  http_status: 200
+  content_type: application/json
+  document:
+    resource: https://mcp.crunchbase.com
+    authorization_servers:
+    - https://www.crunchbase.com
+    scopes_supported:
+    - offline_access
+    bearer_methods_supported:
+    - header
