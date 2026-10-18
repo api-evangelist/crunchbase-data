@@ -77,12 +77,32 @@ edges:
     builder: Fivetran
   detected_by: sweep-data-integration.py
   first_seen: '2026-10-18'
+- partner_name: Monday.com (own)
+  partner: monday-com
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://monday.com/marketplace/listing/10000404
+  mirror_of: monday-com/integrations/monday-com-integration-edges.yml
+  apps:
+  - Crunchbase CRM Enrichment
+  listing_count: 1
+  detected: '2026-10-18'
+  detected_by: mirror-platform-listings.py
+  category: monday.com app
+  publisher_verified:
+  - monday.com security & compliance flag
 method: searched
 checked:
 - https://fivetran.com/docs-sitemap.xml
 - https://fivetran.com/docs/connectors/partner-built-program
 - https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/
 - https://zapier.com/api/v4/apps/
+- monday-com/integrations/monday-com-integration-edges.yml
 source:
 - https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/
 - https://zapier.com/api/v4/apps/
