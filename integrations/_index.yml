@@ -78,7 +78,7 @@
     - connectors/applications/crunchbase
     vendor_link: https://www.crunchbase.com/
     builder: Fivetran
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: crunchbase-data-monday-com-own
   label: Monday.com (own)
