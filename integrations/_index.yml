@@ -93,3 +93,57 @@
     builder: Pipedream repo (component)
   status: not-a-workflow
   arazzo: null
+- slug: crunchbase-data-databricks-marketplace
+  label: Databricks Marketplace
+  partner: databricks
+  partner_name: Databricks Marketplace
+  category: data product listing
+  type: marketplace
+  marketplace: databricks-marketplace
+  channel: distribution
+  evidence: https://marketplace.databricks.com/provider/73a87e59-fbdc-426b-b7b7-354fb40e2892
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: Databricks Marketplace (marketplace.databricks.com/api/2.0/public-marketplace-providers + public-marketplace-listings)
+    spec_file: null
+    role: data-marketplace-seller
+    registered_name: Crunchbase
+    matched_domain: crunchbase.com
+    matched_by: domain
+    listings: 1
+    sample_listings:
+    - Crunchbase Private Company Intelligence
+    signal_note: 'participation: the provider lists data products on this marketplace; counts are context'
+    detected_by: sweep-data-marketplaces.py
+    detected: '2026-10-20'
+  status: not-a-workflow
+  arazzo: null
+- slug: crunchbase-data-snowflake-marketplace
+  label: Snowflake Marketplace
+  partner: snowflake
+  partner_name: Snowflake Marketplace
+  category: data product listing
+  type: marketplace
+  marketplace: snowflake-marketplace
+  channel: distribution
+  evidence: https://app.snowflake.com/marketplace/providers/GZSNZ7BXU5
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: Snowflake Marketplace providers (app.snowflake.com/marketplace/providers, rendered; names only, Wikidata
+      P856 identity step)
+    spec_file: null
+    role: data-marketplace-seller
+    registered_name: Crunchbase
+    matched_domain: crunchbase.com
+    matched_by: domain
+    listings: 54
+    sample_listings: []
+    signal_note: 'participation: the provider lists data products on this marketplace; counts are context'
+    detected_by: sweep-data-marketplaces.py
+    detected: '2026-10-20'
+    identity_source: wikidata
+    identity_note: wikidata P856 crunchbase.com for 'Crunchbase' (labelled identity step)
+  status: not-a-workflow
+  arazzo: null
