@@ -1,4 +1,4 @@
-# Crunchbase (crunchbase-data)
+# Crunchbase
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,139 +64,160 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Crunchbase is a leading source of private and public company, funding, and investor data - firmographics, funding rounds, acquisitions, investors, people, and events across the global startup and business landscape. The **Crunchbase Data API (REST v4)**, at base `https://api.crunchbase.com/v4/data`, exposes this graph programmatically through four surfaces - Entity Lookup, Search, Autocomplete, and Deleted Entities (deltas) - for web intelligence, reference data, market research, sales and investment prospecting, and enrichment use cases.
+Crunchbase is a leading source of private and public company, funding, and investor data - firmographics, funding rounds, acquisitions, investors, people, events, and AI-generated predictions and insights across the global startup and business landscape. The Crunchbase Data API (REST v4, base https://api.crunchbase.com/v4/data) exposes this graph programmatically through Entity Lookup, Search, Autocomplete, and Deleted Entities across 43 entity collections, and is published as six package-scoped OpenAPI 3.0.1 documents - Firmographic, Core Financials, Advanced Financials, Insights, Predictions, and Predictions & Insights - discoverable through an RFC 9727 api-catalog at data.crunchbase.com. Crunchbase also ships a first-party remote MCP server at mcp.crunchbase.com over Streamable HTTP with fourteen documented tools, authenticated with OAuth 2.1 + PKCE and sold as per-user MCP seats. The REST API is read-only and authenticated with a single account-level API key (user_key query parameter or X-cb-user-key header); which of the six packages that key is provisioned against determines which operations it can call. Access is subscription-gated with no published pricing - the full API requires a Crunchbase Enterprise or Applications licence, with a reduced Basic API for Crunchbase Basic plan holders.
 
-It is a **read-only** RESTful service over HTTPS, authenticated with an API key passed either as the `user_key` query parameter or the `X-cb-user-key` header, and rate limited to **200 calls per minute**.
+**Areas:** Company Data · Web Intelligence · Funding Data · Firmographics · B2B Data · investor-data · Reference Data · Private Markets · Predictions · Market Insights · MCP · Fortune 1000
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/crunchbase-data/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/crunchbase-data/refs/heads/main/apis.yml)
+## Crunchbase on APIs.io
 
-## Access Model (Important)
+Everything profiled for Crunchbase is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/crunchbase-data/](https://apis.io/providers/crunchbase-data/)** — or go straight to one of the APIs or properties below.
 
-Crunchbase API access is **subscription-gated**. There is no free, self-serve full-API tier:
+### APIs (6)
 
-- **Enterprise License** - full Data API access to the complete graph; custom / contact-sales pricing (historically starting in the tens of thousands of dollars per year).
-- **Applications License** - broad API access for embedding Crunchbase data in a product; custom / contact-sales pricing.
-- **Basic API** - a reduced API surface available to holders of the paid **Crunchbase Basic** plan.
+- [Crunchbase MCP Server](https://apis.io/apis/crunchbase-data/crunchbase-data-mcp/) — First-party remote Model Context Protocol server over Streamable HTTP, exposing fourteen tools - five natural-language expert tools, four structured…
+- [Crunchbase Autocomplete API](https://apis.io/apis/crunchbase-data/crunchbase-data-autocomplete-api/) — The Autocomplete API from Crunchbase — 1 operation(s) for autocomplete.
+- [Crunchbase Deleted Entities API](https://apis.io/apis/crunchbase-data/crunchbase-data-deleted-entities-api/) — The Deleted Entities API from Crunchbase — 2 operation(s) for deleted entities.
+- [Crunchbase Entity API](https://apis.io/apis/crunchbase-data/crunchbase-data-entity-api/) — The Entity API from Crunchbase — 60 operation(s) for entity.
+- [Crunchbase Metadata API](https://apis.io/apis/crunchbase-data/crunchbase-data-metadata-api/) — The Metadata API from Crunchbase — 3 operation(s) for metadata.
+- [Crunchbase Search API](https://apis.io/apis/crunchbase-data/crunchbase-data-search-api/) — The Search API from Crunchbase — 43 operation(s) for search.
 
-Standard Crunchbase web subscription tiers (Starter / Pro / Business) do **not** include full API access.
+### Published properties
 
-Because live API responses require a paid license, the **endpoint paths, HTTP methods, authentication, and rate limits** documented here are grounded in the public Crunchbase developer docs ([data.crunchbase.com/docs](https://data.crunchbase.com/docs)), while the **field-level request/response schemas** in the OpenAPI are honestly modeled from the documentation rather than captured from live calls (see `x-endpoints-modeled` in the OpenAPI).
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## Tags
+#### MCP servers (1)
 
-- Company Data
-- Web Intelligence
-- Funding Data
-- Firmographics
-- B2B Data
-- Investor Data
-- Reference Data
-- Fortune 1000
+Model Context Protocol servers that expose the API to agents.
 
-## Timestamps
+- [Crunchbase](https://apis.io/servers/crunchbase-data/crunchbase/)
 
-- **Created:** 2026-07-11
-- **Modified:** 2026-07-11
+#### Agentic access (1)
 
-## APIs
+Which operations an agent can call, which act, and which need a human in the loop.
 
-### Crunchbase Entity Lookup API
+- [Crunchbase Data Agentic Access](https://apis.io/agentic-access/crunchbase-data/crunchbase-data-agentic-access/)
 
-Retrieve a single entity from a core collection - organizations, people, funding_rounds, acquisitions, and more - by UUID or permalink, selecting fields with `field_ids` and related data with `card_ids`. `GET /entities/{collection}/{entity_id}` plus a card endpoint for paging past the 100-item inline card limit. Ideal for firmographic enrichment and company reference-data lookups.
+#### Collections (5)
 
-- **Human URL:** [https://data.crunchbase.com/docs/using-entity-lookup-apis](https://data.crunchbase.com/docs/using-entity-lookup-apis)
-- **Base URL:** `https://api.crunchbase.com/v4/data`
+Postman and Open Collection request collections.
 
-#### Tags
+- [Crunchbase Data API v4](https://apis.io/collections/crunchbase-data/open-crunchbase-data/)
+- [Crunchbase Data API v4 Autocomplete API](https://apis.io/collections/crunchbase-data/open-crunchbase-data-autocomplete-api/)
+- [Crunchbase Data API v4 Autocomplete Deleted Entities API](https://apis.io/collections/crunchbase-data/open-crunchbase-data-deleted-entities-api/)
+- [Crunchbase Data API v4 Autocomplete Entity Lookup API](https://apis.io/collections/crunchbase-data/open-crunchbase-data-entity-lookup-api/)
+- [Crunchbase Data API v4 Autocomplete Search API](https://apis.io/collections/crunchbase-data/open-crunchbase-data-search-api/)
 
-- Company Data
-- Firmographics
-- Reference Data
+#### Overlays (6)
 
-#### Properties
+OpenAPI overlays, including conversational phrasing for each operation.
 
-- [Documentation](https://data.crunchbase.com/docs/using-entity-lookup-apis)
-- [API Reference](https://data.crunchbase.com/docs/using-the-api)
-- [OpenAPI](openapi/crunchbase-data-openapi.yml)
-- [Postman Collection](collections/crunchbase-data.postman_collection.json)
-- [Open Collection](collections/crunchbase-data.opencollection.json)
+- [Crunchbase Data Advanced Financials Overlay](https://apis.io/overlays/crunchbase-data/crunchbase-data-advanced-financials-overlay/)
+- [Crunchbase Data Core Financials Overlay](https://apis.io/overlays/crunchbase-data/crunchbase-data-core-financials-overlay/)
+- [Crunchbase Data Firmographic Overlay](https://apis.io/overlays/crunchbase-data/crunchbase-data-firmographic-overlay/)
+- [Crunchbase Data Insights Overlay](https://apis.io/overlays/crunchbase-data/crunchbase-data-insights-overlay/)
+- [Crunchbase Data Predictions Insights Overlay](https://apis.io/overlays/crunchbase-data/crunchbase-data-predictions-insights-overlay/)
+- [Crunchbase Data Predictions Overlay](https://apis.io/overlays/crunchbase-data/crunchbase-data-predictions-overlay/)
 
-### Crunchbase Search API
+#### Security (3)
 
-Query a collection (organizations, people, funding_rounds, acquisitions, and others) with a JSON body of `field_ids` and AND-combined query predicates. `POST /searches/{collection}` returns 50 items by default and up to 1000 per request, with keyset pagination via `after_id` / `before_id`. The workhorse for building targeted company lists, funding-data feeds, and web-intelligence datasets.
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Human URL:** [https://data.crunchbase.com/docs/using-search-apis](https://data.crunchbase.com/docs/using-search-apis)
-- **Base URL:** `https://api.crunchbase.com/v4/data`
+- [Crunchbase Data Authentication](https://apis.io/security/crunchbase-data/crunchbase-data-authentication/)
+- [Crunchbase Data Domain Security](https://apis.io/security/crunchbase-data/crunchbase-data-domain-security/)
+- [Crunchbase Data Vulnerability Disclosure](https://apis.io/security/crunchbase-data/crunchbase-data-vulnerability-disclosure/)
 
-#### Tags
+#### OAuth scopes (1)
 
-- Web Intelligence
-- Funding Data
-- B2B Data
+The permissions the API asks for.
 
-#### Properties
+- [Crunchbase Data Scopes](https://apis.io/scopes/crunchbase-data/crunchbase-data-scopes/)
 
-- [Documentation](https://data.crunchbase.com/docs/using-search-apis)
-- [Examples](https://data.crunchbase.com/docs/examples-search-api)
-- [OpenAPI](openapi/crunchbase-data-openapi.yml)
-- [Postman Collection](collections/crunchbase-data.postman_collection.json)
-- [Open Collection](collections/crunchbase-data.opencollection.json)
+#### Plans and pricing (1)
 
-### Crunchbase Autocomplete API
+Published plans, tiers and prices.
 
-Resolve a query string to matching entity identifiers, optionally scoped to collections such as `organization.companies`, `principal.investors`, or `categories`. `GET /autocompletes` (limit up to 25) is typically used to obtain the UUIDs or permalinks that feed downstream Search and Entity Lookup calls.
+- [Crunchbase Data Plans Pricing](https://apis.io/plans/crunchbase-data/crunchbase-data-plans-pricing/)
 
-- **Human URL:** [https://data.crunchbase.com/docs/using-autocomplete-api](https://data.crunchbase.com/docs/using-autocomplete-api)
-- **Base URL:** `https://api.crunchbase.com/v4/data`
+#### Rate limits (1)
 
-#### Tags
+Published request limits.
 
-- Autocomplete
-- Company Data
-- Reference Data
+- [Crunchbase Data Rate Limits](https://apis.io/rate-limits/crunchbase-data/crunchbase-data-rate-limits/)
 
-#### Properties
+#### FinOps (1)
 
-- [Documentation](https://data.crunchbase.com/docs/using-autocomplete-api)
-- [Examples](https://data.crunchbase.com/docs/examples-autocomplete-api)
-- [OpenAPI](openapi/crunchbase-data-openapi.yml)
-- [Postman Collection](collections/crunchbase-data.postman_collection.json)
-- [Open Collection](collections/crunchbase-data.opencollection.json)
+What the API costs to run, by operation.
 
-### Crunchbase Deleted Entities API
+- [Crunchbase Data Finops](https://apis.io/finops/crunchbase-data/crunchbase-data-finops/)
 
-Detect entities removed from the Crunchbase Graph (compliance, data-quality cleanup, inappropriate content) so consumers can reconcile their own databases - the delta / change-detection surface. `GET /deleted_entities` and `GET /deleted_entities/{collection_id}` with `collection_ids` filtering, `deleted_at_order` sorting, and `after_id` / `before_id` keyset pagination.
+## Where to find this API
 
-- **Human URL:** [https://data.crunchbase.com/docs/using-deleted-entities-api](https://data.crunchbase.com/docs/using-deleted-entities-api)
-- **Base URL:** `https://api.crunchbase.com/v4/data`
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-#### Tags
-
-- Deltas
-- Data Sync
-- Reference Data
-
-#### Properties
-
-- [Documentation](https://data.crunchbase.com/docs/using-deleted-entities-api)
-- [OpenAPI](openapi/crunchbase-data-openapi.yml)
-- [Postman Collection](collections/crunchbase-data.postman_collection.json)
-- [Open Collection](collections/crunchbase-data.opencollection.json)
-
-## Common Properties
-
-- [Authentication](authentication/crunchbase-data-authentication.yml)
-- [Domain Security](security/crunchbase-data-domain-security.yml)
-- [LinkedIn](https://www.linkedin.com/company/crunchbase)
 - [Website](https://www.crunchbase.com)
 - [Documentation](https://data.crunchbase.com/docs)
-- [Sign Up](https://about.crunchbase.com/crunchbase-api-application-form/)
-- [Plans](plans/crunchbase-data-plans-pricing.yml)
-- [Rate Limits](rate-limits/crunchbase-data-rate-limits.yml)
-- [Fin Ops](finops/crunchbase-data-finops.yml)
+- [Getting started](https://data.crunchbase.com/docs/welcome-to-crunchbase-data)
+- [API reference](https://data.crunchbase.com/reference)
+- [Pricing](https://about.crunchbase.com/pricing/)
+- [Sign up](https://about.crunchbase.com/products/crunchbase-api/)
+- [Changelog](https://about.crunchbase.com/product-updates/)
 - [Blog](https://about.crunchbase.com/blog/)
+- [Security](https://www.crunchbase.com/.well-known/security-policy.html)
+- [Terms of service](https://about.crunchbase.com/terms-of-service/)
+- [Privacy policy](https://about.crunchbase.com/privacy-policy/)
+- [GitHub](https://github.com/crunchbase)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 48.4** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 80.0 |
+| Contract quality | 22.8 |
+| Contract governance | 4.5 |
+| Operational transparency | 60.5 |
+| Developer ergonomics | 39.9 |
+| Access clarity | 76.3 |
+
+**Agent readiness 46.0** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 40.2** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/crunchbase-data/](https://apis.io/providers/crunchbase-data/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Crunchbase: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/crunchbase-data/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
